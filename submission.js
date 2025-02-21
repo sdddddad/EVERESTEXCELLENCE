@@ -1,12 +1,20 @@
-function login() {
-    const employeeID = document.getElementById('employee-id').value.trim();
-    const validEmployeeIDs = ['ef10818', 'ef20012', 'ef10000', 'ef10002'];
-    const errorMessage = document.getElementById('error-message');
-  
-    if (validEmployeeIDs.includes(employeeID)) {
-      window.location.href = "rolespage.html";  // Ensure this matches the exact file name and path
-    } else {
-      errorMessage.textContent = "Please enter a valid employee ID.";
-    }
-  }
-  
+document.getElementById("request-form").addEventListener("submit", function(event) {
+  event.preventDefault();  // Prevent default form submission
+
+  // Capture form data
+  var formData = new FormData(this);
+
+  fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+    method: "POST",
+    body: formData
+  })
+  .then(response => response.text())
+  .then(data => {
+    alert("Response from server: " + data);
+    console.log(data);
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    alert("An error occurred: " + error);
+  });
+});
