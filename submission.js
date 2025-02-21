@@ -4,7 +4,7 @@ document.getElementById("request-form").addEventListener("submit", function(even
   // Capture form data
   var formData = new FormData(this);
 
-  fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+  fetch("https://script.google.com/a/macros/everestfleet.com/s/AKfycbyKeQ2dy0HVRt-xFp2UNksz7ehUG4h-Lg7Ntw3ydSpRs2IpChOlEhragziwjzEDDQ/exec", {
     method: "POST",
     body: formData
   })
