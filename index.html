@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVEREST FLEET - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      border: black;
+      font-weight: bold; /* Ensures the text is bold */
+      font-weight: italic; /* Ensures the text is bold */
+      border-radius: 15px;
+      h1 {
+  color: rgba(0, 0, 0, 0.966); /* Changes text color to white */
+}
+
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('https://everestfleet.com/wp-content/uploads/2025/01/EiP_Mob-Banner.jpg');
+      background-size: cover; /* Ensures the image covers the full screen */
+      background-position: center center; /* Centers the image */
+      background-repeat: no-repeat; /* Prevents the image from repeating */
+      background-attachment: fixed; /* Keeps the image fixed while scrolling */
+    }
+
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #133152;
+    }
+    #error-message {
+      color: red;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1><strong>EVEREST FLEET</strong></h1>
+  <div>
+    <input type="text" id="employee-id" placeholder="Enter Employee ID" />
+    <br><br>
+    <button onclick="login()">Login</button>
+  </div>
+  <div id="error-message" style="color: red; margin-top: 20px;"></div>
+
+  <script>
+    const validEmployeeIDs = ['EF10818','EF1406', 'EF6424','EF7310','EF6220', 'EF20012', 'EF10000', 'EF10002', 'EF10365'];
+
+    function login() {
+      const employeeID = document.getElementById('employee-id').value.trim();
+      const errorMessage = document.getElementById('error-message');
+
+      if (validEmployeeIDs.includes(employeeID)) {
+        // Redirect to the roles page if employee ID is valid
+        window.location.href = "rolespage.html";  
+      } else {
+        errorMessage.textContent = "Please enter a valid employee ID.";
+      }
+    }
+  </script>
+</body>
+</html>
