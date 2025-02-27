@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documents - EVEREST FLEET</title>
+  <title>Tele Caller SOP - EVEREST FLEET</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -41,22 +41,28 @@
       cursor: pointer;
     }
 
-    .document-list {
+    .process-list {
       list-style: none;
       padding: 0;
+      font-size: 18px;
+      text-align: center;
     }
 
-    .document-list li {
-      font-size: 18px;
+    .process-list button {
+      display: block;
+      width: 100%;
       margin: 10px 0;
       padding: 10px;
       background: rgba(255, 255, 255, 0.2);
+      border: none;
       border-radius: 5px;
       cursor: pointer;
       transition: background 0.3s;
+      color: white;
+      font-size: 16px;
     }
 
-    .document-list li:hover {
+    .process-list button:hover {
       background: rgba(255, 255, 255, 0.3);
     }
   </style>
@@ -64,22 +70,24 @@
 <body>
   <div class="container">
     <button class="back-button" onclick="window.history.back();">← Back</button>
-    <h1>EVEREST FLEET</h1>
+    <h1>Tele Caller SOP</h1>
     
-    <h3>Process Documents:</h3>
-    <ul class="document-list">
-      <li onclick="showMessage('Workshop SOP')">Workshop SOP</li>
-      <li onclick="showMessage('Change Request SOP')">Change Request SOP</li>
-      <li onclick="showMessage('Document Numbering')">Document Numbering</li>
-      <li onclick="window.location.href='recruitmentprocess.html'">Recruitment Process</li>
-      <li onclick="showMessage('Petrol Consumption SOP')">Petrol Consumption SOP</li>
-      <li onclick="window.location.href='telecaller_sop.html'">Tele Caller SOP</li>
-    </ul>
+    <h3>High-Level Process:</h3>
+    <div class="process-list">
+      <button onclick="redirectToDeveloping('Lead Management')">Lead Management</button>
+      <button onclick="redirectToDeveloping('Connect with Driver')">Connect with Driver</button>
+      <button onclick="redirectToDeveloping('Calling & Pitch')">Calling & Pitch</button>
+      <button onclick="redirectToDeveloping('Follow-up - Interested Customer')">Follow-up - Interested Customer</button>
+      <button onclick="redirectToDeveloping('Follow-up - Schedule')">Follow-up - Schedule</button>
+      <button onclick="redirectToDeveloping('Follow-up - WalkIn')">Follow-up - WalkIn</button>
+      <button onclick="redirectToDeveloping('Purge Process')">Purge Process</button>
+      <button onclick="redirectToDeveloping('Capacity Planning')">Capacity Planning</button>
+    </div>
   </div>
 
   <script>
-    function showMessage(documentName) {
-      alert(`${documentName} is still in the developing phase. Please visit later.`);
+    function redirectToDeveloping(processName) {
+      window.location.href = `development.html?page=${encodeURIComponent(processName)}`;
     }
   </script>
 </body>

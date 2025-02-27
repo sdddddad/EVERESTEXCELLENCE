@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documents - EVEREST FLEET</title>
+  <title>Under Development - EVEREST FLEET</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -41,46 +41,38 @@
       cursor: pointer;
     }
 
-    .document-list {
-      list-style: none;
-      padding: 0;
+    .loader {
+      border: 8px solid rgba(255, 255, 255, 0.3);
+      border-top: 8px solid white;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
     }
 
-    .document-list li {
-      font-size: 18px;
-      margin: 10px 0;
-      padding: 10px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .document-list li:hover {
-      background: rgba(255, 255, 255, 0.3);
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <button class="back-button" onclick="window.history.back();">← Back</button>
-    <h1>EVEREST FLEET</h1>
-    
-    <h3>Process Documents:</h3>
-    <ul class="document-list">
-      <li onclick="showMessage('Workshop SOP')">Workshop SOP</li>
-      <li onclick="showMessage('Change Request SOP')">Change Request SOP</li>
-      <li onclick="showMessage('Document Numbering')">Document Numbering</li>
-      <li onclick="window.location.href='recruitmentprocess.html'">Recruitment Process</li>
-      <li onclick="showMessage('Petrol Consumption SOP')">Petrol Consumption SOP</li>
-      <li onclick="window.location.href='telecaller_sop.html'">Tele Caller SOP</li>
-    </ul>
+    <h1 id="page-title">Page Under Development</h1>
+    <div class="loader"></div>
+    <p>We are still in the developing phase. Please visit later.</p>
   </div>
 
   <script>
-    function showMessage(documentName) {
-      alert(`${documentName} is still in the developing phase. Please visit later.`);
-    }
+    document.addEventListener("DOMContentLoaded", function () {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get("page");
+      if (page) {
+        document.getElementById("page-title").innerText = `${page} - Page Under Development`;
+      }
+    });
   </script>
 </body>
 </html>
