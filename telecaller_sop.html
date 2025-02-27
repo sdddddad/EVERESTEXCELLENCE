@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tele Caller SOP - EVEREST FLEET</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      padding-top: 20px;
+    }
+
+    .container {
+      width: 60%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+      position: relative;
+      text-align: center;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: linear-gradient(45deg, #d32f2f, #b71c1c);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .process-list {
+      list-style: none;
+      padding: 0;
+      font-size: 18px;
+      text-align: center;
+    }
+
+    .process-list button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+      color: white;
+      font-size: 16px;
+    }
+
+    .process-list button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="back-button" onclick="window.history.back();">← Back</button>
+    <h1>Tele Caller SOP</h1>
+    
+    <h3>High-Level Process:</h3>
+    <div class="process-list">
+      <button onclick="window.location.href='leadmanagment.html'">Lead Management</button>
+      <button onclick="window.location.href='connectwithdriver.html'">Connect with Driver</button>
+      <button onclick="window.location.href='callingandpitching.html'">Calling & Pitch</button>
+      <button onclick="window.location.href='interested.html'">Follow-up - Interested Customer</button>
+      <button onclick="window.location.href='schedule.html'">Follow-up - Schedule</button>
+      <button onclick="window.location.href='walkin.html'">Follow-up - WalkIn</button>
+      <button onclick="redirectToDeveloping('Purge Process')">Purge Process</button>
+      <button onclick="redirectToDeveloping('Capacity Planning')">Capacity Planning</button>
+    </div>
+  </div>
+
+  <script>
+    function redirectToDeveloping(processName) {
+      window.location.href = `development.html?page=${encodeURIComponent(processName)}`;
+    }
+  </script>
+</body>
+</html>
