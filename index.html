@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVEREST FLEET - Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-image: url('https://everestfleet.com/wp-content/uploads/2025/01/EiP_Mob-Banner.jpg');
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #007BFF; /* Changed color */
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 10px;
+      font-size: 16px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #133152;
+    }
+    #error-message {
+      color: red;
+      margin-top: 20px;
+    }
+
+    /* Spinner Loader */
+    .loader {
+      display: none;
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #007BFF;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      animation: spin 1s linear infinite;
+      margin: auto;
+      margin-top: 10px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Bigger & Bold Dots Animation */
+    .dots {
+      display: none;
+      font-size: 24px; /* Increased font size */
+      font-weight: bold; /* Made bold */
+      color: black; /* Changed color to black */
+    }
+    .dots span {
+      animation: blink 1.5s infinite;
+    }
+    .dots span:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+    .dots span:nth-child(5) {
+      animation-delay: 0.4s;
+    }
+    @keyframes blink {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <h1><strong>EVEREST FLEET</strong></h1>
+  <div>
+    <input type="text" id="employee-id" placeholder="Enter Employee ID" />
+    <br><br>
+    <button onclick="login()">Login</button>
+    <div id="loader" class="loader"></div>  <!-- Spinner Loader -->
+    <div id="dots" class="dots">.<span>.</span><span>.</span></div>  <!-- Bigger & Bold Dots -->
+  </div>
+  <div id="error-message"></div>
+
+  <script>
+    function login() {
+      const employeeID = document.getElementById('employee-id').value.trim();
+      const errorMessage = document.getElementById('error-message');
+      const loginButton = document.querySelector("button");
+      const loader = document.getElementById("loader");
+      const dots = document.getElementById("dots");
+
+      if (!employeeID) {
+        errorMessage.textContent = "Please enter your Employee ID.";
+        return;
+      }
+
+      // Disable button and show animations
+      loginButton.disabled = true;
+      loginButton.textContent = "Logging in...";
+      loader.style.display = "block";  // Show spinner loader
+      dots.style.display = "inline";   // Show bigger & bold dots
+
+      fetch("https://script.google.com/macros/s/AKfycbxiFCQuQKn1hBnFW3kuXn4l-DMlDV44I7UsRtm_6QcQ_rmI5kzVXeE91RWe7di7tZnHFA/exec?employeeID=" + employeeID)
+        .then(response => response.json())
+        .then(data => {
+          if (data.role) {
+            localStorage.setItem("employeeID", employeeID);
+            localStorage.setItem("userRole", data.role);
+            localStorage.setItem("approvedAccess", JSON.stringify(data.approvedAccess));
+            window.location.href = "rolespage.html";
+          } else {
+            errorMessage.textContent = "Invalid Employee ID. Please try again.";
+            loginButton.disabled = false;
+            loginButton.textContent = "Login";
+            loader.style.display = "none";
+            dots.style.display = "none";
+          }
+        })
+        .catch(() => {
+          errorMessage.textContent = "Error connecting to server. Try again later.";
+          loginButton.disabled = false;
+          loginButton.textContent = "Login";
+          loader.style.display = "none";
+          dots.style.display = "none";
+        });
+    }
+  </script>
+</body>
+</html>
