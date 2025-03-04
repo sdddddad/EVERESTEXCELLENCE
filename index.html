@@ -18,7 +18,7 @@
     h1 {
       font-size: 28px;
       font-weight: bold;
-      color: #007BFF; /* Changed color */
+      color: #007BFF;
     }
     input {
       padding: 10px;
@@ -59,28 +59,6 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
-
-    /* Bigger & Bold Dots Animation */
-    .dots {
-      display: none;
-      font-size: 24px; /* Increased font size */
-      font-weight: bold; /* Made bold */
-      color: black; /* Changed color to black */
-    }
-    .dots span {
-      animation: blink 1.5s infinite;
-    }
-    .dots span:nth-child(5) {
-      animation-delay: 0.2s;
-    }
-    .dots span:nth-child(5) {
-      animation-delay: 0.4s;
-    }
-    @keyframes blink {
-      0% { opacity: 0; }
-      50% { opacity: 1; }
-      100% { opacity: 0; }
-    }
   </style>
 </head>
 <body>
@@ -88,9 +66,8 @@
   <div>
     <input type="text" id="employee-id" placeholder="Enter Employee ID" />
     <br><br>
-    <button onclick="login()">Login</button>
-    <div id="loader" class="loader"></div>  <!-- Spinner Loader -->
-    <div id="dots" class="dots">.<span>.</span><span>.</span></div>  <!-- Bigger & Bold Dots -->
+    <button id="login-button" onclick="login()">Login</button>
+    <div id="loader" class="loader"></div> <!-- Spinner Loader -->
   </div>
   <div id="error-message"></div>
 
@@ -98,44 +75,44 @@
     function login() {
       const employeeID = document.getElementById('employee-id').value.trim();
       const errorMessage = document.getElementById('error-message');
-      const loginButton = document.querySelector("button");
+      const loginButton = document.getElementById("login-button");
       const loader = document.getElementById("loader");
-      const dots = document.getElementById("dots");
 
       if (!employeeID) {
         errorMessage.textContent = "Please enter your Employee ID.";
         return;
       }
 
-      // Disable button and show animations
+      // Disable button and show loader animation
       loginButton.disabled = true;
       loginButton.textContent = "Logging in...";
-      loader.style.display = "block";  // Show spinner loader
-      dots.style.display = "inline";   // Show bigger & bold dots
+      loader.style.display = "block"; // Show spinner
 
-      fetch("https://script.google.com/macros/s/AKfycbxiFCQuQKn1hBnFW3kuXn4l-DMlDV44I7UsRtm_6QcQ_rmI5kzVXeE91RWe7di7tZnHFA/exec?employeeID=" + employeeID)
+      fetch("https://script.google.com/macros/s/AKfycbyKQEIySUWZx1KZ8YygucLUlJGzYAUoWSjkRLa8DUo9WjkeLkdduJvE5gKHjVD3WieT/exec?employeeID=" + employeeID)
         .then(response => response.json())
         .then(data => {
           if (data.role) {
             localStorage.setItem("employeeID", employeeID);
             localStorage.setItem("userRole", data.role);
-            localStorage.setItem("approvedAccess", JSON.stringify(data.approvedAccess));
+            localStorage.setItem("allowedPages", JSON.stringify(data.allowedPages));
             window.location.href = "rolespage.html";
           } else {
             errorMessage.textContent = "Invalid Employee ID. Please try again.";
-            loginButton.disabled = false;
-            loginButton.textContent = "Login";
-            loader.style.display = "none";
-            dots.style.display = "none";
+            resetLoginState();
           }
         })
         .catch(() => {
           errorMessage.textContent = "Error connecting to server. Try again later.";
-          loginButton.disabled = false;
-          loginButton.textContent = "Login";
-          loader.style.display = "none";
-          dots.style.display = "none";
+          resetLoginState();
         });
+    }
+
+    function resetLoginState() {
+      const loginButton = document.getElementById("login-button");
+      const loader = document.getElementById("loader");
+      loginButton.disabled = false;
+      loginButton.textContent = "Login";
+      loader.style.display = "none"; // Hide spinner
     }
   </script>
 </body>
