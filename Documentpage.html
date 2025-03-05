@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents - EVEREST FLEET</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      height: 100vh;
+      margin: 0;
+      padding-top: 20px;
+    }
+
+    .container {
+      width: 60%;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+      position: relative;
+      text-align: center;
+    }
+
+    .back-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: linear-gradient(45deg, #d32f2f, #b71c1c);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .document-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .document-list li {
+      font-size: 18px;
+      margin: 10px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .document-list li:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .restricted {
+      background: rgba(255, 0, 0, 0.5);
+      cursor: not-allowed;
+    }
+
+    /* Loading Animation */
+    #loading-container {
+      display: none;
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .loading-text {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .dots {
+      display: inline-block;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .progress-bar {
+      width: 110px; /* Same width as "Please Wait" */
+      height: 6px;
+      background: rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      margin: 10px auto; /* Center */
+      border-radius: 20px; /* Fully rounded edges */
+    }
+
+    .progress-bar span {
+      display: block;
+      height: 100%;
+      background: #007BFF;
+      width: 0;
+      border-radius: 20px;
+      animation: load 1.5s infinite ease-in-out;
+    }
+
+    @keyframes load {
+      0% { width: 0; }
+      50% { width: 100%; }
+      100% { width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button class="back-button" onclick="window.history.back();">← Back</button>
+    <h1>EVEREST FLEET</h1>
+    
+    <h3>Process Documents:</h3>
+    <div id="loading-container">
+      <p class="loading-text">Please Wait<span class="dots"></span></p>
+      <div class="progress-bar"><span></span></div>
+    </div>
+
+    <ul class="document-list">
+      <li data-href="Workshop.html">Workshop SOP</li>
+      <li data-href="ChangeRequest.html">Change Request SOP</li>
+      <li data-href="DocumentNumbering.html">Document Numbering</li>
+      <li data-href="recruitmentprocess.html">Recruitment Process</li>
+      <li data-href="PetrolConsumption.html">Petrol Consumption SOP</li>
+      <li data-href="telecaller_sop.html">Tele Caller SOP</li>
+    </ul>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const employeeID = localStorage.getItem("employeeID");
+      const loadingContainer = document.getElementById("loading-container");
+      const dots = document.querySelector(".dots");
+
+      if (!employeeID) {
+        alert("Session expired. Please login again.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      loadingContainer.style.display = "block"; // Show loading animation
+
+      // Make only the dots blink (".", "..", "...")
+      let dotCount = 0;
+      setInterval(() => {
+        const dotArray = ["", ".", "..", "..."];
+        dots.textContent = dotArray[dotCount]; // Update dot text
+        dotCount = (dotCount + 1) % dotArray.length;
+      }, 500); // Every 500ms
+
+      fetch("https://script.google.com/macros/s/AKfycbyKQEIySUWZx1KZ8YygucLUlJGzYAUoWSjkRLa8DUo9WjkeLkdduJvE5gKHjVD3WieT/exec?employeeID=" + employeeID)
+        .then(response => response.json())
+        .then(data => {
+          loadingContainer.style.display = "none"; // Hide loader once data is fetched
+
+          if (data.role && Array.isArray(data.allowedPages)) {
+            localStorage.setItem("userRole", data.role);
+            localStorage.setItem("allowedPages", JSON.stringify(data.allowedPages));
+
+            restrictDocumentAccess(data.allowedPages);
+          } else {
+            alert("Unauthorized access. Redirecting to login.");
+            window.location.href = "index.html";
+          }
+        })
+        .catch(() => {
+          alert("Error fetching data. Please try again.");
+          window.location.href = "index.html";
+        });
+
+      function restrictDocumentAccess(allowedPages) {
+        document.querySelectorAll(".document-list li").forEach((doc) => {
+          const pageName = doc.textContent.trim();
+
+          if (!allowedPages.includes(pageName)) {
+            doc.classList.add("restricted");
+            doc.addEventListener("click", function (event) {
+              event.preventDefault();
+              alert("No Access");
+            });
+          } else {
+            doc.addEventListener("click", function () {
+              window.location.href = doc.getAttribute("data-href");
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
