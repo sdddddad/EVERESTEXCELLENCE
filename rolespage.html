@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roles - EVEREST FLEET</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding-top: 60px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      position: relative;
+    }
+
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(45deg, #1886cf, #091d33);
+      padding: 15px 0;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    /* User Profile Icon */
+    .user-icon {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      color: black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Pop-up Box */
+    .popup {
+      display: none;
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      background: white;
+      color: black;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 14px;
+      width: 180px;
+      text-align: left;
+    }
+
+    .popup div {
+      margin-bottom: 5px;
+    }
+
+    .popup .close-btn {
+      text-align: right;
+      font-size: 12px;
+      cursor: pointer;
+      color: red;
+    }
+
+    .logo {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 80px;
+      height: auto;
+      filter: none;
+    }
+
+    .circle {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(45deg, #ff9800, #ff5722);
+      color: white;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .circle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #4CAF50, #388E3C);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">EVEREST FLEET</div>
+
+  <!-- Person Icon at Top Right -->
+  <div class="user-icon" onclick="togglePopup()">👤</div>
+
+  <!-- User Details Pop-up -->
+  <div class="popup" id="user-popup">
+    <div class="close-btn" onclick="togglePopup()">✖</div>
+    <div><b>Name:</b> <span id="user-name">Loading...</span></div>
+    <div><b>ID:</b> <span id="user-id">Loading...</span></div>
+    <div><b>Role:</b> <span id="user-role">Loading...</span></div>
+  </div>
+
+  <h2>Welcome To Everest Fleet</h2>
+  <h5>Where you find Excellence in Process</h5>
+  <button class="button" onclick="window.location.href='Documentpage.html'">Process Document</button>
+  <br><br>
+  <div class="circle" onclick="alert('We are still in development phase. Please visit later.')">Learning Documents</div>
+  <br><br>
+  <button class="button" onclick="window.location.href='document-options.html'">Change Document Request</button>
+
+  <img src="C:\Users\EF\Desktop\Everest Excellence\Everest.jpg" class="logo" alt="EVEREST FLEET Logo">
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const employeeID = localStorage.getItem("employeeID") || "Unknown";
+      const userRole = localStorage.getItem("userRole") || "Unknown Role";
+      const userName = localStorage.getItem("userName") || "Unknown"; // ✅ Fixed: Fetch actual stored name
+  
+      document.getElementById("user-id").innerText = employeeID;
+      document.getElementById("user-role").innerText = userRole;
+      document.getElementById("user-name").innerText = userName; // ✅ Correct name displayed now
+    });
+
+    function togglePopup() {
+    const popup = document.getElementById("user-popup");
+    popup.style.display = popup.style.display === "block" ? "none" : "block";
+  }
+  </script>
+  
+
+</body>
+</html>
