@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Process Change Request - EVEREST FLEET</title>
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      color: #000;
+      margin: 0;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      font-weight: bold;
+    }
+    form {
+      max-width: 1000px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      flex: 1 1 45%;
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    textarea {
+      resize: vertical;
+    }
+    .hidden {
+      display: none;
+    }
+    .submit-btn {
+      text-align: center;
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h2>EVEREST FLEET - Process Change Request Form</h2>
+  <form id="changeRequestForm">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="employeeId">Employee ID</label>
+        <input type="text" id="employeeId" name="employeeId" required />
+      </div>
+      <div class="form-group">
+        <label for="requestRaisedDate">Date of Raising Request</label>
+        <input type="date" id="requestRaisedDate" name="requestRaisedDate" required />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="department">Department</label>
+        <select id="department" name="department" required>
+          <option value="">-- Select Department --</option>
+          <option value="Operations">Operations</option>
+          <option value="Repair and Maintenance">Repair and Maintenance</option>
+          <option value="Finance and Accounts">Finance and Accounts</option>
+          <option value="Legal">Legal</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Human Resources">Human Resources</option>
+          <option value="Recruitment">Recruitment</option>
+          <option value="Training">Training</option>
+          <option value="Quality">Quality</option>
+          <option value="Procurment">Procurment</option>
+          <option value="Process Excellence">Process Excellence</option>
+          <option value="Business Intelligence">Business Intelligence</option>
+          <option value="Administration">Administration</option>
+          <option value="Hardware & Networking">Hardware & Networking</option>
+          <option value="Refrigerator Van">Refrigerator Van</option>
+          <option value="Sourcing">Sourcing</option>
+          <option value="Technology">Technology</option>
+          <option value="Insurance">Insurance</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" id="otherDepartment" class="hidden" placeholder="Specify Department" />
+      </div>
+      <div class="form-group">
+        <label for="designation">Designation / Role</label>
+        <select id="designation" name="designation" required>
+          <option value="">-- Select Designation --</option>
+          <option value="Lead">Lead</option>
+          <option value="Senior Manager">Senior Manager</option>
+          <option value="Manager">Manager</option>
+          <option value="Assistant Manager">Assistant Manager</option>
+          <option value="Executive">Executive</option>
+          <option value="Supervisor">Supervisor</option>
+          <option value="Analyst">Analyst</option>
+          <option value="Secretary">Secretary</option>          
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" id="otherDesignation" class="hidden" placeholder="Specify Designation" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="branchCity">Process Requesting Branch (City)</label>
+        <select id="branchCity" name="branchCity" required>
+          <option value="">-- Select City --</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Pune">Pune</option>
+          <option value="Kolkata">Kolkata</option>
+          <option value="Chennai">Chennai</option>
+          <option value="Bangalore">Bangalore</option>
+          <option value="Hyderabad">Hyderabad</option>
+          <option value="Delhi">Delhi</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="subBranch">Sub Branch</label>
+        <select id="subBranch" name="subBranch" required>
+          <option value="">-- Select Sub Branch --</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="existingDocType">Existing Document Type</label>
+        <select id="existingDocType">
+          <option value="">-- Select --</option>
+          <option value="link">Link</option>
+          <option value="upload">Upload</option>
+        </select>
+        <input type="text" id="existingDocLink" class="hidden" placeholder="Paste Link Here" />
+        <input type="file" id="existingDocFile" class="hidden" />
+      </div>
+      <div class="form-group">
+        <label for="draftDocType">Draft Document (To Import Change)</label>
+        <select id="draftDocType">
+          <option value="">-- Select --</option>
+          <option value="link">Link</option>
+          <option value="upload">Upload</option>
+        </select>
+        <input type="text" id="draftDocLink" class="hidden" placeholder="Paste Link Here" />
+        <input type="file" id="draftDocFile" class="hidden" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="changeReason">Reason for Change</label>
+        <textarea id="changeReason" name="changeReason" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="impact">Impact if Change is Not Done</label>
+        <textarea id="impact" name="impact" rows="4" required></textarea>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="crossFunction">Is there Cross Function Impact?</label>
+        <select id="crossFunction" name="crossFunction">
+          <option value="">-- Select --</option>
+          <option value="yes">Yes</option>
+          <option value="no">No</option>
+        </select>
+      </div>
+      <div class="form-group hidden" id="relatedDocGroup">
+        <label for="relatedDoc">Attach Related Document</label>
+        <input type="file" id="relatedDoc" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="distributionList">Distribution List Departments</label>
+        <select id="distributionList" name="distributionList" multiple>
+          <option value="Operations">Operations</option>
+          <option value="Repair and Maintenance">Repair and Maintenance</option>
+          <option value="Finance and Accounts">Finance and Accounts</option>
+          <option value="Legal">Legal</option>
+          <option value="Marketing">Marketing</option>
+          <option value="Human Resources">Human Resources</option>
+          <option value="Mitr">Mitr</option>
+          <option value="Training">Training</option>
+          <option value="Quality">Quality</option>
+          <option value="Procurment">Procurment</option>
+          <option value="Process Excellence">Process Excellence</option>
+          <option value="Business Intelligence">Business Intelligence</option>
+          <option value="Administration">Administration</option>
+          <option value="Hardware & Networking">Hardware & Networking</option>
+          <option value="Refrigerator Van">Refrigerator Van</option>
+          <option value="Sourcing">Sourcing</option>
+          <option value="Technology">Technology</option>
+          <option value="Insurance">Insurance</option>
+          <option value="Other">Other</option>
+        </select>
+        <input type="text" id="distributionOther" class="hidden" placeholder="Specify Department(s)" />
+      </div>
+    </div>
+
+    <div class="submit-btn">
+      <button type="submit">Submit Request</button>
+    </div>
+  </form>
+
+  <script>
+    document.getElementById("department").addEventListener("change", function () {
+      document.getElementById("otherDepartment").classList.toggle("hidden", this.value !== "Other");
+    });
+  
+    document.getElementById("designation").addEventListener("change", function () {
+      document.getElementById("otherDesignation").classList.toggle("hidden", this.value !== "Other");
+    });
+  
+    document.getElementById("existingDocType").addEventListener("change", function () {
+      const val = this.value;
+      document.getElementById("existingDocLink").classList.toggle("hidden", val !== "link");
+      document.getElementById("existingDocFile").classList.toggle("hidden", val !== "upload");
+    });
+  
+    document.getElementById("draftDocType").addEventListener("change", function () {
+      const val = this.value;
+      document.getElementById("draftDocLink").classList.toggle("hidden", val !== "link");
+      document.getElementById("draftDocFile").classList.toggle("hidden", val !== "upload");
+    });
+  
+    document.getElementById("crossFunction").addEventListener("change", function () {
+      const val = this.value;
+      document.getElementById("relatedDocGroup").classList.toggle("hidden", val !== "yes");
+    });
+  
+    document.getElementById("distributionList").addEventListener("change", function () {
+      const selectedOptions = Array.from(this.selectedOptions).map(o => o.value);
+      document.getElementById("distributionOther").classList.toggle("hidden", !selectedOptions.includes("Other"));
+    });
+  
+    document.getElementById("branchCity").addEventListener("change", function () {
+      const subBranch = document.getElementById("subBranch");
+      subBranch.innerHTML = '<option value="">-- Select Sub Branch --</option>';
+  
+      const city = this.value;
+      let subBranches = [];
+  
+      switch (city) {
+        case "Mumbai": subBranches = ["Andheri", "Borivali", "Thane"]; break;
+        case "Pune": subBranches = ["Wakad", "Hinjewadi", "Hadapsar"]; break;
+        case "Kolkata": subBranches = ["Howrah", "Salt Lake"]; break;
+        case "Chennai": subBranches = ["T Nagar", "Velachery"]; break;
+        case "Bangalore": subBranches = ["Whitefield", "Koramangala"]; break;
+        case "Hyderabad": subBranches = ["Madhapur", "Begumpet"]; break;
+        case "Delhi": subBranches = ["Dwarka", "Saket"]; break;
+      }
+  
+      subBranches.forEach(branch => {
+        const option = document.createElement("option");
+        option.value = branch;
+        option.text = branch;
+        subBranch.appendChild(option);
+      });
+    });
+  
+    // ✅ SUBMISSION LOGIC TO SEND DATA TO GOOGLE SHEET
+    document.getElementById("changeRequestForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const data = {
+    employeeId: document.getElementById("employeeId").value.trim(),
+    requestDate: document.getElementById("requestRaisedDate").value,
+    department: document.getElementById("department").value === "Other"
+      ? document.getElementById("otherDepartment").value.trim()
+      : document.getElementById("department").value,
+    designation: document.getElementById("designation").value === "Other"
+      ? document.getElementById("otherDesignation").value.trim()
+      : document.getElementById("designation").value,
+    branch: document.getElementById("branchCity").value,
+    subBranch: document.getElementById("subBranch").value,
+    existingDocType: document.getElementById("existingDocType").value,
+    existingDocLink: document.getElementById("existingDocType").value === "link"
+      ? document.getElementById("existingDocLink").value.trim()
+      : "",
+    // For file upload, you'll handle separately if needed
+    draftDocType: document.getElementById("draftDocType").value,
+    draftDocLink: document.getElementById("draftDocType").value === "link"
+      ? document.getElementById("draftDocLink").value.trim()
+      : "",
+    changeReason: document.getElementById("changeReason").value.trim(),
+    impact: document.getElementById("impact").value.trim(),
+    crossFunction: document.getElementById("crossFunction").value,
+    // For file upload, handle similarly if required
+    distributionList: Array.from(document.getElementById("distributionList").selectedOptions).map(o => o.value),
+    distributionOther: document.getElementById("distributionOther").value.trim(),
+  };
+
+  // Send data to Google Apps Script Web App
+  fetch('https://script.google.com/a/macros/everestfleet.com/s/AKfycbz3aFnCmbXGEkAsgLijMBFrGkrrOAUF6w9LcILa-azDfwBV4Xvuhmee8S7cX5To7rqN/exec', {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(res => {
+    if(res.status === 'success'){
+      alert('Request submitted successfully!');
+      document.getElementById("changeRequestForm").reset();
+      // Reset any conditional fields visibility if needed here
+    } else {
+      alert('Error submitting request: ' + res.message);
+    }
+  })
+  .catch(error => {
+    alert('Submission failed: ' + error.message);
+  });
+});
+
+  </script>
+  
+</body>
+</html>
