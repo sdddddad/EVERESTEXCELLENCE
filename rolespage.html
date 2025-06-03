@@ -25,7 +25,6 @@
       font-weight: bold;
     }
 
-    /* User Profile Icon */
     .user-icon {
       position: absolute;
       top: 15px;
@@ -43,7 +42,6 @@
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
-    /* Pop-up Box */
     .popup {
       display: none;
       position: absolute;
@@ -120,6 +118,21 @@
       transform: scale(1.1);
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
     }
+
+    .logout-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 6px;
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #c9302c;
+    }
   </style>
 </head>
 <body>
@@ -135,15 +148,21 @@
     <div><b>Name:</b> <span id="user-name">Loading...</span></div>
     <div><b>ID:</b> <span id="user-id">Loading...</span></div>
     <div><b>Role:</b> <span id="user-role">Loading...</span></div>
+    <div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
   </div>
 
   <h2>Welcome To Everest Fleet</h2>
   <h5>Where you find Excellence in Process</h5>
+
   <button class="button" onclick="window.location.href='Documentpage.html'">Process Document</button>
   <br><br>
-  <div class="circle" onclick="alert('We are still in development phase. Please visit later.')">Learning Documents</div>
+  <div class="button" onclick="alert('We are still in development phase. Please visit later.')">Learning Documents</div>
   <br><br>
   <button class="button" onclick="window.location.href='document-options.html'">Change Document Request</button>
+  <br><br>
+  <button class="button" onclick="window.location.href='audit-report.html'">Audit Report</button>
 
   <img src="C:\Users\EF\Desktop\Everest Excellence\Everest.jpg" class="logo" alt="EVEREST FLEET Logo">
 
@@ -151,19 +170,23 @@
     document.addEventListener("DOMContentLoaded", function () {
       const employeeID = localStorage.getItem("employeeID") || "Unknown";
       const userRole = localStorage.getItem("userRole") || "Unknown Role";
-      const userName = localStorage.getItem("userName") || "Unknown"; // ✅ Fixed: Fetch actual stored name
+      const userName = localStorage.getItem("userName") || "Unknown";
   
       document.getElementById("user-id").innerText = employeeID;
       document.getElementById("user-role").innerText = userRole;
-      document.getElementById("user-name").innerText = userName; // ✅ Correct name displayed now
+      document.getElementById("user-name").innerText = userName;
     });
 
     function togglePopup() {
-    const popup = document.getElementById("user-popup");
-    popup.style.display = popup.style.display === "block" ? "none" : "block";
-  }
+      const popup = document.getElementById("user-popup");
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    }
+
+    function logout() {
+      localStorage.clear(); // Clear all local storage data
+      window.location.href = 'index.html'; // Redirect to login/index page
+    }
   </script>
-  
 
 </body>
 </html>
