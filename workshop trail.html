@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Workshop Processes</title>
+  <title>Workshop SOP</title>
   <style>
     body {
-      background-color: #007BFF; /* Blue background */
+      background-color: #007BFF;
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 20px;
@@ -17,7 +17,7 @@
       top: 20px;
       left: 20px;
       background-color: rgba(241, 0, 0, 0.932);
-      color: rgb(243, 241, 241);
+      color: white;
       padding: 8px 16px;
       border: none;
       border-radius: 5px;
@@ -26,23 +26,97 @@
       box-shadow: 1px 1px 5px rgba(245, 7, 7, 0.966);
     }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-gap: 15px;
-      margin-top: 70px;
+    .heading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 50px;
+    }
+
+    .settings-icon {
+      width: 30px;
+      height: 30px;
+      animation: spin 2s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .flowchart {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 40px 0;
+      gap: 30px;
+    }
+
+    .flow-btn {
+      background-color: white;
+      color: black;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      border: 2px solid #000;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .flow-btn:hover {
+      background-color: #f0f0f0;
+    }
+
+    .arrow {
+      font-size: 32px;
+      color: white;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-5px); }
+    }
+
+    .box-container {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .box {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      min-width: 300px;
+      display: none;
+    }
+
+    .box h3 {
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: 18px;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 6px;
     }
 
     .button-link {
       display: block;
-      background-color: white;
+      background-color: #f9f9f9;
       color: black;
-      padding: 12px;
-      text-align: center;
+      padding: 8px;
+      text-align: left;
       text-decoration: none;
-      border-radius: 8px;
+      border-radius: 6px;
       font-weight: bold;
-      box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+      margin-bottom: 6px;
+      box-shadow: 1px 1px 5px rgba(0,0,0,0.1);
       transition: background-color 0.3s;
     }
 
@@ -55,40 +129,60 @@
 
   <a href="javascript:history.back()" class="back-button">← Back</a>
 
-  <div class="container">
-    <a href="https://docs.google.com/document/d/1yS6TaHjNZS-dOiPHHNiQeEvIaYHV3-8A95epVURxeco/edit?usp=sharing" 
-   class="button-link" 
-   target="_blank">
-   Appointment Process
-</a>
-
-    <a href="https://docs.google.com/document/d/1WhsTcJaFbQWGhGV1g-z7-X7IvSC6Zz-dt45PLI4tOH8/edit?usp=sharing" class="button-link">Vehicle Inward Process</a>
-    <a href="https://docs.google.com/document/d/17tgFHWmQnOb-iQ8vqgdREC8OfHgPg-L4eurZdlX8qRo/edit?usp=sharing" class="button-link">Pre Repair Inspection Process</a>
-    <a href="https://docs.google.com/document/d/17tgFHWmQnOb-iQ8vqgdREC8OfHgPg-L4eurZdlX8qRo/edit?usp=sharing" class="button-link">Repair Process</a>
-    <a href="https://docs.google.com/document/d/1HCuFnAdQnix_60mnSG6vrBWvgy2D36t6ZgENG2P7_Tg/edit?usp=sharing" class="button-link">Vendor Repairing Process</a>
-    <a href="https://docs.google.com/document/d/1KAAUQ5A7Cn3zQhM-7sASm981Ew3-HAFh-cgadCpBWDs/edit?usp=sharing" class="button-link">Post Repair Inspection Process</a>
-    <a href="https://docs.google.com/document/d/1gwQubI2jb4DULP_dK4RF6U7mdfoKXS0ixzaSNhL15do/edit?usp=sharing" class="button-link">Job Closure And Handover Process</a>
-    <a href="#" class="button-link">Breakdown Process</a>
-    <a href="#" class="button-link">Petrol Consumption Process (Proposed)</a>
-    <a href="#" class="button-link">Bill Approval Process - Vendor, Towing / RSA</a>
-    <a href="#" class="button-link">Reconciliation Process - Petrol</a>
-    <a href="#" class="button-link">Petrol Procurement Process (Proposed)</a>
-    <a href="#" class="button-link">Workshop Tools and Equipment Procurement</a>
-    <a href="#" class="button-link">Workshop Tools and Equipment Inventory</a>
-    <a href="#" class="button-link">Repair and Maintenance of Tools</a>
-    <a href="#" class="button-link">New Workshop Setup Process</a>
-    <a href="#" class="button-link">Parts Categorization and Storage</a>
-    <a href="#" class="button-link">Spare Parts Issue and Consumption</a>
-    <a href="#" class="button-link">Spare Parts Threshold Ordering</a>
-    <a href="#" class="button-link">Spare Parts Ordering Process</a>
-    <a href="#" class="button-link">Spare Part GRN Process</a>
-    <a href="#" class="button-link">Inter Store Stock Transfer</a>
-    <a href="#" class="button-link">Bill Approval - Spare Parts Vendor</a>
-    <a href="#" class="button-link">Old Parts Inward Exchange</a>
-    <a href="#" class="button-link">Spare Parts Audit - External</a>
-    <a href="#" class="button-link">Spare Parts Audit - Internal</a>
-    <a href="#" class="button-link">Scrap Sale Process</a>
+  <div class="heading">
+    <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" class="settings-icon" />
+    Workshop SOP
+    <img src="https://img.icons8.com/ios-filled/50/000000/settings.png" class="settings-icon" />
   </div>
 
+  <div class="flowchart">
+    <button class="flow-btn" onclick="toggleBox('repairsBox')">Repair Process</button>
+    <div class="arrow">➡️</div>
+    <button class="flow-btn" onclick="toggleBox('sparesBox')">Spares Process</button>
+  </div>
+
+  <div class="box-container">
+    <div id="repairsBox" class="box">
+      <h3>Repairs Process</h3>
+      <a href="https://docs.google.com/document/d/1yS6TaHjNZS-dOiPHHNiQeEvIaYHV3-8A95epVURxeco/edit?usp=sharing" class="button-link" target="_blank">Appointment Process</a>
+      <a href="https://docs.google.com/document/d/1WhsTcJaFbQWGhGV1g-z7-X7IvSC6Zz-dt45PLI4tOH8/edit?usp=sharing" class="button-link">Vehicle Inward Process</a>
+      <a href="https://docs.google.com/document/d/17tgFHWmQnOb-iQ8vqgdREC8OfHgPg-L4eurZdlX8qRo/edit?usp=sharing" class="button-link">Pre Repair Inspection</a>
+      <a href="https://docs.google.com/document/d/1HCuFnAdQnix_60mnSG6vrBWvgy2D36t6ZgENG2P7_Tg/edit?usp=sharing" class="button-link">Repair Process</a>
+      <a href="https://docs.google.com/document/d/1HCuFnAdQnix_60mnSG6vrBWvgy2D36t6ZgENG2P7_Tg/edit?usp=sharing" class="button-link">Vendor Repairing</a>
+      <a href="https://docs.google.com/document/d/1KAAUQ5A7Cn3zQhM-7sASm981Ew3-HAFh-cgadCpBWDs/edit?usp=sharing" class="button-link">Post Repair Inspection</a>
+      <a href="https://docs.google.com/document/d/1gwQubI2jb4DULP_dK4RF6U7mdfoKXS0ixzaSNhL15do/edit?usp=sharing" class="button-link">Job Closure & Handover</a>
+      <a href="https://docs.google.com/document/d/17XDBZFvI3oTTCy76B1I-ErPtp1ogXD8B5biJkR-rrmo/edit?usp=sharing" class="button-link">Breakdown Process</a>
+      <a href="https://docs.google.com/document/d/1YaRslEda4ryGLprjlf7j6r5bQ7SP8d4J60XaCfyuT04/edit?usp=sharing" class="button-link">Petrol Consumption (Proposed)</a>
+      <a href="https://docs.google.com/document/d/17Y6I2I6vAtMIBeqb2J6fHO0731jdJD4iui86LRox6pk/edit?usp=sharing" class="button-link">Bill Approval - Vendor/RSA</a>
+      <a href="https://docs.google.com/document/d/1_mOQ5qeq5lqB0O-w3oj7Qg2w-XnFzxrkqkVPe64HYPQ/edit?usp=sharing" class="button-link">Reconciliation - Petrol</a>
+      <a href="https://docs.google.com/document/d/1Avg_ZSa5IcOVu0WhTyWSPN9OR86Si-RWmUmrgOk7Yi0/edit?usp=sharing" class="button-link">Petrol Procurement (Proposed)</a>
+    </div>
+
+    <!-- Right Box -->
+ <div id="sparesBox" class="box">
+      <h3>Spares Process</h3>
+      <a href="https://docs.google.com/document/d/1Irk4h7NEF0W8VNKYQ9j0yYxKyrHiU_0yjxWTiIw2tjo/edit?usp=sharing" class="button-link">Workshop Tools and Equipment Procurement</a>
+      <a href="https://docs.google.com/document/d/1Avg_ZSa5IcOVu0WhTyWSPN9OR86Si-RWmUmrgOk7Yi0/edit?usp=sharing" class="button-link">Workshop Tools and Equipment Inventory</a>
+      <a href="https://docs.google.com/document/d/1GK92Di1qDqWhoiP3Y8Bwx9Fb8wtRKYllccUld-aK7zc/edit?usp=sharing" class="button-link">Repair and Maintenance of Workshop Tools</a>
+      <a href="#" class="button-link">New Workshop Setup Process</a>
+      <a href="#" class="button-link">Parts Categorization and Storage</a>
+      <a href="https://docs.google.com/document/d/1Zh2eXPe5fnvACnjQ_5GnCn762mzbF9fyUH6b3C9xp4Y/edit?usp=sharing" class="button-link">Spare Parts Issue and Consumption</a>
+      <a href="https://docs.google.com/document/d/1rUHO8gqdY4Tb81sJYyiy1pz3wzIPzn4zdkjzL_MKnQo/edit?usp=sharing" class="button-link">Spare Parts Threshold Ordering</a>
+      <a href="https://docs.google.com/document/d/1tTRBnkSTeb71VTM6A8t57pYb6rXO6coolr2AYvrTIJg/edit?usp=sharing" class="button-link">Spare Parts Ordering Process</a>
+      <a href="https://docs.google.com/document/d/1i0Lo3WMJCiILT6TmKo49FYMF-__l6pJnOATSgR76VAs/edit?usp=sharing" class="button-link">Spare Part GRN Process</a>
+      <a href="https://docs.google.com/document/d/1mgDn_7Mhy3zIVIOuO8TZzazLhy-qMkoMNv_ZADyOdCw/edit?usp=sharing" class="button-link">Inter Store Stock Transfer</a>
+      <a href="https://docs.google.com/document/d/1gJwr4B_m8iPsldrMsejg_F9Q8NsPUfuE8FyJ7AlPsjU/edit?usp=sharing" class="button-link">Bill Approval - Spare Parts Vendor</a>
+      <a href="https://docs.google.com/document/d/1V3GNFVoPGUP6WsajCuvPtY5EURhgbNbXso-5nEP-ulQ/edit?usp=sharing" class="button-link">Old Parts Inward Exchange</a>
+      <a href="https://docs.google.com/document/d/1mMlt2V0TjZ7rWDPuifN48JbqoCEIYOnu45H-eaizv4k/edit?usp=sharing" class="button-link">Spare Parts Audit - External</a>
+      <a href="https://docs.google.com/document/d/1LGS73CVer3aT2lLHGRV0At4kf0YQFB1v2RfG24lO-sI/edit?usp=sharing" class="button-link">Spare Parts Audit - Internal</a>
+      <a href="https://docs.google.com/document/d/1TpyVyAtz6iy9n3BhG_gQXpeO3tERLbNaev-eLCT3VJ0/edit?usp=sharing" class="button-link">Scrap Sale Process</a>
+    </div>
+  </div>
+ <script>
+    function toggleBox(id) {
+      const box = document.getElementById(id);
+      box.style.display = box.style.display === 'block' ? 'none' : 'block';
+    }
+  </script>
 </body>
 </html>
