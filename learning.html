@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Learn to Boost Your Process</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #2c3e50, #3498db);
+      color: white;
+    }
+
+    /* Top Navigation Bar */
+    .top-bar {
+      position: sticky;
+      top: 0;
+      background-color: #1b2a3a;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+    }
+
+    .top-bar-inner {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .back-button {
+      position: absolute;
+      left: 20px;
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .top-title {
+      font-size: 14px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 4px #000;
+    }
+
+    .button-list {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .topic-item {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .topic-button {
+      background-color: white;
+      color: #2c3e50;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .topic-button:hover {
+      background-color: #ecf0f1;
+      transform: scale(1.02);
+    }
+
+    .credit-line {
+      font-size: 11px;
+      color: #f1f1f1;
+      opacity: 0.75;
+      margin-top: 4px;
+      margin-left: 10px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="top-bar-inner">
+      <button class="back-button" onclick="history.back()">← Back</button>
+      <div class="top-title">Learn with Everest</div>
+    </div>
+  </div>
+
+  <!-- Centered Content -->
+  <div class="content-wrapper">
+    <h1>Learn to boost your process</h1>
+
+    <div class="button-list">
+      <div class="topic-item">
+        <button class="topic-button" onclick="openTopic('https://docs.google.com/presentation/d/1YhxM8qSL3BKpXbKeumszsRHzWJgymbR0Z49dn9_DQzk/edit?usp=sharing')">Lean Basics</button>
+        <div class="credit-line">by Ganesh Jathedan</div>
+      </div>
+
+      <div class="topic-item">
+        <button class="topic-button" onclick="openTopic('a3thinking.html')">A3 Thinking</button>
+        <div class="credit-line">by Ganesh Jathardan, Process Excellence Manager</div>
+      </div>
+
+      <div class="topic-item">
+        <button class="topic-button" onclick="openTopic('https://docs.google.com/presentation/d/1TEZtg05DTqSv_L58GpXmMN0Z-hH-7geYMAdnHdcmsaM/edit?usp=sharing')">Root Cause</button>
+        <div class="credit-line">by Rahul Jagtap, Process excellence Lead</div>
+      </div>
+
+      <div class="topic-item">
+        <button class="topic-button" onclick="openTopic('https://docs.google.com/presentation/d/1-we4FW1ufJhIOK9F9lpBm4FkVpjYm4OwJioDQn07ldk/edit?usp=sharing')">Development Cycle Using- ASPICE Standard</button>
+        <div class="credit-line">by Shaik MD Altaf, Process Excellence Executive</div>
+      </div>
+
+<div class="topic-item">
+  <div class="end-message">
+    Learning is never ending. We assure you to add more.
+  </div>
+  <div class="credit-line" style="color: #ccc; font-style: normal; margin-left: 0;">
+    by Process Excellence Team
+  </div>
+</div>
+
+<style>
+  .end-message {
+    background-color: #34495e;  /* darker blue-gray */
+    color: #f39c12;             /* bright orange */
+    font-weight: 700;
+    font-size: 16px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 0 10px #f39c12aa;
+  }
+  .credit-line {
+    font-size: 12px;
+    margin-top: 6px;
+    text-align: center;
+  }
+</style>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openTopic(url) {
+      window.open(url, '_blank');
+    }
+  </script>
+
+</body>
+</html>

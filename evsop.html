@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Fleet Menu</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #2a5298;
+    color: white;
+    padding-top: 60px; /* header height */
+  }
+
+  /* Fixed header with back, centered logo+title, right icons */
+  .fixed-header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 60px;
+    background-color: #1f3a70;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 999;
+  }
+
+  .back-button {
+    background-color: #ff4c4c;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .header-center {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    justify-content: center;
+  }
+
+  .header-center img {
+    height: 40px;
+    width: auto;
+  }
+
+  .header-center span {
+    font-weight: bold;
+    font-size: 22px;
+    user-select: none;
+  }
+
+  .icon-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-shrink: 0;
+  }
+
+  .home-icon,
+  .profile-icon {
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background-color: white;
+    color: #2a5298;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    z-index: 1000;
+  }
+
+  .profile-dropdown div {
+    margin-bottom: 5px;
+  }
+
+  .profile-dropdown button {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+  }
+
+  .nav-button {
+    width: 250px;
+    margin: 10px;
+    padding: 15px;
+    background-color: #ffffff;
+    color: #2a5298;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .nav-button:hover {
+    transform: scale(1.05);
+  }
+</style>
+</head>
+<body>
+
+  <div class="fixed-header">
+    <button class="back-button" onclick="history.back()">← Back</button>
+
+    <div class="header-center">
+      <!-- Replace src below with your downloaded logo file or a direct URL -->
+      <img src="YOUR_LOGO_URL_HERE" alt="Car Charging Logo" />
+      <span>EV SOP</span>
+    </div>
+
+    <div class="icon-group">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Home" class="home-icon" onclick="goHome()" />
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png" alt="Profile" class="profile-icon" onclick="toggleProfile()" />
+    </div>
+
+    <!-- Profile Dropdown -->
+    <div class="profile-dropdown" id="profileDropdown">
+      <div id="profileName">Name: -</div>
+      <div id="profileId">ID: -</div>
+      <div id="profileRole">Role: -</div>
+      <button onclick="logout()">Logout</button>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div class="button-container">
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1hife0ekk4fvgk8WWPpRGoAkVFnv5wMjameNOCLYKiOc/edit?usp=sharing')">Car Readiness</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1ov0PpPstd1g0WPOYibP1ZFYroX30nVoqlX0zOtDCvBM/edit?usp=sharing')">CheckIn and Hub Charging Process</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1HVju0RsHkueGC2h9KjlxOIxCU4pZQ7L_pqdmWj9A32k/edit?usp=sharing')">Audit</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1FIyTSf55fPtIszYHm_MwhCjFU1Mvnf3N2CQbcPzlYao/edit?usp=sharing')">Vehicle Allocation</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1VTwXFr0ZTB2CXCl5OAYQ_L_7F3RSXdC0VPjgWpIzBcY/edit?usp=sharing')">Driver Readiness</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1dWsHoaK1ypz25CN7Tbr1SnHWwj7sRBN-sQdEZgenAyU/edit?usp=sharing')">Other Station Charging</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1LrQLtwbRjrkB5JSNYs7aWgtpv1rafvmBQpYsdHUptfk/edit?usp=sharing')">Vehicle Check out</button>
+    <button class="nav-button" onclick="openLink('https://docs.google.com/document/d/1Sc7v18_guSrgwimh51xI_zYXC5VJs-W0_C5XCUhLP2A/edit?usp=sharing')">Car Drop Off</button>
+  </div>
+
+<script>
+  const employeeName = localStorage.getItem("employeeName");
+  const employeeId = localStorage.getItem("employeeId");
+  const employeeRole = localStorage.getItem("employeeRole");
+
+  const profileDropdown = document.getElementById("profileDropdown");
+
+  // Load profile info
+  document.getElementById("profileName").innerText = `Name: ${employeeName || '-'}`;
+  document.getElementById("profileId").innerText = `ID: ${employeeId || '-'}`;
+  document.getElementById("profileRole").innerText = `Role: ${employeeRole || '-'}`;
+
+  function openLink(page) {
+    window.open(page, "_blank");
+  }
+
+  function goHome() {
+    window.location.href = "rolepage.html";
+  }
+
+  function logout() {
+    localStorage.clear();
+    window.location.href = "index.html";
+  }
+
+  function toggleProfile() {
+    profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
+  }
+
+  // Close dropdown if clicked outside
+  document.addEventListener("click", function(e) {
+    if (!e.target.closest('.profile-icon') && !e.target.closest('#profileDropdown')) {
+      profileDropdown.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
