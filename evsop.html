@@ -12,7 +12,7 @@
     padding-top: 60px; /* header height */
   }
 
-  /* Fixed header with back, centered logo+title, right icons */
+  /* Fixed header with back, logo+title center, home button right */
   .fixed-header {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -34,7 +34,6 @@
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
-    flex-shrink: 0;
   }
 
   .header-center {
@@ -56,43 +55,12 @@
     user-select: none;
   }
 
-  .icon-group {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-shrink: 0;
-  }
-
-  .home-icon,
-  .profile-icon {
-    width: 26px;
-    height: 26px;
-    cursor: pointer;
-  }
-
-  .profile-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 15px;
-    background-color: white;
-    color: #2a5298;
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 14px;
-    display: none;
-    box-shadow: 0 0 10px rgba(0,0,0,0.2);
-    z-index: 1000;
-  }
-
-  .profile-dropdown div {
-    margin-bottom: 5px;
-  }
-
-  .profile-dropdown button {
-    background-color: #ff4c4c;
-    color: white;
+  .home-button {
+    background-color: #4CAF50;
     border: none;
-    padding: 6px 10px;
+    color: white;
+    padding: 8px 12px;
+    font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
   }
@@ -129,23 +97,11 @@
     <button class="back-button" onclick="history.back()">← Back</button>
 
     <div class="header-center">
-      <!-- Replace src below with your downloaded logo file or a direct URL -->
-      <img src="YOUR_LOGO_URL_HERE" alt="Car Charging Logo" />
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWnWi-_RpYZRB0VtleuZsELzZRI9pNobh34g&s" alt="Car Charging Logo" />
       <span>EV SOP</span>
     </div>
 
-    <div class="icon-group">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/home.png" alt="Home" class="home-icon" onclick="goHome()" />
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png" alt="Profile" class="profile-icon" onclick="toggleProfile()" />
-    </div>
-
-    <!-- Profile Dropdown -->
-    <div class="profile-dropdown" id="profileDropdown">
-      <div id="profileName">Name: -</div>
-      <div id="profileId">ID: -</div>
-      <div id="profileRole">Role: -</div>
-      <button onclick="logout()">Logout</button>
-    </div>
+    <button class="home-button" onclick="goHome()">Home</button>
   </div>
 
   <!-- Buttons -->
@@ -161,40 +117,13 @@
   </div>
 
 <script>
-  const employeeName = localStorage.getItem("employeeName");
-  const employeeId = localStorage.getItem("employeeId");
-  const employeeRole = localStorage.getItem("employeeRole");
-
-  const profileDropdown = document.getElementById("profileDropdown");
-
-  // Load profile info
-  document.getElementById("profileName").innerText = `Name: ${employeeName || '-'}`;
-  document.getElementById("profileId").innerText = `ID: ${employeeId || '-'}`;
-  document.getElementById("profileRole").innerText = `Role: ${employeeRole || '-'}`;
-
   function openLink(page) {
     window.open(page, "_blank");
   }
 
   function goHome() {
-    window.location.href = "rolepage.html";
+    window.location.href = "rolespage.html";
   }
-
-  function logout() {
-    localStorage.clear();
-    window.location.href = "index.html";
-  }
-
-  function toggleProfile() {
-    profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
-  }
-
-  // Close dropdown if clicked outside
-  document.addEventListener("click", function(e) {
-    if (!e.target.closest('.profile-icon') && !e.target.closest('#profileDropdown')) {
-      profileDropdown.style.display = 'none';
-    }
-  });
 </script>
 
 </body>
