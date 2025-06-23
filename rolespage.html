@@ -1,298 +1,199 @@
-.<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EVEREST FLEET - OTP Login</title>
+  <title>Roles - EVEREST FLEET</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-image: url('https://everestfleet.com/wp-content/uploads/2025/01/EiP_Mob-Banner.jpg');
-      background-size: 60% 97%;
-      background-position: left left;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      height: 100vh;
-      padding-right: 50px;
-      box-sizing: border-box;
-    }
-
-    .container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .pdms-header {
       text-align: center;
-      margin-bottom: 10px;
-      color: #133152;
-    }
-
-    .pdms-header h1 {
-      font-size: 28px;
       margin: 0;
-      font-weight: bold;
-    }
-
-    .pdms-header p {
-      margin: 2px 0;
-      font-size: 12px;
-      color: #333;
-    }
-
-    .dialog-box {
-      background: rgba(255, 255, 255, 0.9);
-      padding: 20px 20px 40px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-      text-align: center;
+      padding-top: 60px;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
       position: relative;
     }
 
-    .dialog-box h1 {
-      font-size: 18px;
+    .header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: linear-gradient(45deg, #1886cf, #091d33);
+      padding: 15px 0;
+      font-size: 24px;
       font-weight: bold;
-      color: #007BFF;
-      margin-bottom: 15px;
     }
 
-    input {
-      padding: 8px;
-      font-size: 14px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      width: 100%;
-      text-align: center;
-      margin-bottom: 5px;
-      box-sizing: border-box;
-    }
-
-    input:disabled {
-      background-color: #f0f0f0;
-      cursor: not-allowed;
-    }
-
-    button {
-      padding: 8px;
-      font-size: 14px;
-      width: 100%;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
+    .user-icon {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      width: 30px;
+      height: 30px;
+      background-color: white;
+      color: black;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
       cursor: pointer;
-      transition: 0.3s ease;
-      margin-top: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
-    button:hover {
-      background-color: #133152;
-    }
-
-    button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-
-    #message {
-      font-size: 12px;
-      margin-top: 3px;
+    .popup {
       display: none;
-      text-align: center;
+      position: absolute;
+      top: 50px;
+      right: 10px;
+      background: white;
+      color: black;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      font-size: 14px;
+      width: 180px;
+      text-align: left;
     }
 
-    .success {
-      color: green;
+    .popup div {
+      margin-bottom: 5px;
     }
 
-    .error {
+    .popup .close-btn {
+      text-align: right;
+      font-size: 12px;
+      cursor: pointer;
       color: red;
     }
 
-    .button-row {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 6px;
+    .logo {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      width: 80px;
+      height: auto;
+      filter: none;
     }
 
-    .button-row button {
-      width: 48%;
-      font-size: 11px;
-      padding: 4px;
-      background-color: #ccc;
-      color: black;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.3s ease;
-    }
-
-    .button-row button:hover {
-      background-color: #bbb;
-    }
-
-    .loader {
-      display: none;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(0, 123, 255, 0.2);
-      border-top: 3px solid #007BFF;
+    .circle {
+      width: 140px;
+      height: 140px;
+      background: linear-gradient(45deg, #ff9800, #ff5722);
+      color: white;
       border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: auto;
-      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      margin: 20px;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .circle:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
     }
 
-    .hidden {
-      display: none;
+    .button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(45deg, #4CAF50, #388E3C);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease-in-out;
     }
 
-    .beta-text {
-      position: absolute;
-      bottom: 8px;
-      left: 0;
-      right: 0;
-      text-align: center;
-      font-size: 11px;
-      color: #555;
+    .button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .logout-btn {
+      margin-top: 10px;
+      width: 100%;
+      padding: 6px;
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover {
+      background-color: #c9302c;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="pdms-header">
-      <h1>P D M S</h1>
-      <p>Process Document Management System</p>
-    </div>
 
-    <div class="dialog-box">
-      <h1>EVEREST FLEET</h1>
-      <input type="text" id="employee-id" placeholder="Enter Employee ID" />
-      <button id="otp-button" onclick="requestOTP()">Request OTP</button>
+  <div class="header">P D M S</div>
 
-      <input type="text" id="otp-input" placeholder="Enter OTP" class="hidden" />
-      <div id="message"></div>
+  <!-- Person Icon at Top Right -->
+  <div class="user-icon" onclick="togglePopup()">👤</div>
 
-      <button id="login-button" onclick="verifyOTP()" class="hidden">Login</button>
-
-      <div class="button-row hidden" id="small-buttons">
-        <button id="resend-otp" onclick="requestOTP()">Resend OTP</button>
-        <button id="reenter-id" onclick="resetFields()">Re-enter ID</button>
-      </div>
-
-      <div id="loader" class="loader"></div>
-
-      <div class="beta-text">Beta Version</div>
+  <!-- User Details Pop-up -->
+  <div class="popup" id="user-popup">
+    <div class="close-btn" onclick="togglePopup()">✖</div>
+    <div><b>Name:</b> <span id="user-name">Loading...</span></div>
+    <div><b>ID:</b> <span id="user-id">Loading...</span></div>
+    <div><b>Role:</b> <span id="user-role">Loading...</span></div>
+    <div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
     </div>
   </div>
 
-<script>
-const scriptURL = "https://script.google.com/macros/s/AKfycbyu4rPT1bVKlb-w-KgpJpyazamYK66qWalUp8yklZddwNgWMkdySBqGVgdxuYTnj3Ce/exec";
+  <h2>Welcome To Everest Fleet</h2>
+  <h5>Where you find Excellence in Process</h5>
 
-function showMessage(message, type) {
-  const messageBox = document.getElementById('message');
-  messageBox.textContent = message;
-  messageBox.className = type;
-  messageBox.style.display = "block";
-}
+ <!-- <button class="button" onclick="window.location.href='Documentpage.html'">Process Document</button>-->
+  <button class="button" onclick="window.location.href='functions.html'">Process Document</button>
+  <br><br>
+  <div class="button" onclick="window.location.href='learning.html'">Learning Documents</div>
+  <br><br>
+  <button class="button" onclick="window.location.href='document-options.html'">Raise Document Request<br> (change request)</button>
+  <br><br>
+  <button class="button" onclick="openInNewTab()">Audit Report</button> <script>
+    function openInNewTab() {
+      window.open(
+        'https://docs.google.com/spreadsheets/d/1CLh_7_L3uS_balM3aq54QuIOo9OQN-m_cWAioA7axEk/edit?gid=1669167244#gid=1669167244',
+        '_blank'
+      );
+    }
+  </script>
+  <img src="Everest.jpg" class="logo" alt="EVEREST FLEET Logo">
 
-function requestOTP() {
-  const employeeID = document.getElementById('employee-id').value.trim();
-  const otpButton = document.getElementById("otp-button");
-  const loader = document.getElementById("loader");
-
-  if (!employeeID) {
-    showMessage("Invalid ID", "error");
-    return;
-  }
-
-  otpButton.disabled = true;
-  loader.style.display = "block";
-
-  fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        showMessage("OTP sent successfully!", "success");
-        document.getElementById("otp-input").classList.remove("hidden");
-        document.getElementById("login-button").classList.remove("hidden");
-        document.getElementById("small-buttons").classList.remove("hidden");
-        otpButton.classList.add("hidden");
-      } else {
-        showMessage("Invalid ID", "error");
-        otpButton.disabled = false;
-      }
-      loader.style.display = "none";
-    })
-    .catch(error => {
-      console.error("Fetch Error:", error);
-      showMessage("Network error", "error");
-      loader.style.display = "none";
-      otpButton.disabled = false;
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const employeeID = localStorage.getItem("employeeID") || "Unknown";
+      const userRole = localStorage.getItem("userRole") || "Unknown Role";
+      const userName = localStorage.getItem("userName") || "Unknown";
+  
+      document.getElementById("user-id").innerText = employeeID;
+      document.getElementById("user-role").innerText = userRole;
+      document.getElementById("user-name").innerText = userName;
     });
-}
 
-function verifyOTP() {
-  const employeeID = document.getElementById('employee-id').value.trim();
-  const otp = document.getElementById('otp-input').value.trim();
-  const loginButton = document.getElementById("login-button");
-  const loader = document.getElementById("loader");
+    function togglePopup() {
+      const popup = document.getElementById("user-popup");
+      popup.style.display = popup.style.display === "block" ? "none" : "block";
+    }
 
-  if (!otp) {
-    showMessage("Invalid OTP", "error");
-    return;
-  }
-
-  loginButton.disabled = true;
-  loader.style.display = "block";
-
-  fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}&otp=${encodeURIComponent(otp)}`)
-    .then(response => response.json())
-    .then(data => {
-      if (data.employeeID) {
-        localStorage.setItem("employeeID", data.employeeID);
-        localStorage.setItem("userRole", data.role);
-        localStorage.setItem("userName", data.name);
-        localStorage.setItem("allowedPages", JSON.stringify(data.allowedPages));
-        showMessage("Login Successful! Redirecting...", "success");
-        setTimeout(() => { window.location.href = "rolespage.html"; }, 1000);
-      } else {
-        showMessage("Invalid OTP", "error");
-        loginButton.disabled = false;
-      }
-      loader.style.display = "none";
-    })
-    .catch(error => {
-      console.error("Fetch Error:", error);
-      showMessage("Network error", "error");
-      loader.style.display = "none";
-      loginButton.disabled = false;
-    });
-}
-
-function resetFields() {
-  document.getElementById("employee-id").value = "";
-  document.getElementById("otp-input").value = "";
-  document.getElementById("otp-input").classList.add("hidden");
-  document.getElementById("login-button").classList.add("hidden");
-  document.getElementById("small-buttons").classList.add("hidden");
-  document.getElementById("message").style.display = "none";
-
-  const otpButton = document.getElementById("otp-button");
-  otpButton.classList.remove("hidden");
-  otpButton.disabled = false;
-}
-</script>
+    function logout() {
+      localStorage.clear(); // Clear all local storage data
+      window.location.href = 'index.html'; // Redirect to login/index page
+    }
+  </script>
 
 </body>
 </html>
