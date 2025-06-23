@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Process Documents</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background-color: #133152;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .back-btn, .home-btn {
+      position: absolute;
+      top: 15px;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .back-btn { left: 15px; }
+    .home-btn { right: 15px; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+    .btn {
+      padding: 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .btn img {
+      width: 20px;
+      height: 20px;
+    }
+    footer {
+      background-color: #133152;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <button class="back-btn" onclick="history.back()">
+    <img src="https://img.icons8.com/ios-filled/20/ffffff/left.png" alt="Back"> Back
+  </button>
+  Process Document based on Functions
+  <button class="home-btn" onclick="location.href='rolespage.html'">
+    <img src="https://img.icons8.com/ios-filled/20/ffffff/home.png" alt="Home"> Home
+  </button>
+</header>
+
+<div class="grid" id="role-buttons"></div>
+
+<footer>
+  Beta version <br> Developed by Process Excellence Team <BR>For queries: process.excellence@everestfleet.com
+</footer>
+
+<script>
+  const sections = [
+    { name: "Administration", page: "admin.html", icon: "https://img.icons8.com/ios-filled/50/admin-settings-male.png" },
+    { name: "Operations", page: "operations.html", icon: "https://img.icons8.com/ios-filled/50/000000/process.png" },
+    { name: "Repairs and Maintenance", page: "repairs.html", icon: "https://img.icons8.com/ios-filled/50/maintenance.png" },
+    { name: "Recruitment", page: "Telecaller_SOP.html", icon: "https://img.icons8.com/ios-filled/50/resume.png" },
+    { name: "Human Resources", page: "hrdoc.html", icon: "https://img.icons8.com/ios-filled/50/personnel.png" },
+    { name: "Process Excellence", page: "Process Excellence Documents.html", icon: "https://img.icons8.com/ios-filled/50/checked.png" },
+    { name: "Common Documents", page: "common.html", icon: "https://img.icons8.com/ios-filled/50/documents.png" }
+  ];
+
+  // Simulated Employee Role data (Replace with your API/Google Sheet)
+  const employeeData = {
+    "EMP001": { name: "Altaf", department: "Operations", allowedSections: ["Operations", "Common Documents"] },
+    "EMP002": { name: "Rahul", department: "Repairs", allowedSections: ["Repairs and Maintenance", "Common Documents"] },
+    "EMP003": { name: "Priya", department: "Human Resources", allowedSections: ["Human Resources", "Common Documents"] },
+    "EMP004": { name: "Vikram", department: "Admin", allowedSections: sections.map(s => s.name) }
+  };
+
+  localStorage.setItem("employeeID", "EMP001"); // For demo/testing only
+
+  const employeeID = localStorage.getItem("employeeID");
+  const currentUser = employeeData[employeeID];
+
+  const grid = document.getElementById("role-buttons");
+
+  sections.forEach(section => {
+    const button = document.createElement("button");
+    button.className = "btn";
+    button.innerHTML = `<img src="${section.icon}" alt="${section.name} Icon">${section.name}`;
+    button.onclick = () => {
+      location.href = section.page;
+      /*
+      if (!currentUser) {
+        alert("Invalid user. Please login again.");
+        return;
+      }
+      if (currentUser.allowedSections.includes(section.name)) {
+        location.href = section.page;
+      } else {
+        alert(`You are from "${currentUser.department}" department and you are trying to open "${section.name}" data.\nYou are allowed to open only your department pages.`);
+      }
+      */
+    };
+    grid.appendChild(button);
+  });
+</script>
+
+</body>
+</html>
