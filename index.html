@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+.<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -8,8 +8,8 @@
     body {
       font-family: Arial, sans-serif;
       background-image: url('https://everestfleet.com/wp-content/uploads/2025/01/EiP_Mob-Banner.jpg');
-      background-size: cover;
-      background-position: center center;
+      background-size: 60% 97%;
+      background-position: left left;
       background-repeat: no-repeat;
       background-attachment: fixed;
       display: flex;
@@ -17,18 +17,44 @@
       align-items: center;
       height: 100vh;
       padding-right: 50px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pdms-header {
+      text-align: center;
+      margin-bottom: 10px;
+      color: #133152;
+    }
+
+    .pdms-header h1 {
+      font-size: 28px;
+      margin: 0;
+      font-weight: bold;
+    }
+
+    .pdms-header p {
+      margin: 2px 0;
+      font-size: 12px;
+      color: #333;
     }
 
     .dialog-box {
       background: rgba(255, 255, 255, 0.9);
-      padding: 20px;
+      padding: 20px 20px 40px;
       border-radius: 10px;
       width: 300px;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
       text-align: center;
+      position: relative;
     }
 
-    h1 {
+    .dialog-box h1 {
       font-size: 18px;
       font-weight: bold;
       color: #007BFF;
@@ -42,7 +68,7 @@
       border-radius: 5px;
       width: 100%;
       text-align: center;
-      margin-bottom: 5px; /* Reduced spacing */
+      margin-bottom: 5px;
       box-sizing: border-box;
     }
 
@@ -61,7 +87,7 @@
       border-radius: 5px;
       cursor: pointer;
       transition: 0.3s ease;
-      margin-top: 6px; /* Reduced spacing */
+      margin-top: 6px;
     }
 
     button:hover {
@@ -75,7 +101,7 @@
 
     #message {
       font-size: 12px;
-      margin-top: 3px; /* Reduced spacing between OTP input and text */
+      margin-top: 3px;
       display: none;
       text-align: center;
     }
@@ -88,11 +114,10 @@
       color: red;
     }
 
-    /* Small buttons for "Resend OTP" & "Re-enter ID" */
     .button-row {
       display: flex;
       justify-content: space-between;
-      margin-top: 6px; /* Reduced spacing from Login button */
+      margin-top: 6px;
     }
 
     .button-row button {
@@ -131,120 +156,131 @@
     .hidden {
       display: none;
     }
+
+    .beta-text {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11px;
+      color: #555;
+    }
   </style>
 </head>
 <body>
-
-  <div class="dialog-box">
-    <h1>EVEREST FLEET</h1>
-    <input type="text" id="employee-id" placeholder="Enter Employee ID" />
-    <button id="otp-button" onclick="requestOTP()">Request OTP</button>
-    
-    <input type="text" id="otp-input" placeholder="Enter OTP" class="hidden" />
-    <div id="message"></div>
-
-    <button id="login-button" onclick="verifyOTP()" class="hidden">Login</button>
-
-    <!-- Small buttons placed side by side -->
-    <div class="button-row hidden" id="small-buttons">
-      <button id="resend-otp" onclick="requestOTP()">Resend OTP</button>
-      <button id="reenter-id" onclick="resetFields()">Re-enter ID</button>
+  <div class="container">
+    <div class="pdms-header">
+      <h1>P D M S</h1>
+      <p>Process Document Management System</p>
     </div>
 
-    <div id="loader" class="loader"></div>
+    <div class="dialog-box">
+      <h1>EVEREST FLEET</h1>
+      <input type="text" id="employee-id" placeholder="Enter Employee ID" />
+      <button id="otp-button" onclick="requestOTP()">Request OTP</button>
+
+      <input type="text" id="otp-input" placeholder="Enter OTP" class="hidden" />
+      <div id="message"></div>
+
+      <button id="login-button" onclick="verifyOTP()" class="hidden">Login</button>
+
+      <div class="button-row hidden" id="small-buttons">
+        <button id="resend-otp" onclick="requestOTP()">Resend OTP</button>
+        <button id="reenter-id" onclick="resetFields()">Re-enter ID</button>
+      </div>
+
+      <div id="loader" class="loader"></div>
+
+      <div class="beta-text">Beta Version</div>
+    </div>
   </div>
 
-  <script>
-    const scriptURL = "https://script.google.com/macros/s/AKfycbyu4rPT1bVKlb-w-KgpJpyazamYK66qWalUp8yklZddwNgWMkdySBqGVgdxuYTnj3Ce/exec";
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbyu4rPT1bVKlb-w-KgpJpyazamYK66qWalUp8yklZddwNgWMkdySBqGVgdxuYTnj3Ce/exec";
 
-    function showMessage(message, type) {
-      const messageBox = document.getElementById('message');
-      messageBox.textContent = message;
-      messageBox.className = type;
-      messageBox.style.display = "block";
-    }
+function showMessage(message, type) {
+  const messageBox = document.getElementById('message');
+  messageBox.textContent = message;
+  messageBox.className = type;
+  messageBox.style.display = "block";
+}
 
-    function requestOTP() {
-      const employeeID = document.getElementById('employee-id').value.trim();
-      const otpButton = document.getElementById("otp-button");
-      const loader = document.getElementById("loader");
+function requestOTP() {
+  const employeeID = document.getElementById('employee-id').value.trim();
+  const otpButton = document.getElementById("otp-button");
+  const loader = document.getElementById("loader");
 
-      if (!employeeID) {
+  if (!employeeID) {
+    showMessage("Invalid ID", "error");
+    return;
+  }
+
+  otpButton.disabled = true;
+  loader.style.display = "block";
+
+  fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        showMessage("OTP sent successfully!", "success");
+        document.getElementById("otp-input").classList.remove("hidden");
+        document.getElementById("login-button").classList.remove("hidden");
+        document.getElementById("small-buttons").classList.remove("hidden");
+        otpButton.classList.add("hidden");
+      } else {
         showMessage("Invalid ID", "error");
-        return;
+        otpButton.disabled = false;
       }
+      loader.style.display = "none";
+    })
+    .catch(error => {
+      console.error("Fetch Error:", error);
+      showMessage("Network error", "error");
+      loader.style.display = "none";
+      otpButton.disabled = false;
+    });
+}
 
-      otpButton.disabled = true;
-      loader.style.display = "block";
+function verifyOTP() {
+  const employeeID = document.getElementById('employee-id').value.trim();
+  const otp = document.getElementById('otp-input').value.trim();
+  const loginButton = document.getElementById("login-button");
+  const loader = document.getElementById("loader");
 
-      fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Server Response:", data);
+  if (!otp) {
+    showMessage("Invalid OTP", "error");
+    return;
+  }
 
-          if (data.success) {
-            showMessage("OTP sent successfully!", "success");
+  loginButton.disabled = true;
+  loader.style.display = "block";
 
-            document.getElementById("otp-input").classList.remove("hidden");
-            document.getElementById("login-button").classList.remove("hidden");
-            document.getElementById("small-buttons").classList.remove("hidden");
-            otpButton.classList.add("hidden");
-          } else {
-            showMessage("Invalid ID", "error");
-            otpButton.disabled = false;
-          }
-          loader.style.display = "none";
-        })
-        .catch(error => {
-          console.error("Fetch Error:", error);
-          showMessage("Network error", "error");
-          loader.style.display = "none";
-          otpButton.disabled = false;
-        });
-    }
-
-    function verifyOTP() {
-      const employeeID = document.getElementById('employee-id').value.trim();
-      const otp = document.getElementById('otp-input').value.trim();
-      const loginButton = document.getElementById("login-button");
-      const loader = document.getElementById("loader");
-
-      if (!otp) {
+  fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}&otp=${encodeURIComponent(otp)}`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.employeeID) {
+        localStorage.setItem("employeeID", data.employeeID);
+        localStorage.setItem("userRole", data.role);
+        localStorage.setItem("userName", data.name);
+        localStorage.setItem("allowedPages", JSON.stringify(data.allowedPages));
+        showMessage("Login Successful! Redirecting...", "success");
+        setTimeout(() => { window.location.href = "rolespage.html"; }, 1000);
+      } else {
         showMessage("Invalid OTP", "error");
-        return;
+        loginButton.disabled = false;
       }
+      loader.style.display = "none";
+    })
+    .catch(error => {
+      console.error("Fetch Error:", error);
+      showMessage("Network error", "error");
+      loader.style.display = "none";
+      loginButton.disabled = false;
+    });
+}
 
-      loginButton.disabled = true;
-      loader.style.display = "block";
-
-      fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}&otp=${encodeURIComponent(otp)}`)
-        .then(response => response.json())
-        .then(data => {
-          console.log("Server Response:", data);
-
-          if (data.employeeID) {
-            localStorage.setItem("employeeID", data.employeeID);
-            localStorage.setItem("userRole", data.role);
-            localStorage.setItem("userName", data.name);
-            localStorage.setItem("allowedPages", JSON.stringify(data.allowedPages));
-            showMessage("Login Successful! Redirecting...", "success");
-
-            setTimeout(() => { window.location.href = "rolespage.html"; }, 1000);
-          } else {
-            showMessage("Invalid OTP", "error");
-            loginButton.disabled = false;
-          }
-          loader.style.display = "none";
-        })
-        .catch(error => {
-          console.error("Fetch Error:", error);
-          showMessage("Network error", "error");
-          loader.style.display = "none";
-          loginButton.disabled = false;
-        });
-    }
-
-    function resetFields() {
+function resetFields() {
   document.getElementById("employee-id").value = "";
   document.getElementById("otp-input").value = "";
   document.getElementById("otp-input").classList.add("hidden");
@@ -252,13 +288,11 @@
   document.getElementById("small-buttons").classList.add("hidden");
   document.getElementById("message").style.display = "none";
 
-  // ✅ Show & enable "Request OTP" button again
   const otpButton = document.getElementById("otp-button");
   otpButton.classList.remove("hidden");
   otpButton.disabled = false;
 }
-
-  </script>
+</script>
 
 </body>
 </html>
