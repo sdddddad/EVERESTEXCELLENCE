@@ -6,371 +6,73 @@
   <title>Process Change Request - EVEREST FLEET</title>
   
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background-color: #f9fafb;
-      color: #111827;
-      line-height: 1.6;
-    }
-
-    .container {
-      min-height: 100vh;
-      padding: 1rem;
-    }
-
-    .form-container {
-      max-width: 1024px;
-      margin: 0 auto;
-    }
-    .back-button {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: linear-gradient(45deg, #d32f2f, #b71c1c);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .header {
-  text-align: center;
-  margin-bottom: 1rem;
-  padding: 1rem;
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
-  border-radius: 0.75rem;
-  color: white;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.header h1 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-.header p {
-  font-size: 1rem;
-  opacity: 0.9;
-}
-
-    .progress-container {
-      margin-bottom: 2rem;
-    }
-
-    .progress-steps {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
-    .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      flex: 1;
-    }
-
-    .step-number {
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-      transition: all 0.3s ease;
-      cursor: pointer;
-      border: none;
-    }
-
-    .step-number.active {
-      background-color: #3b82f6;
-      color: white;
-    }
-
-    .step-number.completed {
-      background-color: #1e40af;
-      color: white;
-    }
-
-    .step-number.pending {
-      background-color: #e5e7eb;
-      color: #6b7280;
-    }
-
-    .step-number:hover {
-      transform: scale(1.1);
-    }
-
-    .step-title {
-      font-size: 0.75rem;
-      text-align: center;
-      max-width: 5rem;
-      color: #4b5563;
-    }
-
-    .step-connector {
-      flex: 1;
-      height: 0.25rem;
-      margin: 0 0.25rem;
-      border-radius: 0.125rem;
-    }
-
-    .step-connector.completed {
-      background-color: #1e40af;
-    }
-
-    .step-connector.pending {
-      background-color: #e5e7eb;
-    }
-
-    .form-card {
-      background: white;
-      border-radius: 0.75rem;
-      padding: 2rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      margin-bottom: 1rem;
-    }
-
-    .form-step {
-      display: none;
-    }
-
-    .form-step.active {
-      display: block;
-    }
-
-    .step-header {
-      border-left: 4px solid #3b82f6;
-      padding-left: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .step-title-main {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: #1e40af;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-
-    label {
-      font-weight: 500;
-      margin-bottom: 0.5rem;
-      color: #374151;
-    }
-
-    .required {
-      color: #ef4444;
-    }
-
-    input, select, textarea {
-      padding: 0.75rem;
-      border: 1px solid #d1d5db;
-      border-radius: 0.375rem;
-      font-size: 0.875rem;
-      transition: all 0.2s ease;
-      background-color: white;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 2rem;
-      gap: 1rem;
-    }
-
-    button {
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.375rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      border: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .btn-primary {
-      background-color: #1e40af;
-      color: white;
-    }
-
-    .btn-primary:hover {
-      background-color: #3b82f6;
-    }
-
-    .btn-secondary {
-      background-color: #f3f4f6;
-      color: #374151;
-      border: 1px solid #d1d5db;
-    }
-
-    .btn-secondary:hover {
-      background-color: #e5e7eb;
-    }
-
-    .btn-secondary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .invisible {
-      visibility: hidden;
-    }
-
-    .review-section {
-      background-color: #f9fafb;
-      padding: 1.5rem;
-      border-radius: 0.5rem;
-      margin-bottom: 1rem;
-    }
-
-    .review-title {
-      font-weight: 600;
-      margin-bottom: 1rem;
-      color: #1e40af;
-    }
-
-    .review-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .review-item {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .review-label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: #6b7280;
-      margin-bottom: 0.25rem;
-    }
-
-    .review-value {
-      color: #111827;
-      white-space: pre-wrap;
-    }
-
-    .disclaimer {
-      text-align: center;
-      font-size: 0.875rem;
-      color: #6b7280;
-      margin-top: 1rem;
-    }
-
-    .success-message {
-      display: none;
-      text-align: center;
-      padding: 2rem;
-      background-color: #f0fdf4;
-      border: 1px solid #22c55e;
-      border-radius: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .success-icon {
-      font-size: 3rem;
-      color: #22c55e;
-      margin-bottom: 1rem;
-    }
-
-    .success-text {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #16a34a;
-    }
-
-    @media (max-width: 768px) {
-      .container {
-        padding: 0.5rem;
-      }
-
-      .header {
-        padding: 1.5rem;
-      }
-
-      .header h1 {
-        font-size: 1.5rem;
-      }
-
-      .form-card {
-        padding: 1.5rem;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .progress-steps {
-        flex-wrap: wrap;
-        gap: 0.5rem;
-      }
-
-      .step {
-        flex: none;
-        margin-bottom: 0.5rem;
-      }
-
-      .step-connector {
-        display: none;
-      }
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f9fafb; color: #111827; line-height: 1.6; }
+    .container { min-height: 100vh; padding: 1rem; }
+    .form-container { max-width: 1024px; margin: 0 auto; }
+    .back-button { position: absolute; top: 20px; left: 20px; background: linear-gradient(45deg, #d32f2f, #b71c1c); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; z-index: 10; }
+    .header { text-align: center; margin-bottom: 2rem; padding: 2rem; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); border-radius: 0.75rem; color: white; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+    .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .header p { font-size: 1rem; opacity: 0.9; }
+    .progress-container { margin-bottom: 2rem; padding: 0 1rem; }
+    .progress-steps { display: flex; justify-content: space-between; align-items: flex-start; }
+    .step { display: flex; flex-direction: column; align-items: center; flex: 0 1 auto; text-align: center; }
+    .step-number { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; transition: all 0.3s ease; cursor: pointer; border: none; }
+    .step-number.active { background-color: #3b82f6; color: white; transform: scale(1.1); }
+    .step-number.completed { background-color: #1e40af; color: white; }
+    .step-number.pending { background-color: #e5e7eb; color: #6b7280; }
+    .step-number:not(.active):hover { transform: scale(1.1); }
+    .step-title { font-size: 0.75rem; text-align: center; max-width: 5rem; color: #4b5563; }
+    .step-connector { flex: 1; height: 0.25rem; margin: 1.125rem 0.5rem 0 0.5rem; border-radius: 0.125rem; }
+    .step-connector.completed { background-color: #1e40af; }
+    .step-connector.pending { background-color: #e5e7eb; }
+    .form-card { background: white; border-radius: 0.75rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; }
+    .form-step { display: none; }
+    .form-step.active { display: block; animation: fadeIn 0.5s; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .step-header { border-left: 4px solid #3b82f6; padding-left: 1rem; margin-bottom: 1.5rem; }
+    .step-title-main { font-size: 1.25rem; font-weight: 600; color: #1e40af; }
+    .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    label { font-weight: 500; margin-bottom: 0.5rem; color: #374151; }
+    .required { color: #ef4444; }
+    input, select, textarea { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; transition: all 0.2s ease; background-color: white; }
+    input[readonly] { background-color: #f3f4f6; cursor: not-allowed; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+    textarea { resize: vertical; min-height: 100px; }
+    .hidden { display: none; }
+    .checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; background-color: #f9fafb; padding: 1rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; }
+    .checkbox-item { display: flex; align-items: center; position: relative; }
+    .checkbox-item input[type="checkbox"] { height: 1.25rem; width: 1.25rem; margin-right: 0.75rem; accent-color: #1e40af; cursor: pointer; }
+    .checkbox-item label { margin-bottom: 0; font-weight: 500; cursor: pointer; }
+    .buttons { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
+    button { padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; border: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-primary { background-color: #1e40af; color: white; }
+    .btn-primary:hover:not(:disabled) { background-color: #3b82f6; }
+    .btn-secondary { background-color: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
+    .btn-secondary:hover { background-color: #e5e7eb; }
+    .btn-primary:disabled, .btn-secondary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .invisible { visibility: hidden; }
+    .review-section { background-color: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+    .review-title { font-weight: 600; margin-bottom: 1rem; color: #1e40af; }
+    .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+    .review-item { display: flex; flex-direction: column; }
+    .review-label { font-size: 0.875rem; font-weight: 500; color: #6b7280; margin-bottom: 0.25rem; }
+    .review-value { color: #111827; white-space: pre-wrap; font-weight: 600; }
+    .disclaimer { text-align: center; font-size: 0.875rem; color: #6b7280; margin-top: 1rem; }
+    .success-message { display: none; flex-direction: column; align-items: center; text-align: center; padding: 2rem; background-color: #f0fdf4; border: 1px solid #22c55e; border-radius: 0.5rem; margin-top: 1rem; }
+    .success-icon { font-size: 3rem; color: #22c55e; margin-bottom: 1rem; }
+    .success-text { font-size: 1.2rem; font-weight: 600; color: #16a34a; }
+    .ticket-number { margin-top: 1rem; font-size: 1rem; color: #374151; }
+    @media (max-width: 768px) { .container { padding: 0.5rem; } .header { padding: 1.5rem; } .header h1 { font-size: 1.5rem; } .form-card { padding: 1.5rem; } .form-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 600px) { .back-button { top: 10px; left: 10px; padding: 8px 12px; font-size: 14px; } .progress-steps { align-items: center; flex-direction: column; } .step { width: 100%; } .step-connector { display: none; } }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="form-container">
-      <div class="container">
-    <button class="back-button" onclick="window.history.back();">← Back</button>
+      <button class="back-button" onclick="window.history.back();">← Back</button>
       
       <div class="header">
         <h1>EVEREST FLEET</h1>
@@ -379,688 +81,452 @@
 
       <div class="progress-container">
         <div class="progress-steps">
-          <div class="step">
-            <button class="step-number active" id="step-0" onclick="goToStep(0)">1</button>
-            <div class="step-title">Basic Info</div>
-          </div>
-          <div class="step-connector pending"></div>
-          <div class="step">
-            <button class="step-number pending" id="step-1" onclick="goToStep(1)">2</button>
-            <div class="step-title">Document Details</div>
-          </div>
-          <div class="step-connector pending"></div>
-          <div class="step">
-            <button class="step-number pending" id="step-2" onclick="goToStep(2)">3</button>
-            <div class="step-title">Impact Analysis</div>
-          </div>
-          <div class="step-connector pending"></div>
-          <div class="step">
-            <button class="step-number pending" id="step-3" onclick="goToStep(3)">4</button>
-            <div class="step-title">Review</div>
-          </div>
+          <div class="step"><button class="step-number" id="step-0" onclick="goToStep(0)">1</button><div class="step-title">Basic Info</div></div>
+          <div class="step-connector"></div>
+          <div class="step"><button class="step-number" id="step-1" onclick="goToStep(1)">2</button><div class="step-title">Document Details</div></div>
+          <div class="step-connector"></div>
+          <div class="step"><button class="step-number" id="step-2" onclick="goToStep(2)">3</button><div class="step-title">Distribution</div></div>
+          <div class="step-connector"></div>
+          <div class="step"><button class="step-number" id="step-3" onclick="goToStep(3)">4</button><div class="step-title">Review</div></div>
         </div>
       </div>
 
-      <form id="processForm" class="form-card">
-        <!-- Step 1: Basic Information -->
-        <div class="form-step active" id="form-step-0">
-          <div class="step-header">
-            <h3 class="step-title-main">Basic Information</h3>
-          </div>
+      <form id="processForm" class="form-card" novalidate>
+        <!-- Step 1 -->
+        <div class="form-step" id="form-step-0">
+          <div class="step-header"><h3 class="step-title-main">Basic Information</h3></div>
           <div class="form-grid">
-            <div class="form-group">
-              <label for="employeeId">1. Employee ID <span class="required">*</span></label>
-              <input type="text" id="employeeId" name="employeeId" placeholder="Enter your employee ID" required />
-            </div>
-            
-            <div class="form-group">
-              <label for="department">2. Department <span class="required">*</span></label>
-              <select id="department" name="department" required>
-                <option value="">Select department</option>
-                <option value="Operations">Operations</option>
-                <option value="Repair and Maintenance">Repair and Maintenance</option>
-                <option value="Finance and Accounts">Finance and Accounts</option>
-                <option value="Legal">Legal</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Human Resources">Human Resources</option>
-                <option value="Recruitment">Recruitment</option>
-                <option value="Training">Training</option>
-                <option value="Quality">Quality</option>
-                <option value="Procurement">Procurement</option>
-                <option value="Process Excellence">Process Excellence</option>
-                <option value="Business Intelligence">Business Intelligence</option>
-                <option value="Administration">Administration</option>
-                <option value="Hardware & Networking">Hardware & Networking</option>
-                <option value="Refrigerator Van">Refrigerator Van</option>
-                <option value="Sourcing">Sourcing</option>
-                <option value="Technology">Technology</option>
-                <option value="Insurance">Insurance</option>
-                <option value="Other">Other</option>
-              </select>
-              <input type="text" id="otherDepartment" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter specific department" />
-            </div>
-            
-            <div class="form-group">
-              <label for="designation">3. Designation / Role <span class="required">*</span></label>
-              <select id="designation" name="designation" required>
-                <option value="">Select designation</option>
-                <option value="Lead">Lead</option>
-                <option value="Senior Manager">Senior Manager</option>
-                <option value="Manager">Manager</option>
-                <option value="Assistant Manager">Assistant Manager</option>
-                <option value="Executive">Executive</option>
-                <option value="Supervisor">Supervisor</option>
-                <option value="Analyst">Analyst</option>
-                <option value="Secretary">Secretary</option>
-                <option value="Other">Other</option>
-              </select>
-              <input type="text" id="otherDesignation" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter specific designation" />
-            </div>
-            
-            <div class="form-group">
-              <label for="city">4. City <span class="required">*</span></label>
-              <select id="city" name="city" required>
-                <option value="">Select city</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Pune">Pune</option>
-                <option value="Kolkata">Kolkata</option>
-                <option value="Chennai">Chennai</option>
-                <option value="Bangalore">Bangalore</option>
-                <option value="Hyderabad">Hyderabad</option>
-                <option value="Delhi">Delhi</option>
-              </select>
-            </div>
-            
-            <div class="form-group">
-              <label for="subBranch">5. Sub Branch <span class="required">*</span></label>
-              <select id="subBranch" name="subBranch" required disabled>
-                <option value="">Select sub branch</option>
-              </select>
-            </div>
+            <div class="form-group"><label for="employeeId">Employee ID <span class="required">*</span></label><input type="text" id="employeeId" name="employeeId" placeholder="Enter your employee ID" required /></div>
+            <div class="form-group"><label for="department">Department <span class="required">*</span></label><select id="department" name="department" required><option value="">Select department</option></select><input type="text" id="otherDepartment" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter specific department" /></div>
+            <div class="form-group"><label for="designation">Designation / Role <span class="required">*</span></label><select id="designation" name="designation" required><option value="">Select designation</option><option value="Lead">Lead</option><option value="Senior Manager">Senior Manager</option><option value="Manager">Manager</option><option value="Assistant Manager">Assistant Manager</option><option value="Executive">Executive</option><option value="Supervisor">Supervisor</option><option value="Analyst">Analyst</option><option value="Secretary">Secretary</option><option value="Other">Other</option></select><input type="text" id="otherDesignation" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter specific designation" /></div>
+            <div class="form-group"><label for="city">City <span class="required">*</span></label><select id="city" name="city" required><option value="">Select city</option><option value="Mumbai">Mumbai</option><option value="Pune">Pune</option><option value="Kolkata">Kolkata</option><option value="Chennai">Chennai</option><option value="Bangalore">Bangalore</option><option value="Hyderabad">Hyderabad</option><option value="Delhi">Delhi</option></select></div>
+            <div class="form-group"><label for="subBranch">Sub Branch <span class="required">*</span></label><select id="subBranch" name="subBranch" required disabled><option value="">Select sub branch</option></select></div>
           </div>
         </div>
 
-        <!-- Step 2: Document Details -->
+        <!--Step 2-->
         <div class="form-step" id="form-step-1">
-          <div class="step-header">
-            <h3 class="step-title-main">1. Change of Document Details</h3>
-          </div>
+          <div class="step-header"><h3 class="step-title-main">Change of Document Details</h3></div>
           <div class="form-grid">
             <div class="form-group">
-              <label for="documentNumber">2. Existing Document Number/Name <span class="required">*</span></label>
-              <input type="text" id="documentNumber" name="documentNumber" placeholder="Enter document number/name" required />
+                <label for="documentNumber">Existing Document Name <span class="required">*</span></label>
+                <select id="documentNumber" name="documentNumber" required disabled>
+                    <option value="">First, select a department in Step 1</option>
+                </select>
+                <input type="text" id="otherDocumentName" name="otherDocumentName" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter custom document name" />
             </div>
             
             <div class="form-group">
-              <label for="documentLevel">3. Level of Document <span class="required">*</span></label>
-              <select id="documentLevel" name="documentLevel" required>
-                <option value="">Select document level</option>
-                <option value="L0">L0 (Flowchart/Policy)</option>
-                <option value="L1">L1 (QMS Document)</option>
-                <option value="L2">L2 (SOP - Standard Operating Procedure)</option>
-                <option value="L3">L3 (WI - Work Instructions)</option>
-                <option value="L4">L4 (Form/Google Sheets)</option>
-              </select>
+                <label for="processName">Process Name <span class="required">*</span></label>
+                <input type="text" id="processName" name="processName" placeholder="Auto-filled or enter manually" required />
             </div>
-            
-            <div class="form-group">
-              <label for="existingDocType">4. Upload Existing Document <span class="required">*</span></label>
-              <select id="existingDocType" name="existingDocType" required>
-                <option value="">Select type</option>
-                <option value="link">Link</option>
-                <option value="upload">Upload</option>
-              </select>
-              <input type="url" id="existingDocLink" class="hidden" style="margin-top: 0.5rem;" placeholder="Paste document link here" />
-              <input type="file" id="existingDocFile" name="existingDocFile" class="hidden" style="margin-top: 0.5rem;" />
+
+            <!-- FIX 1: Removed red asterisk from label -->
+            <div class="form-group"><label for="existingDocType">Upload Existing Document</label>
+                <!-- FIX 2: Removed 'required' attribute from this select element -->
+                <select id="existingDocType" name="existingDocType">
+                    <option value="">Select type (optional)</option>
+                    <option value="link">Link</option>
+                    <option value="upload">Upload</option>
+                </select>
+                <input type="url" id="existingDocLink" class="hidden" style="margin-top: 0.5rem;" placeholder="Paste document link here" />
+                <input type="file" id="existingDocFile" class="hidden" style="margin-top: 0.5rem;" />
             </div>
-            
-            <div class="form-group">
-              <label for="draftDocType">5 Draft Document to Import Change <span class="required">*</span></label>
-              <select id="draftDocType" name="draftDocType" required>
-                <option value="">Select type</option>
-                <option value="link">Link</option>
-                <option value="upload">Upload</option>
-              </select>
-              <input type="url" id="draftDocLink" class="hidden" style="margin-top: 0.5rem;" placeholder="Paste draft document link here" />
-              <input type="file" id="draftDocFile" name="draftDocFile" class="hidden" style="margin-top: 0.5rem;" />
-            </div>
-            
-            <div class="form-group">
-              <label for="processName">6 Process Name <span class="required">*</span></label>
-              <input type="text" id="processName" name="processName" placeholder="Enter process name" required />
-            </div>
-            
-            <div class="form-group full-width">
-              <label for="processDetails">7 Detail about Process Change</label>
-              <textarea id="processDetails" name="processDetails" placeholder="Describe the process change details (optional)"></textarea>
-            </div>
-            
-            <div class="form-group full-width">
-              <label for="changeReason">8 Reason for Change <span class="required">*</span></label>
-              <textarea id="changeReason" name="changeReason" placeholder="Please describe the reason for this change" required></textarea>
-            </div>
+
+            <div class="form-group"><label for="draftDocType">Draft Document to Import Change <span class="required">*</span></label><select id="draftDocType" name="draftDocType" required><option value="">Select type</option><option value="link">Link</option><option value="upload">Upload</option></select><input type="url" id="draftDocLink" class="hidden" style="margin-top: 0.5rem;" placeholder="Paste draft document link here" /><input type="file" id="draftDocFile" class="hidden" style="margin-top: 0.5rem;" /></div>
+            <div class="form-group full-width"><label for="processDetails">Detail about Process Change</label><textarea id="processDetails" name="processDetails" placeholder="Describe the process change details (optional)"></textarea></div>
+            <div class="form-group full-width"><label for="changeReason">Reason for Change <span class="required">*</span></label><textarea id="changeReason" name="changeReason" placeholder="Please describe the reason for this change" required></textarea></div>
           </div>
         </div>
 
-        <!-- Step 3: Impact Analysis -->
+        <!-- Step 3:-->
         <div class="form-step" id="form-step-2">
-          <div class="step-header">
-            <h3 class="step-title-main">Impact of Change Request</h3>
-          </div>
-          <div class="form-grid">
+            <div class="step-header"><h3 class="step-title-main">Distribution List</h3></div>
             <div class="form-group">
-              <label for="crossFunction">3.1 Any Cross Function Impact? <span class="required">*</span></label>
-              <select id="crossFunction" name="crossFunction" required>
-                <option value="">Select</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
+                <label>Select all departments this change will be distributed to. <span class="required">*</span></label>
+                <div id="distributionCheckboxes" class="checkbox-grid"></div>
+                <input type="text" id="distributionOther" class="hidden" style="margin-top: 1rem;" placeholder="Specify other department(s)" />
             </div>
-            
-            <!-- Hidden section for cross function impact -->
-            <div id="crossFunctionDetails" class="form-group full-width hidden">
-              <label>Impacting Document Details</label>
-              <div style="margin-top: 1rem;">
-                <input type="text" id="impactingDocName" placeholder="Document Name/Number" style="margin-bottom: 0.5rem;" />
-                <input type="text" id="documentSection" placeholder="Document Section" style="margin-bottom: 0.5rem;" />
-                <input type="file" id="uploadDoc1" style="margin-bottom: 0.5rem;" />
-                <input type="file" id="uploadDoc2" style="margin-bottom: 0.5rem;" />
-                <input type="file" id="uploadDoc3" style="margin-bottom: 0.5rem;" />
-              </div>
-            </div>
-            
-            <!-- Hidden section for distribution list when no cross function impact -->
-            <div id="distributionSection" class="form-group full-width hidden">
-              <label for="distributionList">Distribution List <span class="required">*</span></label>
-              <select id="distributionList" name="distributionList">
-                <option value="">Select departments</option>
-                <option value="Operations">Operations</option>
-                <option value="Repair and Maintenance">Repair and Maintenance</option>
-                <option value="Finance and Accounts">Finance and Accounts</option>
-                <option value="Legal">Legal</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Human Resources">Human Resources</option>
-                <option value="Mitr">Mitr</option>
-                <option value="Training">Training</option>
-                <option value="Quality">Quality</option>
-                <option value="Procurement">Procurement</option>
-                <option value="Process Excellence">Process Excellence</option>
-                <option value="Business Intelligence">Business Intelligence</option>
-                <option value="Administration">Administration</option>
-                <option value="Hardware & Networking">Hardware & Networking</option>
-                <option value="Refrigerator Van">Refrigerator Van</option>
-                <option value="Sourcing">Sourcing</option>
-                <option value="Technology">Technology</option>
-                <option value="Insurance">Insurance</option>
-                <option value="Other">Other</option>
-              </select>
-              <input type="text" id="distributionOther" class="hidden" style="margin-top: 0.5rem;" placeholder="Specify department(s)" />
-            </div>
-          </div>
         </div>
 
-        <!-- Step 4: Review -->
+        <!-- Step 4:-->
         <div class="form-step" id="form-step-3">
-          <div class="step-header">
-            <h3 class="step-title-main">Review and Submit</h3>
-          </div>
+          <div class="step-header"><h3 class="step-title-main">Review and Submit</h3></div>
           <div class="review-section">
             <h4 class="review-title">Review your information</h4>
-            <div class="review-grid" id="reviewContent">
-              <!-- Review content will be populated by JavaScript -->
-            </div>
-            <div class="disclaimer">
-              By submitting this form, you confirm that the information provided is accurate and complete.
-            </div>
+            <div class="review-grid" id="reviewContent"></div>
+            <div class="disclaimer">By submitting this form, you confirm that the information provided is accurate and complete.</div>
           </div>
         </div>
 
         <div class="buttons">
-          <button type="button" id="prevBtn" class="btn-secondary invisible">
-            ← Previous
-          </button>
-          <button type="button" id="nextBtn" class="btn-primary">
-            Next →
-          </button>
-          <button type="submit" id="submitBtn" class="btn-primary hidden">
-            Submit Request
-          </button>
+          <button type="button" id="prevBtn" class="btn-secondary">← Previous</button>
+          <button type="button" id="nextBtn" class="btn-primary">Next →</button>
+          <button type="submit" id="submitBtn" class="btn-primary hidden">Submit Request</button>
         </div>
       </form>
 
-      <div class="success-message" id="successMessage">
-        <div class="success-icon">✓</div>
-        <div class="success-text">Request Submitted Successfully!</div>
-      </div>
+      <div class="success-message" id="successMessage"></div>
     </div>
   </div>
-
-  <script>
-    let currentStep = 0;
-    const totalSteps = 4;
-
-    // Sub branch mapping
-    const subBranches = {
-      'Mumbai': ['Thane', 'Vasai', 'Andheri', 'Borivali'],
-      'Pune': ['Wakad', 'Hinjewadi', 'Hadapsar', 'Kothrud'],
-      'Kolkata': ['Howrah', 'Salt Lake', 'Park Street'],
-      'Chennai': ['T Nagar', 'Velachery', 'Anna Nagar'],
-      'Bangalore': ['Whitefield', 'Koramangala', 'Electronic City'],
-      'Hyderabad': ['Madhapur', 'Begumpet', 'Gachibowli'],
-      'Delhi': ['Dwarka', 'Saket', 'Connaught Place']
+<script>
+    const DOCUMENT_API_URL = "https://script.google.com/macros/s/AKfycbyefq61LMkePmDDhkECzT_PF5QJAqXV1Imc0PpTs5Oy-eVidQvBPN20EZ_gKicwLGGC/exec"; 
+   
+    const hodMapping = {
+        "Marketing": "anand",
+        "Administration": "siddharth ladsariya",
+        "Human Resources": "anand",
+        "Technology": "himani ladsariya",
+        "Business Intelligence": "suraj lath",
+        "Finance and Accounts": "monil",
+        "Recruitment": "amar kerkar",
+        "Training": "amar kerkar",
+        "Quality": "amar kerkar",
+        "Operations": "sunny sapra",
+        "Repair and Maintenance": "varun",
+        "Procurement": "shivang",
+        "Process Excellence": "ganesh jatadharan"
     };
 
-    // Initialize form
+    let currentStep = 0;
+    const totalSteps = 4;
+    let allDocumentData = {};
+
+    const subBranches = { 'Mumbai': ['Thane', 'Vasai', 'Andheri', 'Borivali'], 'Pune': ['Wakad', 'Hinjewadi', 'Hadapsar', 'Kothrud'], 'Kolkata': ['Howrah', 'Salt Lake', 'Park Street'], 'Chennai': ['T Nagar', 'Velachery', 'Anna Nagar'], 'Bangalore': ['Whitefield', 'Koramangala', 'Electronic City'], 'Hyderabad': ['Madhapur', 'Begumpet', 'Gachibowli'], 'Delhi': ['Dwarka', 'Saket', 'Connaught Place'] };
+    const departmentsList = [ "Operations", "Repair and Maintenance", "Finance and Accounts", "Legal", "Marketing", "Human Resources", "Recruitment", "Training", "Quality", "Procurement", "Process Excellence", "Business Intelligence", "Administration", "Hardware & Networking", "Refrigerator Van", "Sourcing", "Technology", "Insurance", "Mitr", "Other" ];
+
     document.addEventListener('DOMContentLoaded', function() {
+      populateDropdowns();
+      populateCheckboxes();
+      addEventListeners();
       updateStepDisplay();
+      
+      fetchDocumentData().then(() => {
+          prefillUserData();
+      });
     });
 
+    async function fetchDocumentData() {
+        try {
+            if (!DOCUMENT_API_URL || DOCUMENT_API_URL === "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE") {
+                throw new Error("API URL is not configured. Please paste your script URL in the HTML.");
+            }
+            const response = await fetch(DOCUMENT_API_URL);
+            if (!response.ok) throw new Error(`Network response was not ok (status: ${response.status})`);
+            allDocumentData = await response.json();
+            if (allDocumentData.error) throw new Error(allDocumentData.message);
+            console.log("Document data loaded successfully.");
+        } catch (error) {
+            console.error("Failed to fetch document data:", error);
+            alert(`Error: Could not load the document list from the server. ${error.message}`);
+        }
+    }
+
+    function prefillUserData() {
+        const loggedInEmployeeID = localStorage.getItem("employeeID");
+        const loggedInDepartment = localStorage.getItem("userRole"); 
+        const employeeIdInput = document.getElementById('employeeId');
+        const departmentSelect = document.getElementById('department');
+
+        if (loggedInEmployeeID) employeeIdInput.value = loggedInEmployeeID;
+        if (loggedInDepartment && departmentsList.includes(loggedInDepartment)) {
+            departmentSelect.value = loggedInDepartment;
+            departmentSelect.dispatchEvent(new Event('change'));
+        }
+    }
+
+    function populateDropdowns() {
+        const deptSelect = document.getElementById('department');
+        departmentsList.forEach(dept => deptSelect.add(new Option(dept, dept)));
+    }
+    
+    function populateCheckboxes() {
+        const container = document.getElementById('distributionCheckboxes');
+        if (container) {
+            container.innerHTML = '';
+            departmentsList.forEach(dept => {
+                const checkboxId = `dist-${dept.replace(/[\s&]+/g, '').toLowerCase()}`;
+                const item = document.createElement('div');
+                item.className = 'checkbox-item';
+                item.innerHTML = `<input type="checkbox" id="${checkboxId}" name="distribution" value="${dept}"><label for="${checkboxId}">${dept}</label>`;
+                container.appendChild(item);
+            });
+        }
+    }
+
+    function addEventListeners() {
+        document.getElementById('prevBtn').addEventListener('click', () => { if (currentStep > 0) { currentStep--; updateStepDisplay(); }});
+        document.getElementById('nextBtn').addEventListener('click', () => { if (validateStep(currentStep) && currentStep < totalSteps - 1) { currentStep++; updateStepDisplay(); }});
+        document.getElementById('processForm').addEventListener('submit', handleFormSubmit);
+
+        document.getElementById('department').addEventListener('change', function() {
+            const selectedDept = this.value;
+            const docNameSelect = document.getElementById('documentNumber');
+            const processNameInput = document.getElementById('processName');
+            const otherDocNameInput = document.getElementById('otherDocumentName');
+
+            docNameSelect.innerHTML = '<option value="">Select a document</option>';
+            processNameInput.value = '';
+            otherDocNameInput.classList.add('hidden');
+            otherDocNameInput.required = false;
+            
+            const dataKey = selectedDept === 'Process Excellence' ? (allDocumentData['Process Excellence'] ? 'Process Excellence' : 'PEX') : selectedDept;
+            let documentsFound = false;
+
+            if (selectedDept && allDocumentData[dataKey]) {
+                allDocumentData[dataKey].forEach(doc => {
+                    docNameSelect.add(new Option(doc.docName, doc.docName));
+                    documentsFound = true;
+                });
+            }
+
+            if (!documentsFound && selectedDept) {
+                docNameSelect.innerHTML = '<option value="">No documents found, select Other</option>';
+            }
+            
+            docNameSelect.add(new Option('Other', 'Other'));
+            docNameSelect.disabled = !selectedDept;
+            updateButtonStates();
+        });
+        document.getElementById('documentNumber').addEventListener('change', function() {
+            const selectedDocName = this.value;
+            const selectedDept = document.getElementById('department').value;
+            const processNameInput = document.getElementById('processName');
+            const otherDocNameInput = document.getElementById('otherDocumentName');
+            if (selectedDocName === 'Other') {
+                otherDocNameInput.classList.remove('hidden');
+                otherDocNameInput.required = true;
+                processNameInput.value = '';
+            } else {
+                otherDocNameInput.classList.add('hidden');
+                otherDocNameInput.required = false;
+                otherDocNameInput.value = '';
+
+                const dataKey = selectedDept === 'Process Excellence' ? (allDocumentData['Process Excellence'] ? 'Process Excellence' : 'PEX') : selectedDept;
+                if (selectedDocName && selectedDept && allDocumentData[dataKey]) {
+                    const foundDoc = allDocumentData[dataKey].find(doc => doc.docName === selectedDocName);
+                    processNameInput.value = foundDoc ? foundDoc.processName : '';
+                } else {
+                    processNameInput.value = '';
+                }
+            }
+            updateButtonStates();
+        });
+
+        const setupConditionalField = (selectId, inputId) => {
+            document.getElementById(selectId).addEventListener('change', function() {
+                const isOther = this.value === 'Other';
+                const input = document.getElementById(inputId);
+                input.classList.toggle('hidden', !isOther);
+                input.required = isOther; 
+                if (!isOther) input.value = '';
+            });
+        };
+        setupConditionalField('department', 'otherDepartment');
+        setupConditionalField('designation', 'otherDesignation');
+
+        // FIX 3: Updated this function to be smarter
+        const setupDocTypeField = (selectId, linkId, fileId) => {
+            document.getElementById(selectId).addEventListener('change', function() {
+                // Check if the main dropdown itself is required
+                const isMainSelectRequired = this.required;
+
+                const isLink = this.value === 'link';
+                const isUpload = this.value === 'upload';
+                const linkInput = document.getElementById(linkId);
+                const fileInput = document.getElementById(fileId);
+
+                linkInput.classList.toggle('hidden', !isLink);
+                // Only make the link input required if the main dropdown is required AND 'link' is chosen
+                linkInput.required = isMainSelectRequired && isLink;
+
+                fileInput.classList.toggle('hidden', !isUpload);
+                // Only make the file input required if the main dropdown is required AND 'upload' is chosen
+                fileInput.required = isMainSelectRequired && isUpload;
+                
+                if (!isLink) linkInput.value = '';
+                if (!isUpload) fileInput.value = '';
+            });
+        };
+        setupDocTypeField('existingDocType', 'existingDocLink', 'existingDocFile');
+        setupDocTypeField('draftDocType', 'draftDocLink', 'draftDocFile');
+
+        document.getElementById('city').addEventListener('change', function() {
+            const subBranch = document.getElementById('subBranch');
+            subBranch.innerHTML = '<option value="">Select sub branch</option>';
+            const branches = subBranches[this.value] || [];
+            subBranch.disabled = branches.length === 0;
+            branches.forEach(branch => subBranch.add(new Option(branch, branch)));
+        });
+        
+        document.getElementById('distributionCheckboxes').addEventListener('change', function(e) {
+            if (e.target.name === 'distribution' && e.target.value === 'Other') {
+                const otherInput = document.getElementById('distributionOther');
+                otherInput.classList.toggle('hidden', !e.target.checked);
+                otherInput.required = e.target.checked;
+                if (!e.target.checked) otherInput.value = '';
+            }
+        });
+        document.querySelectorAll('input, select, textarea').forEach(el => {
+            el.addEventListener('input', updateButtonStates);
+            el.addEventListener('change', updateButtonStates);
+        });
+    }
     function goToStep(stepIndex) {
-      if (stepIndex <= currentStep || validateStepsUpTo(stepIndex - 1)) {
+      if (stepIndex < currentStep || validateStepsUpTo(stepIndex - 1)) {
         currentStep = stepIndex;
         updateStepDisplay();
       }
     }
 
+    function updateStepDisplay() {
+      document.querySelectorAll('.form-step').forEach((step, index) => step.classList.toggle('active', index === currentStep));
+      document.querySelectorAll('.step-number').forEach((stepNum, index) => {
+        stepNum.classList.toggle('active', index === currentStep);
+        stepNum.classList.toggle('completed', index < currentStep);
+        stepNum.classList.toggle('pending', index > currentStep);
+      });
+      document.querySelectorAll('.step-connector').forEach((c, i) => {
+        c.classList.toggle('completed', i < currentStep);
+        c.classList.toggle('pending', i >= currentStep);
+      });
+      document.getElementById('prevBtn').classList.toggle('invisible', currentStep === 0);
+      document.getElementById('nextBtn').classList.toggle('hidden', currentStep === totalSteps - 1);
+      document.getElementById('submitBtn').classList.toggle('hidden', currentStep !== totalSteps - 1);
+      if (currentStep === totalSteps - 1) { updateReviewContent(); }
+      updateButtonStates();
+    }
+
+    function updateButtonStates() {
+      document.getElementById('nextBtn').disabled = !validateStep(currentStep);
+      if (currentStep === totalSteps - 1) {
+          document.getElementById('submitBtn').disabled = !validateStepsUpTo(totalSteps - 1);
+      }
+    }
+
+    function validateStep(stepIndex) {
+        const stepDiv = document.getElementById(`form-step-${stepIndex}`);
+        if (!stepDiv) return true;
+
+        const inputs = stepDiv.querySelectorAll('input, select, textarea');
+        for (const input of inputs) {
+            if (input.required && !input.closest('.hidden') && !input.classList.contains('hidden')) {
+                if (input.type === 'checkbox') {
+                    if (!stepDiv.querySelector(`input[name="${input.name}"]:checked`)) return false;
+                } else if (!input.value.trim()) {
+                    return false;
+                }
+            }
+        }
+        if (stepIndex === 2) {
+            return document.querySelectorAll('input[name="distribution"]:checked').length > 0;
+        }
+        return true; 
+    }
+
     function validateStepsUpTo(stepIndex) {
       for (let i = 0; i <= stepIndex; i++) {
         if (!validateStep(i)) {
+          currentStep = i;
+          updateStepDisplay();
           return false;
         }
       }
       return true;
     }
-
-    function validateStep(stepIndex) {
-      switch (stepIndex) {
-        case 0:
-          return document.getElementById('employeeId').value.trim() && 
-                 document.getElementById('department').value &&
-                 (document.getElementById('department').value !== 'Other' || document.getElementById('otherDepartment').value.trim()) &&
-                 document.getElementById('designation').value &&
-                 (document.getElementById('designation').value !== 'Other' || document.getElementById('otherDesignation').value.trim()) &&
-                 document.getElementById('city').value &&
-                 document.getElementById('subBranch').value;
-        case 1:
-          return document.getElementById('documentNumber').value.trim() &&
-                 document.getElementById('documentLevel').value &&
-                 document.getElementById('existingDocType').value &&
-                 document.getElementById('draftDocType').value &&
-                 document.getElementById('processName').value.trim() &&
-                 document.getElementById('changeReason').value.trim();
-        case 2:
-          const crossFunction = document.getElementById('crossFunction').value;
-          if (crossFunction === 'yes') {
-            return document.getElementById('impactingDocName').value.trim();
-          } else if (crossFunction === 'no') {
-            return document.getElementById('distributionList').value &&
-                   (document.getElementById('distributionList').value !== 'Other' || document.getElementById('distributionOther').value.trim());
-          }
-          return crossFunction !== '';
-        default:
-          return true;
-      }
-    }
-
-    // Step navigation
-    function updateStepDisplay() {
-      // Update form steps
-      for (let i = 0; i < totalSteps; i++) {
-        const stepElement = document.getElementById(`form-step-${i}`);
-        const stepNumber = document.getElementById(`step-${i}`);
-        
-        if (i === currentStep) {
-          stepElement.classList.add('active');
-          stepNumber.classList.remove('pending', 'completed');
-          stepNumber.classList.add('active');
-        } else if (i < currentStep) {
-          stepElement.classList.remove('active');
-          stepNumber.classList.remove('pending', 'active');
-          stepNumber.classList.add('completed');
+    function collectFormData() {
+      let distributionList = [];
+      document.querySelectorAll('input[name="distribution"]:checked').forEach(box => {
+        if (box.value === 'Other') {
+            const otherValue = document.getElementById('distributionOther').value.trim();
+            if (otherValue) distributionList.push(`Other (${otherValue})`);
         } else {
-          stepElement.classList.remove('active');
-          stepNumber.classList.remove('active', 'completed');
-          stepNumber.classList.add('pending');
-        }
-      }
-
-      // Update connectors
-      const connectors = document.querySelectorAll('.step-connector');
-      connectors.forEach((connector, index) => {
-        if (index < currentStep) {
-          connector.classList.remove('pending');
-          connector.classList.add('completed');
-        } else {
-          connector.classList.remove('completed');
-          connector.classList.add('pending');
+            distributionList.push(box.value);
         }
       });
 
-      // Update buttons
-      const prevBtn = document.getElementById('prevBtn');
-      const nextBtn = document.getElementById('nextBtn');
-      const submitBtn = document.getElementById('submitBtn');
-
-      if (currentStep === 0) {
-        prevBtn.classList.add('invisible');
-      } else {
-        prevBtn.classList.remove('invisible');
+      let documentNameValue = document.getElementById('documentNumber').value;
+      if (documentNameValue === 'Other') {
+          documentNameValue = document.getElementById('otherDocumentName').value.trim();
       }
 
-      if (currentStep === totalSteps - 1) {
-        nextBtn.classList.add('hidden');
-        submitBtn.classList.remove('hidden');
-      } else {
-        nextBtn.classList.remove('hidden');
-        submitBtn.classList.add('hidden');
-      }
-
-      // Update review content
-      if (currentStep === totalSteps - 1) {
-        updateReviewContent();
-      }
-
-      // Validate current step
-      updateNextButtonState();
-    }
-
-    function updateNextButtonState() {
-      const nextBtn = document.getElementById('nextBtn');
-      const submitBtn = document.getElementById('submitBtn');
-      const isValid = validateStep(currentStep);
-      
-      nextBtn.disabled = !isValid;
-      submitBtn.disabled = !isValid;
-    }
-
-    function updateReviewContent() {
-      const reviewContent = document.getElementById('reviewContent');
-      const formData = collectFormData();
-      
-      reviewContent.innerHTML = `
-        <div class="review-item">
-          <div class="review-label">Employee ID</div>
-          <div class="review-value">${formData.employeeId}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Department</div>
-          <div class="review-value">${formData.department}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Designation</div>
-          <div class="review-value">${formData.designation}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">City</div>
-          <div class="review-value">${formData.city}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Sub Branch</div>
-          <div class="review-value">${formData.subBranch}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Document Number/Name</div>
-          <div class="review-value">${formData.documentNumber}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Document Level</div>
-          <div class="review-value">${formData.documentLevel}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Process Name</div>
-          <div class="review-value">${formData.processName}</div>
-        </div>
-        <div class="review-item" style="grid-column: 1 / -1;">
-          <div class="review-label">Reason for Change</div>
-          <div class="review-value">${formData.changeReason}</div>
-        </div>
-        <div class="review-item">
-          <div class="review-label">Cross Function Impact</div>
-          <div class="review-value">${formData.crossFunction === 'yes' ? 'Yes' : 'No'}</div>
-        </div>
-        ${formData.distributionList ? `
-        <div class="review-item">
-          <div class="review-label">Distribution List</div>
-          <div class="review-value">${formData.distributionList}${formData.distributionOther ? ` (${formData.distributionOther})` : ''}</div>
-        </div>
-        ` : ''}
-      `;
-    }
-
-    function collectFormData() {
-      return {
-        employeeId: document.getElementById('employeeId').value.trim(),
-        department: document.getElementById('department').value === 'Other' ? 
-                   document.getElementById('otherDepartment').value.trim() : 
-                   document.getElementById('department').value,
-        designation: document.getElementById('designation').value === 'Other' ? 
-                    document.getElementById('otherDesignation').value.trim() : 
-                    document.getElementById('designation').value,
-        city: document.getElementById('city').value,
-        subBranch: document.getElementById('subBranch').value,
-        documentNumber: document.getElementById('documentNumber').value.trim(),
-        documentLevel: document.getElementById('documentLevel').value,
-        existingDocType: document.getElementById('existingDocType').value,
+      return { 
+        employeeId: document.getElementById('employeeId').value.trim(), 
+        department: document.getElementById('department').value === 'Other' ? document.getElementById('otherDepartment').value.trim() : document.getElementById('department').value, 
+        designation: document.getElementById('designation').value === 'Other' ? document.getElementById('otherDesignation').value.trim() : document.getElementById('designation').value, 
+        city: document.getElementById('city').value, 
+        subBranch: document.getElementById('subBranch').value, 
+        documentNumber: documentNameValue, 
+        existingDocType: document.getElementById('existingDocType').value, 
         existingDocLink: document.getElementById('existingDocLink').value.trim(),
-        draftDocType: document.getElementById('draftDocType').value,
+        draftDocType: document.getElementById('draftDocType').value, 
         draftDocLink: document.getElementById('draftDocLink').value.trim(),
-        processName: document.getElementById('processName').value.trim(),
-        processDetails: document.getElementById('processDetails').value.trim(),
-        changeReason: document.getElementById('changeReason').value.trim(),
-        crossFunction: document.getElementById('crossFunction').value,
-        impactingDocName: document.getElementById('impactingDocName').value.trim(),
-        documentSection: document.getElementById('documentSection').value.trim(),
-        distributionList: document.getElementById('distributionList').value,
-        distributionOther: document.getElementById('distributionOther').value.trim()
+        processName: document.getElementById('processName').value.trim(), 
+        processDetails: document.getElementById('processDetails').value.trim(), 
+        changeReason: document.getElementById('changeReason').value.trim(), 
+        distributionList: distributionList.join(', ') 
       };
     }
 
-    // Event listeners
-    document.getElementById('prevBtn').addEventListener('click', function() {
-      if (currentStep > 0) {
-        currentStep--;
-        updateStepDisplay();
-      }
-    });
+    function updateReviewContent() {
+        const formData = collectFormData();
+        const hodName = hodMapping[formData.department] || 'Not Specified';
 
-    document.getElementById('nextBtn').addEventListener('click', function() {
-      if (currentStep < totalSteps - 1 && validateStep(currentStep)) {
-        currentStep++;
-        updateStepDisplay();
-      }
-    });
+        document.getElementById('reviewContent').innerHTML = `
+            <div class="review-item"><div class="review-label">Employee ID</div><div class="review-value">${formData.employeeId}</div></div>
+            <div class="review-item"><div class="review-label">Department</div><div class="review-value">${formData.department}</div></div>
+            <div class="review-item"><div class="review-label">Designation</div><div class="review-value">${formData.designation}</div></div>
+            <div class="review-item"><div class="review-label">City</div><div class="review-value">${formData.city}</div></div>
+            <div class="review-item"><div class="review-label">Sub Branch</div><div class="review-value">${formData.subBranch}</div></div>
+            <div class="review-item"><div class="review-label">Document Name</div><div class="review-value">${formData.documentNumber}</div></div>
+            <div class="review-item"><div class="review-label">Process Name</div><div class="review-value">${formData.processName}</div></div>
+            <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Reason for Change</div><div class="review-value">${formData.changeReason}</div></div>
+            <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Distribution List</div><div class="review-value">${formData.distributionList || 'N/A'}</div></div>
+            <div class="review-item" style="grid-column: 1 / -1; background-color: #eef2ff; padding: 0.75rem; border-radius: 0.375rem;"><div class="review-label">Request will be sent for approval to HOD</div><div class="review-value" style="color: #1e40af;">${hodName}</div></div>
+        `;
+    }
 
-    // Conditional field visibility
-    document.getElementById('department').addEventListener('change', function() {
-      const otherDept = document.getElementById('otherDepartment');
-      if (this.value === 'Other') {
-        otherDept.classList.remove('hidden');
-        otherDept.required = true;
-      } else {
-        otherDept.classList.add('hidden');
-        otherDept.required = false;
-        otherDept.value = '';
-      }
-      updateNextButtonState();
-    });
+    function generateTicketNumber(department) {
+        const prefix = 'EF-DCR'; const uniqueId = String(Date.now()).slice(-4); const now = new Date(); const day = String(now.getDate()).padStart(2, '0'); const month = String(now.getMonth() + 1).padStart(2, '0'); const year = now.getFullYear(); const datePart = `${day}${month}${year}`; const departmentPart = department.replace(/\s+/g, ''); return `${prefix}${uniqueId}-${datePart}-${departmentPart}`;
+    }
 
-    document.getElementById('designation').addEventListener('change', function() {
-      const otherDesg = document.getElementById('otherDesignation');
-      if (this.value === 'Other') {
-        otherDesg.classList.remove('hidden');
-        otherDesg.required = true;
-      } else {
-        otherDesg.classList.add('hidden');
-        otherDesg.required = false;
-        otherDesg.value = '';
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      if (!validateStepsUpTo(totalSteps - 1)) {
+        alert('Please review the form and fill in all required fields.');
+        return;
       }
-      updateNextButtonState();
-    });
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Submitting...';
 
-    document.getElementById('city').addEventListener('change', function() {
-      const subBranch = document.getElementById('subBranch');
-      subBranch.innerHTML = '<option value="">Select sub branch</option>';
-      
-      const city = this.value;
-      const branches = subBranches[city] || [];
-      
-      if (branches.length > 0) {
-        subBranch.disabled = false;
-        branches.forEach(branch => {
-          const option = document.createElement('option');
-          option.value = branch;
-          option.text = branch;
-          subBranch.appendChild(option);
+      try {
+        const formData = collectFormData();
+        const ticketNumber = generateTicketNumber(formData.department);
+        const submissionData = { ticketNumber, ...formData };
+        
+        await fetch('https://script.google.com/macros/s/AKfycbwCqfS0yjDP5OJa-52-X4DEiNCV1mp-8J8vsAJAqc7jR9nLzx8dBcZzEKFsFhF3r8Pf7A/exec', {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(submissionData)
         });
-      } else {
-        subBranch.disabled = true;
+
+        document.getElementById('processForm').style.display = 'none';
+        document.querySelector('.progress-container').style.display = 'none';
+        
+        const successMsg = document.getElementById('successMessage');
+        successMsg.style.display = 'flex';
+        successMsg.innerHTML = `
+          <div class="success-icon">✓</div>
+          <div class="success-text">Request Submitted Successfully!</div>
+          <div class="ticket-number">Your ticket number is: <strong>${ticketNumber}</strong></div>`;
+      } catch (error) {
+        alert(`Failed to submit the form. Please try again.\nError: ${error.message}`);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Submit Request';
       }
-      updateNextButtonState();
-    });
-
-    document.getElementById('existingDocType').addEventListener('change', function () {
-  const link = document.getElementById('existingDocLink');
-  const file = document.getElementById('existingDocFile');
-
-  link.classList.add('hidden');
-  file.classList.add('hidden');
-
-  link.required = false;
-  file.required = false;
-
-  if (this.value === 'link') {
-    link.classList.remove('hidden');
-    link.required = true;
-  } else if (this.value === 'upload') {
-    file.classList.remove('hidden');
-    file.required = true;
-  }
-});
-
-document.getElementById('draftDocType').addEventListener('change', function () {
-  const link = document.getElementById('draftDocLink');
-  const file = document.getElementById('draftDocFile');
-
-  link.classList.add('hidden');
-  file.classList.add('hidden');
-
-  link.required = false;
-  file.required = false;
-
-  if (this.value === 'link') {
-    link.classList.remove('hidden');
-    link.required = true;
-  } else if (this.value === 'upload') {
-    file.classList.remove('hidden');
-    file.required = true;
-  }
-});
-
-    document.getElementById('crossFunction').addEventListener('change', function() {
-      const crossFunctionDetails = document.getElementById('crossFunctionDetails');
-      const distributionSection = document.getElementById('distributionSection');
-      const distributionList = document.getElementById('distributionList');
-      const impactingDocName = document.getElementById('impactingDocName');
-      
-      if (this.value === 'yes') {
-        crossFunctionDetails.classList.remove('hidden');
-        distributionSection.classList.add('hidden');
-        impactingDocName.required = true;
-        distributionList.required = false;
-      } else if (this.value === 'no') {
-        crossFunctionDetails.classList.add('hidden');
-        distributionSection.classList.remove('hidden');
-        impactingDocName.required = false;
-        distributionList.required = true;
-      } else {
-        crossFunctionDetails.classList.add('hidden');
-        distributionSection.classList.add('hidden');
-        impactingDocName.required = false;
-        distributionList.required = false;
-      }
-      updateNextButtonState();
-    });
-
-    document.getElementById('distributionList').addEventListener('change', function() {
-      const other = document.getElementById('distributionOther');
-      if (this.value === 'Other') {
-        other.classList.remove('hidden');
-        other.required = true;
-      } else {
-        other.classList.add('hidden');
-        other.required = false;
-        other.value = '';
-      }
-      updateNextButtonState();
-    });
-
-    // Add validation listeners
-    ['employeeId', 'department', 'designation', 'city', 'subBranch', 'documentNumber', 'documentLevel', 'existingDocType', 'draftDocType', 'processName', 'changeReason', 'crossFunction', 'distributionList', 'otherDepartment', 'otherDesignation', 'distributionOther', 'impactingDocName'].forEach(id => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.addEventListener('input', updateNextButtonState);
-        element.addEventListener('change', updateNextButtonState);
-      }
-    });
-
-    // Form submission
-    document.getElementById('processForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  if (!validateStep(currentStep)) {
-    alert('Please fill in all required fields');
-    return;
-  }
-
-  const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Submitting...';
-
-  try {
-    const formData = collectFormData();
-
-    const submissionData = {
-      employeeId: formData.employeeId,
-      department: formData.department,
-      designation: formData.designation,
-      city: formData.city,
-      subBranch: formData.subBranch,
-      documentNumber: formData.documentNumber,
-      documentLevel: formData.documentLevel,
-      existingDocType: formData.existingDocType,
-      existingDocLink: formData.existingDocLink,
-      draftDocType: formData.draftDocType,
-      draftDocLink: formData.draftDocLink,
-      processName: formData.processName,
-      processDetails: formData.processDetails,
-      changeReason: formData.changeReason,
-      crossFunction: formData.crossFunction,
-      impactingDocName: formData.impactingDocName,
-      documentSection: formData.documentSection,
-      distributionList: formData.distributionList + (formData.distributionOther ? ` (${formData.distributionOther})` : '')
-    };
-
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzCxHwID-87xM3DMAa70HUBtpfinqlpHIZP5xMaxEjEOXU_CLbGLxj1_kVMbdau55558w/exec', {
-      method: 'POST',
-      mode: 'no-cors',
-       headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(submissionData)
-});
-
-// Assume it worked (since we can’t read the response)
-document.getElementById('processForm').style.display = 'none';
-document.querySelector('.progress-container').style.display = 'none';
-document.getElementById('successMessage').style.display = 'block';
-
-  } catch (error) {
-    alert(`Failed to submit the form: ${error.message}`);
-    console.error('Form submission error:', error);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Submit Request';
-  }
-
-});
-  </script>
+    }
+</script>
 </body>
 </html>
