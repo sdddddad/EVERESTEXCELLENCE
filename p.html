@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>New Process Request - EVEREST FLEET</title>
+<style>
+    /* All your existing CSS is correct and unchanged */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f9fafb; color: #111827; line-height: 1.6; }
+    .container { min-height: 100vh; padding: 1rem; }
+    .form-container { max-width: 1024px; margin: 0 auto; }
+    .back-button { position: absolute; top: 10px; left: 10px; background: linear-gradient(45deg, #d32f2f, #b71c1c); color: white; border: none; padding: 12px 20px; font-size: 16px; font-weight: bold; border-radius: 5px; cursor: pointer; z-index: 10; }
+    .header { text-align: center; margin-bottom: 2rem; padding: 2rem; background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); border-radius: 0.75rem; color: white; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); }
+    .header h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.25rem; }
+    .header p { font-size: 1rem; opacity: 0.9; }
+    .progress-container { margin-bottom: 2rem; padding: 0 1rem; }
+    .progress-steps { display: flex; justify-content: space-between; align-items: flex-start; }
+    .step { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .step-number { width: 2.5rem; height: 2.5rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 0.875rem; margin-bottom: 0.5rem; transition: all 0.3s ease; cursor: pointer; border: none; }
+    .step-number.active { background-color: #3b82f6; color: white; transform: scale(1.1); }
+    .step-number.completed { background-color: #1e40af; color: white; }
+    .step-number.pending { background-color: #e5e7eb; color: #6b7280; }
+    .step-number:hover { transform: scale(1.1); }
+    .step-title { font-size: 0.75rem; text-align: center; max-width: 5rem; color: #4b5563; }
+    .step-connector { flex: 1; height: 0.25rem; margin: 1.125rem 0.5rem 0 0.5rem; border-radius: 0.125rem; }
+    .step-connector.completed { background-color: #1e40af; }
+    .step-connector.pending { background-color: #e5e7eb; }
+    .form-card { background: white; border-radius: 0.75rem; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin-bottom: 1rem; }
+    .form-step { display: none; }
+    .form-step.active { display: block; }
+    .step-header { border-left: 4px solid #3b82f6; padding-left: 1rem; margin-bottom: 1.5rem; }
+    .step-title-main { font-size: 1.25rem; font-weight: 600; color: #1e40af; }
+    .form-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+    .form-group { display: flex; flex-direction: column; }
+    label { font-weight: 500; margin-bottom: 0.5rem; color: #374151; display: flex; align-items: center; }
+    .required { color: #ef4444; margin-left: 0.25rem; }
+    input, select, textarea { padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; transition: all 0.2s ease; background-color: white; width: 100%; }
+    input[readonly] { background-color: #f3f4f6; cursor: not-allowed; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+    textarea { resize: vertical; min-height: 120px; }
+    .hidden { display: none; }
+    .buttons { display: flex; justify-content: space-between; margin-top: 2rem; gap: 1rem; }
+    button { padding: 0.75rem 1.5rem; border-radius: 0.375rem; font-weight: 500; cursor: pointer; transition: all 0.2s ease; border: none; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+    .btn-primary { background-color: #1e40af; color: white; }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .btn-primary:hover:not(:disabled) { background-color: #3b82f6; }
+    .btn-secondary { background-color: #f3f4f6; color: #374151; border: 1px solid #d1d5db; }
+    .btn-secondary:hover { background-color: #e5e7eb; }
+    .invisible { visibility: hidden; }
+    .review-section { background-color: #f9fafb; padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 1rem; }
+    .review-title { font-weight: 600; margin-bottom: 1rem; color: #1e40af; }
+    .review-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; margin-bottom: 1rem; }
+    .review-item { display: flex; flex-direction: column; }
+    .review-label { font-size: 0.875rem; font-weight: 500; color: #6b7280; margin-bottom: 0.25rem; }
+    .review-value { color: #111827; white-space: pre-wrap; font-weight: 600; }
+    .disclaimer { text-align: center; font-size: 0.875rem; color: #6b7280; margin-top: 1rem; }
+    .success-message { display: none; flex-direction: column; align-items: center; text-align: center; padding: 2rem; background-color: #f0fdf4; border: 1px solid #22c55e; border-radius: 0.5rem; margin-top: 1rem; }
+    .success-icon { font-size: 3rem; color: #22c55e; margin-bottom: 1rem; }
+    .success-text { font-size: 1.2rem; font-weight: 600; color: #16a34a; }
+    .ticket-number { margin-top: 1rem; font-size: 1rem; color: #374151; }
+    .tooltip-container { position: relative; display: inline-block; margin-left: 8px; cursor: help; }
+    .tooltip-container .tooltip-icon { color: #3b82f6; font-weight: bold; border: 1px solid #d1d5db; border-radius: 50%; width: 1.2rem; height: 1.2rem; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+    .tooltip-container .tooltip-text { visibility: hidden; width: 250px; background-color: #333; color: #fff; text-align: left; border-radius: 6px; padding: 10px; font-size: 0.8rem; line-height: 1.4; position: absolute; z-index: 10; bottom: 130%; left: 50%; margin-left: -125px; opacity: 0; transition: opacity 0.3s; }
+    .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+    @media (max-width: 600px) { .back-button { top: 10px; left: 10px; padding: 8px 12px; font-size: 14px; } .progress-steps { align-items: center; flex-direction: column; gap: 1rem; } .step { width: 100%; } .step-connector { display: none; } }
+</style>
+</head>
+<body>
+<!-- ALL HTML IS UNCHANGED -->
+<div class="container">
+<div class="form-container">
+<button class="back-button" onclick="window.history.back();">← Back</button>
+<div class="header">
+<h1>EVEREST FLEET</h1>
+<p>New Process Request Form</p>
+</div>
+<div class="progress-container">
+<div class="progress-steps">
+<div class="step"> <button class="step-number active" id="step-0" onclick="goToStep(0)">1</button> <div class="step-title">Basic Info</div> </div>
+<div class="step-connector pending"></div>
+<div class="step"> <button class="step-number pending" id="step-1" onclick="goToStep(1)">2</button> <div class="step-title">Process Details</div> </div>
+<div class="step-connector pending"></div>
+<div class="step"> <button class="step-number pending" id="step-2" onclick="goToStep(2)">3</button> <div class="step-title">Timeline</div> </div>
+<div class="step-connector pending"></div>
+<div class="step"> <button class="step-number pending" id="step-3" onclick="goToStep(3)">4</button> <div class="step-title">Review</div> </div>
+</div>
+</div>
+<form class="form-card" id="processForm" novalidate>
+<div class="form-step active" id="form-step-0">
+<div class="step-header"> <h3 class="step-title-main">Basic Information</h3> </div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+<div class="form-group"> <label for="employeeId">Employee ID<span class="required">*</span></label> <input id="employeeId" name="employeeId" placeholder="Enter your employee ID" required type="text"/> </div>
+<div class="form-group"> <label for="department">Department<span class="required">*</span></label> <select id="department" name="department" required> <option value="">Select department</option> </select> <input class="hidden" id="otherDepartment" placeholder="Enter specific department" style="margin-top: 0.5rem;" type="text"/> </div>
+<div class="form-group"> <label for="designation">Designation / Role<span class="required">*</span></label> <select id="designation" name="designation" required> <option value="">Select designation</option> <option value="Lead">Lead</option> <option value="Senior Manager">Senior Manager</option> <option value="Manager">Manager</option> <option value="Assistant Manager">Assistant Manager</option> <option value="Executive">Executive</option> <option value="Supervisor">Supervisor</option> <option value="Analyst">Analyst</option> <option value="Secretary">Secretary</option> <option value="Other">Other</option> </select> <input class="hidden" id="otherDesignation" placeholder="Enter specific designation" style="margin-top: 0.5rem;" type="text"/> </div>
+<div class="form-group"> <label for="city">City<span class="required">*</span></label> <select id="city" name="city" required> <option value="">Select city</option> <option value="Mumbai">Mumbai</option> <option value="Pune">Pune</option> <option value="Kolkata">Kolkata</option> <option value="Chennai">Chennai</option> <option value="Bangalore">Bangalore</option> <option value="Hyderabad">Hyderabad</option> <option value="Delhi">Delhi</option> </select> </div>
+<div class="form-group"> <label for="subBranch">Sub Branch<span class="required">*</span></label> <select disabled id="subBranch" name="subBranch" required> <option value="">Select sub branch</option> </select> </div>
+</div>
+</div>
+<div class="form-step" id="form-step-1">
+<div class="step-header"> <h3 class="step-title-main">Request for New Process</h3> </div>
+<div class="form-grid">
+<div class="form-group"> <label for="newProcessName">Process Name (Proposed Process Name) <span class="required">*</span> <div class="tooltip-container"> <span class="tooltip-icon">i</span> <span class="tooltip-text">This is a draft document only.</span> </div> </label> <input type="text" id="newProcessName" name="newProcessName" placeholder="e.g., Automated Vendor Payout" required /> </div>
+<div class="form-group"> <label for="processNeed">Brief why do you need this process? <span class="required">*</span> </label> <textarea id="processNeed" name="processNeed" placeholder="Explain the purpose and benefits of this new process" required></textarea> </div>
+<div class="form-group"> <label for="draftDocType"> Upload any draft of document <span class="required">*</span> <div class="tooltip-container"> <span class="tooltip-icon">i</span> <span class="tooltip-text">Please write the process steps or process in a Google Document and share the link here.</span> </div> </label> <select id="draftDocType" name="draftDocType" required> <option value="">Select type</option> <option value="link">Link</option> <option value="upload">Upload</option> </select> <input class="hidden" id="draftDocLink" name="draftDocLink" placeholder="Paste draft document link here" style="margin-top: 0.5rem;" type="url"/> <input class="hidden" id="draftDocFile" name="draftDocFile" style="margin-top: 0.5rem;" type="file"/> </div>
+</div>
+</div>
+<div class="form-step" id="form-step-2">
+<div class="step-header"><h3 class="step-title-main">Timeline</h3></div>
+<div class="form-grid">
+<div class="form-group"> <label for="goLiveDate">When do you expect this process to be live?<span class="required">*</span></label> <input id="goLiveDate" name="goLiveDate" required type="date"/> </div>
+</div>
+</div>
+<div class="form-step" id="form-step-3">
+<div class="step-header"> <h3 class="step-title-main">Review and Submit</h3> </div>
+<div class="review-section"> <h4 class="review-title">Review your information</h4> <div class="review-grid" id="reviewContent"></div> <div class="disclaimer"> By submitting this form, you confirm that the information provided is accurate and complete. </div> </div>
+</div>
+<div class="buttons"> <button type="button" id="prevBtn" class="btn-secondary"> ← Previous </button> <button type="button" id="nextBtn" class="btn-primary"> Next → </button> <button type="submit" id="submitBtn" class="btn-primary hidden"> Submit Request </button> </div>
+</form>
+<div class="success-message" id="successMessage"> </div>
+</div>
+</div>
+<script>
+    // All of your existing JavaScript variables and functions are unchanged, except for handleFormSubmit
+    let currentStep = 0;
+    const totalSteps = 4;
+    const hodMapping = { "Marketing": "anand", "Administration": "siddharth ladsariya", "Human Resources": "anand", "Technology": "himani ladsariya", "Business Intelligence": "suraj lath", "Finance and Accounts": "monil", "Recruitment": "amar kerkar", "Training": "amar kerkar", "Quality": "amar kerkar", "Operations": "sunny sapra", "Repair and Maintenance": "varun", "Procurement": "shivang", "Process Excellence": "ganesh jatadharan" };
+    const subBranches = { 'Mumbai': ['Thane', 'Vasai', 'Andheri', 'Borivali'], 'Pune': ['Wakad', 'Hinjewadi', 'Hadapsar', 'Kothrud'], 'Kolkata': ['Howrah', 'Salt Lake', 'Park Street'], 'Chennai': ['T Nagar', 'Velachery', 'Anna Nagar'], 'Bangalore': ['Whitefield', 'Koramangala', 'Electronic City'], 'Hyderabad': ['Madhapur', 'Begumpet', 'Gachibowli'], 'Delhi': ['Dwarka', 'Saket', 'Connaught Place'] };
+    const departmentsList = [ "Operations", "Repair and Maintenance", "Finance and Accounts", "Legal", "Marketing", "Human Resources", "Recruitment", "Training", "Quality", "Procurement", "Process Excellence", "Business Intelligence", "Administration", "Hardware & Networking", "Refrigerator Van", "Sourcing", "Technology", "Insurance", "Mitr", "Other" ];
+
+    // This function runs when the page loads to check for a success message in the URL
+    function checkForSuccessMessage() {
+        const params = new URLSearchParams(window.location.search);
+        const status = params.get('status');
+
+        if (status === 'success') {
+            const ticketNumber = params.get('ticketNumber');
+            document.getElementById('processForm').style.display = 'none';
+            document.querySelector('.progress-container').style.display = 'none';
+            
+            const successMsg = document.getElementById('successMessage');
+            successMsg.style.display = 'flex';
+            successMsg.innerHTML = `
+              <div class="success-icon">✓</div>
+              <div class="success-text">Request Sent Successfully!</div>
+              <div class="ticket-number">Your ticket number is: <strong>${ticketNumber}</strong></div>`;
+        } else if (status === 'error') {
+            const message = params.get('message');
+            alert('Form submission failed on the server: ' + message);
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        populateDropdowns();
+        addEventListeners();
+        updateStepDisplay();
+        prefillUserData();
+        checkForSuccessMessage(); // Check for success message on page load
+    });
+
+    // All your helper functions (prefill, populate, goToStep, validate, etc.) are correct and do not need to be changed.
+    function prefillUserData() { const employeeIdInput = document.getElementById('employeeId'); const departmentSelect = document.getElementById('department'); const loggedInEmployeeID = localStorage.getItem("employeeID"); const loggedInDepartment = localStorage.getItem("userRole"); if (loggedInEmployeeID) employeeIdInput.value = loggedInEmployeeID; if (loggedInDepartment && departmentsList.includes(loggedInDepartment)) { departmentSelect.value = loggedInDepartment; departmentSelect.dispatchEvent(new Event('change')); } }
+    function populateDropdowns() { const deptSelect = document.getElementById('department'); departmentsList.forEach(dept => deptSelect.add(new Option(dept, dept))); }
+    function goToStep(stepIndex) { if (stepIndex < currentStep || validateStepsUpTo(stepIndex - 1)) { currentStep = stepIndex; updateStepDisplay(); } }
+    function validateStepsUpTo(stepIndex) { for (let i = 0; i <= stepIndex; i++) { if (!validateStep(i)) { alert('Please fill all required fields in the current step.'); currentStep = i; updateStepDisplay(); return false; } } return true; }
+    function validateStep(stepIndex) { const stepDiv = document.getElementById(`form-step-${stepIndex}`); if (!stepDiv) return true; for (const input of stepDiv.querySelectorAll('[required]')) { if (!input.closest('.hidden') && !input.value.trim()) { return false; } } return true; }
+    function updateStepDisplay() { document.querySelectorAll('.form-step').forEach((step, index) => step.classList.toggle('active', index === currentStep)); document.querySelectorAll('.step-number').forEach((btn, index) => { btn.classList.toggle('active', index === currentStep); btn.classList.toggle('completed', index < currentStep && validateStep(index)); btn.classList.toggle('pending', index > currentStep); }); document.querySelectorAll('.step-connector').forEach((conn, index) => { conn.classList.toggle('completed', index < currentStep); conn.classList.toggle('pending', index >= currentStep); }); document.getElementById('prevBtn').classList.toggle('invisible', currentStep === 0); document.getElementById('nextBtn').classList.toggle('hidden', currentStep === totalSteps - 1); document.getElementById('submitBtn').classList.toggle('hidden', currentStep !== totalSteps - 1); if (currentStep === totalSteps - 1) updateReviewContent(); updateButtonStates(); }
+    function updateButtonStates() { document.getElementById('nextBtn').disabled = !validateStep(currentStep); if (currentStep === totalSteps - 1) { document.getElementById('submitBtn').disabled = !validateStepsUpTo(totalSteps - 1); } }
+    function collectFormData() { return { employeeId: document.getElementById('employeeId').value.trim(), department: document.getElementById('department').value === 'Other' ? document.getElementById('otherDepartment').value.trim() : document.getElementById('department').value, designation: document.getElementById('designation').value === 'Other' ? document.getElementById('otherDesignation').value.trim() : document.getElementById('designation').value, city: document.getElementById('city').value, subBranch: document.getElementById('subBranch').value, newProcessName: document.getElementById('newProcessName').value.trim(), processNeed: document.getElementById('processNeed').value.trim(), draftDocType: document.getElementById('draftDocType').value, draftDocLink: document.getElementById('draftDocLink').value.trim(), goLiveDate: document.getElementById('goLiveDate').value }; }
+    function updateReviewContent() { const reviewContent = document.getElementById('reviewContent'); const formData = collectFormData(); const hodName = hodMapping[formData.department] || 'Not Specified'; reviewContent.innerHTML = ` <div class="review-item"><div class="review-label">Employee ID</div><div class="review-value">${formData.employeeId || '-'}</div></div> <div class="review-item"><div class="review-label">Department</div><div class="review-value">${formData.department || '-'}</div></div> <div class="review-item"><div class="review-label">Designation</div><div class="review-value">${formData.designation || '-'}</div></div> <div class="review-item"><div class="review-label">City</div><div class="review-value">${formData.city || '-'}</div></div> <div class="review-item"><div class="review-label">Sub Branch</div><div class="review-value">${formData.subBranch || '-'}</div></div> <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Proposed Process Name</div><div class="review-value">${formData.newProcessName || '-'}</div></div> <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Reason for New Process</div><div class="review-value">${formData.processNeed || '-'}</div></div> <div class="review-item"><div class="review-label">Expected Go-Live Date</div><div class="review-value">${formData.goLiveDate || '-'}</div></div> <div class="review-item" style="grid-column: 1 / -1; background-color: #eef2ff; padding: 0.75rem; border-radius: 0.375rem;"><div class="review-label">Request will be sent for approval to HOD</div><div class="review-value" style="color: #1e40af;">${hodName}</div></div> `; }
+    function generateTicketNumber(department) { const prefix = 'EF-PRN'; const uniqueId = String(Date.now()).slice(-4); const now = new Date(); const day = String(now.getDate()).padStart(2, '0'); const month = String(now.getMonth() + 1).padStart(2, '0'); const year = now.getFullYear(); const datePart = `${day}${month}${year}`; const departmentPart = department.replace(/[\s&]+/g, ''); return `${prefix}${uniqueId}-${datePart}-${departmentPart}`; }
+    function addEventListeners() { document.getElementById('prevBtn').addEventListener('click', () => { if (currentStep > 0) { currentStep--; updateStepDisplay(); } }); document.getElementById('nextBtn').addEventListener('click', () => { if (currentStep < totalSteps - 1 && validateStep(currentStep)) { currentStep++; updateStepDisplay(); } }); document.getElementById('processForm').addEventListener('submit', handleFormSubmit); document.getElementById('city').addEventListener('change', function() { const subBranch = document.getElementById('subBranch'); subBranch.innerHTML = '<option value="">Select sub branch</option>'; const branches = subBranches[this.value] || []; subBranch.disabled = branches.length === 0; branches.forEach(branch => subBranch.add(new Option(branch, branch))); }); const setupConditionalField = (selectId, inputId) => { document.getElementById(selectId).addEventListener('change', function() { const isOther = this.value === 'Other'; const input = document.getElementById(inputId); input.classList.toggle('hidden', !isOther); input.required = isOther; if (!isOther) input.value = ''; }); }; setupConditionalField('department', 'otherDepartment'); setupConditionalField('designation', 'otherDesignation'); const setupDocTypeField = (selectId, linkId, fileId) => { document.getElementById(selectId).addEventListener('change', function () { const isMainSelectRequired = this.hasAttribute('required'); const link = document.getElementById(linkId); const file = document.getElementById(fileId); const isLink = this.value === 'link'; const isUpload = this.value === 'upload'; link.classList.toggle('hidden', !isLink); link.required = isMainSelectRequired && isLink; file.classList.toggle('hidden', !isUpload); file.required = isMainSelectRequired && isUpload; if (!isLink) link.value = ''; if (!isUpload) file.value = ''; }); }; setupDocTypeField('draftDocType', 'draftDocLink', 'draftDocFile'); document.querySelectorAll('input, select, textarea').forEach(el => { el.addEventListener('input', updateButtonStates); el.addEventListener('change', updateButtonStates); }); }
+
+
+    // THIS IS THE ONLY FUNCTION THAT HAS BEEN CHANGED TO FIX THE CORS ERROR
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        if (!validateStepsUpTo(totalSteps - 1)) { return; }
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        const formData = collectFormData();
+        const ticketNumber = generateTicketNumber(formData.department);
+        
+        // IMPORTANT: You will need to deploy the App Script and paste the new URL here.
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzjLBkX7ZMKA5cnix0aHi_8WwBmBY9Fw-LtKwgPhFixUPIcF81wdz2L9s3FNhHiHu0/exec';
+        
+        // Build the full URL with all form data as query parameters for the JSONP request
+        let fullUrl = scriptURL + "?callback=handleResponse";
+        fullUrl += "&ticketNumber=" + encodeURIComponent(ticketNumber);
+        
+        for (const key in formData) {
+            fullUrl += `&${encodeURIComponent(key)}=${encodeURIComponent(formData[key])}`;
+        }
+        
+        // Add the redirect URL for THIS page.
+        // We remove any existing query string to have a clean URL.
+        const redirectUrl = window.location.href.split('?')[0];
+        fullUrl += "&redirectUrl=" + encodeURIComponent(redirectUrl);
+
+        // Create a script tag to make the JSONP request, which bypasses CORS
+        const script = document.createElement('script');
+        script.src = fullUrl;
+        document.body.appendChild(script);
+
+        // Handle cases where the script fails to load (e.g., wrong URL)
+        script.onerror = function() {
+            alert("Submission failed. The script could not be loaded. Please check the URL and your connection.");
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Request';
+            document.body.removeChild(script); // Clean up the failed script tag
+        };
+    }
+
+    // This global function is called by the App Script's response
+    function handleResponse(response) {
+        // Remove the temporary script tag from the document
+        const scripts = document.querySelectorAll('script[src*="script.google.com"]');
+        scripts.forEach(s => document.body.removeChild(s));
+        
+        if (response && response.result === "success" && response.redirect) {
+            // Redirect to the success URL
+            window.location.href = response.redirect;
+        } else {
+            // Handle any errors returned by the script
+            alert("An error occurred on the server: " + (response.message || "Unknown error. Check the App Script logs."));
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Request';
+        }
+    }
+</script>
+
+</body>
+</html>
