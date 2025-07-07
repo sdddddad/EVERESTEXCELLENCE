@@ -5,25 +5,105 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Process Excellence Documents</title>
 <style>
-  body { font-family: sans-serif; padding: 20px; background-color: #f9f9f9; position: relative; }
-  h2 { color: #133152; margin-bottom: 10px; }
-  .breadcrumb { font-size: 13px; color: gray; margin-bottom: 15px; }
-  .breadcrumb a { color: #007bff; text-decoration: none; margin-right: 5px; }
-  .breadcrumb a:hover { text-decoration: underline; }
-  table { width: 100%; border-collapse: collapse; background-color: white; }
-  th, td { padding: 10px; border: 1px solid #ddd; text-align: left; }
-  th { background-color: #133152; color: white; }
+  body {
+    font-family: sans-serif;
+    padding: 20px;
+    background-color: #f9f9f9;
+    position: relative;
+  }
+  h2 {
+    color: #133152;
+    margin-bottom: 10px;
+  }
+  .breadcrumb {
+    font-size: 13px;
+    color: gray;
+    margin-bottom: 15px;
+  }
+  .breadcrumb a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 5px;
+  }
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+  }
+  th, td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  th {
+    background-color: #133152;
+    color: white;
+  }
   .view-btn {
-    padding: 6px 12px; background-color: #007bff; color: white;
-    border: none; border-radius: 4px; cursor: pointer;
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
-  .view-btn:hover { background-color: #0056b3; }
-  .doc-icon { margin-right: 8px; }
+  .view-btn:hover {
+    background-color: #0056b3;
+  }
+  .doc-icon {
+    margin-right: 8px;
+  }
   .nav-btn {
-    position: absolute; top: 10px; padding: 6px 12px; background-color: #133152; color: #fff; border: none; border-radius: 4px; cursor: pointer;
+    position: absolute;
+    top: 10px;
+    padding: 6px 12px;
+    background-color: #133152;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
-  #back-btn { left: 10px; }
-  #home-btn { right: 10px; }
+  #back-btn {
+    left: 10px;
+  }
+  #home-btn {
+    right: 10px;
+  }
+  
+  /* Freeze the header */
+  thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background-color: #133152;
+  }
+
+  /* Add style for the note section at the bottom */
+  .footer-note {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 5px;
+    text-align: center;
+  }
+
+  .checkbox {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    display: inline-block;
+    background-color: transparent;
+  }
+  .checked {
+    background-color: orange;
+  }
 </style>
 </head>
 <body>
@@ -33,155 +113,139 @@
 
 <div class="breadcrumb">
   <br><br><a href="functions.html">Process Documents</a> >
- <!-- <a href="repairs.html">Repairs and Maintenance</a> >
-  <a href="#">Process Excellence Documents</a>-->
 </div>
 
 <h2>🚗 Recruitment Process</h2>
 
 <table>
   <thead>
-<table>
-  <tr>
-    <th>S.No</th>
-    <th>Process Name</th>
-    <th>Doc. Level</th>
-    <th>Doc. No.</th>
-    <th>Drafted</th>
-    <th>Links</th>
-  </tr>
-  <tr>
-    <td>1</td>
-    <td>Lead Sourcing</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td>Phase-II</td>
-  </tr>
-  <tr>
-    <td>2</td>
-    <td>Lead Prioritization</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td>Phase-II</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Lead Upload</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td>Phase-II</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>Campaign Set-Up</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/u/0/d/1awncGOWff_26M22uN6ZJgKNyKSnGt8t34uwHMDOfmr8/edit', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>Campaign Activation Process</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/u/0/d/1vWhWBQZVOuqtbKXsTOxOvFkcuzqByA4PIJN6WfuRvPU/edit', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>6</td>
-    <td>Lead Management Process(LPM)</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/u/0/d/1ilAK_gznuwTkTWt6tzcnNvHAqH2K6LGhOPpuWi7J9lU/edit', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>7</td>
-    <td>Multi-Campaigns - to TC Setup Process + IB vs OB Prioritization & Telecaller Prioritization</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1sMWQgCnYR_PjSZaBaoq98SeKN_mkBBIpmwNEzWrkjsw/edit?tab=t.0#heading=h.q3bw3w280jq', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>8</td>
-    <td>Predictive Calling Process (Outbound)</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/18iZc5UAFpt9vNMT6wrW3Z_32xJ3pYgOKoNnRW4eG_l8/edit?tab=t.0', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>9</td>
-    <td>Calling & Pitch - "Calling"</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1KWRdso8RKe8ezfoHCBh0e-pg8wI_GzabE5bYj8HB0lg/edit?usp=sharing', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>10</td>
-    <td>Interested Lead Follow Up Process</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/13NSJ16qaci0aML7AqVUDqfyKxdxFOvjfvPts8cMcB7Q/edit?usp=sharing', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>11</td>
-    <td>Scheduled Lead Follow Up Process</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1tkw3S850IH8sFnk0TZ7n0P8sfDTSx4ejQ7P0Bz__9Qs/edit?usp=sharing', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>12</td>
-    <td>Walk-In Lead Follow Up Process</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1g7MJh4pgtoe3qs3gzLiHVUPQ7iHPfQx5lvJo47L0QNE/edit?usp=sharing', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>13</td>
-    <td>Purge Process</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td>Part of Calling Strategy</td>
-  </tr>
-  <tr>
-    <td>14</td>
-    <td>Demand vs Supply Management</td>
-    <td>L3</td>
-    <td></td>
-    <td>FALSE</td>
-    <td>Phase ii To Be Process - TC</td>
-  </tr>
-  <tr>
-    <td>15</td>
-    <td>Provision of access</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1puel320gCIGzqLJLk9P28E8g3pDhEMlHYLXIqpMMNwM/edit?usp=sharing', '_blank')">View</button></td>
-  </tr>
-  <tr>
-    <td>16</td>
-    <td>LPM Logic</td>
-    <td>L3</td>
-    <td></td>
-    <td>TRUE</td>
-    <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1SFEGXuFA697iVEDXYAbo52kIC9gFDj_Cyepuzs2xR3s/edit?usp=sharing', '_blank')">View</button></td>
-  </tr>
-</table>
-
+    <tr>
+      <th>S.No</th>
+      <th>Process Name</th>
+      <th>Doc. Level</th>
+      <th>Drafted</th>
+      <th>Links</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Lead Sourcing</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td>Phase-II</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Lead Prioritization</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td>Phase-II</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Lead Upload</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td>Phase-II</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Campaign Set-Up</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/u/0/d/1awncGOWff_26M22uN6ZJgKNyKSnGt8t34uwHMDOfmr8/edit', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Campaign Activation Process</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/u/0/d/1vWhWBQZVOuqtbKXsTOxOvFkcuzqByA4PIJN6WfuRvPU/edit', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Lead Management Process(LPM)</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/u/0/d/1ilAK_gznuwTkTWt6tzcnNvHAqH2K6LGhOPpuWi7J9lU/edit', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Multi-Campaigns - to TC Setup Process + IB vs OB Prioritization & Telecaller Prioritization</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1sMWQgCnYR_PjSZaBaoq98SeKN_mkBBIpmwNEzWrkjsw/edit?tab=t.0#heading=h.q3bw3w280jq', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Predictive Calling Process (Outbound)</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/18iZc5UAFpt9vNMT6wrW3Z_32xJ3pYgOKoNnRW4eG_l8/edit?tab=t.0', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Calling & Pitch - "Calling"</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1KWRdso8RKe8ezfoHCBh0e-pg8wI_GzabE5bYj8HB0lg/edit?usp=sharing', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Interested Lead Follow Up Process</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/13NSJ16qaci0aML7AqVUDqfyKxdxFOvjfvPts8cMcB7Q/edit?usp=sharing', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Scheduled Lead Follow Up Process</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1tkw3S850IH8sFnk0TZ7n0P8sfDTSx4ejQ7P0Bz__9Qs/edit?usp=sharing', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>Walk-In Lead Follow Up Process</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1g7MJh4pgtoe3qs3gzLiHVUPQ7iHPfQx5lvJo47L0QNE/edit?usp=sharing', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>Purge Process</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/spreadsheets/d/1L1b-L0u0hf1rVn5hMo--I7oVLE3o67a01Q1-EaVR0-8/edit?gid=841717395#gid=841717395', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>Demand vs Supply Management</td>
+      <td>L3</td>
+      <td><div class="checkbox"></div></td>
+      <td>Phase ii To Be Process - TC</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>Provision of access</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1puel320gCIGzqLJLk9P28E8g3pDhEMlHYLXIqpMMNwM/edit?usp=sharing', '_blank')">View</button></td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>LPM Logic</td>
+      <td>L3</td>
+      <td><div class="checkbox checked"></div></td>
+      <td><button class="view-btn" onclick="window.open('https://docs.google.com/document/d/1SFEGXuFA697iVEDXYAbo52kIC9gFDj_Cyepuzs2xR3s/edit?usp=sharing', '_blank')">View</button></td>
+    </tr>
   </tbody>
 </table>
+
+<div class="footer-note">
+  <p>Note: Pilot recruitment is still ongoing development phase. So there will be frequent changes taking place.</p>
+</div>
 
 </body>
 </html>
