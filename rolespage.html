@@ -1,192 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roles - EVEREST FLEET</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Everest Fleet – PEXHub</title>
+
+  <!-- Professional font -->
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"/>
+
   <style>
+    /* reset & base */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      margin: 0;
-      padding-top: 60px;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-      position: relative;
+      font-family: 'Lato', Arial, sans-serif;
+      background: #f4f6f8;
+      color: #333;
+      min-height: 100vh;
+      padding-top: 60px;    /* header height */
+      padding-bottom: 40px; /* footer height */
+      overflow-x: hidden;
     }
 
-    .header {
+    /* header */
+    .topbar {
       position: fixed;
-      top: 0;
-      width: 100%;
-      background: linear-gradient(45deg, #1886cf, #091d33);
-      padding: 15px 0;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .user-icon {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      width: 30px;
-      height: 30px;
-      background-color: white;
-      color: black;
-      border-radius: 50%;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      background: #fff;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 10;
+      position: fixed; /* Keeps it fixed at the top */
+    }
+    .nav-left {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .nav-left .text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+    }
+    .nav-left .text span {
       font-size: 18px;
+      font-weight: 900;
+      color: #1a237e;
+    }
+    .nav-left img {
+      margin-left: 8px;
+      width: 60px;
+      height: auto;
+      background: none;
+    }
+    .center-title {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a237e;
+      pointer-events: none; /* so clicks pass through */
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+    }
+    .nav-right .user-name,
+    .nav-right .user-role {
+      margin: 0 10px;
+      font-size: 14px;
+      color: #555;
+      font-weight: 400;
+    }
+    .nav-right .avatar {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: #1976d2;
+      color: #fff;
+      display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
 
-    .popup {
+    /* popup */
+    #user-popup {
       display: none;
       position: absolute;
-      top: 50px;
-      right: 10px;
-      background: white;
-      color: black;
-      padding: 10px;
-      border-radius: 5px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-      font-size: 14px;
-      width: 180px;
-      text-align: left;
-    }
-
-    .popup div {
-      margin-bottom: 5px;
-    }
-
-    .popup .close-btn {
-      text-align: right;
-      font-size: 12px;
-      cursor: pointer;
-      color: red;
-    }
-
-    .logo {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      width: 80px;
-      height: auto;
-      filter: none;
-    }
-
-    .circle {
-      width: 140px;
-      height: 140px;
-      background: linear-gradient(45deg, #ff9800, #ff5722);
-      color: white;
-      border-radius: 50%;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      font-weight: bold;
-      margin: 20px;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease-in-out;
-    }
-
-    .circle:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 25px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-      border-radius: 25px;
-      background: linear-gradient(45deg, #4CAF50, #388E3C);
-      color: white;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease-in-out;
-    }
-
-    .button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .logout-btn {
-      margin-top: 10px;
-      width: 100%;
-      padding: 6px;
-      background-color: #d9534f;
-      color: white;
-      border: none;
+      top: 60px; right: 20px;
+      background: #fff;
       border-radius: 4px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      width: 200px;
+      padding: 10px;
+      font-size: 14px;
+      z-index: 20;
+    }
+    .close-btn {
+      text-align: right;
       cursor: pointer;
+      color: #999;
+      margin-bottom: 8px;
+    }
+    .info-row {
+      margin: 6px 0;
+      font-weight: 400;
     }
 
-    .logout-btn:hover {
-      background-color: #c9302c;
+    /* main content */
+    .main {
+      padding: 20px;
+      text-align: center;
+    }
+    .main h2 {
+      font-size: 32px;
+      color: #1a237e;
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .main p.tagline {
+      font-size: 18px;
+      color: #1976d2;
+      margin-bottom: 30px;
+      font-weight: 400;
+    }
+
+    /* grid cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .card-header { height: 6px; }
+    .process    .card-header { background: #2962ff; }
+    .learning   .card-header { background: #2e7d32; }
+    .change     .card-header { background: #8e24aa; }
+    .audit      .card-header { background: #ef6c00; }
+    .track      .card-header { background: #d32f2f; }
+    .card-body {
+      padding: 20px;
+      text-align: left;
+      font-family: 'Lato', Arial, sans-serif;
+    }
+    .icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 700;
+    }
+    .card p {
+      font-size: 14px;
+      color: #666;
+      font-weight: 400;
+    }
+
+    /* footer */
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      height: 40px;
+      background: #fff;
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;    /* changed from flex-end */
+      padding: 0 20px;
+      font-size: 14px;
+      color: #888;
+      z-index: 10;
+      font-family: 'Lato', Arial, sans-serif;
+    }
+    .footer-content {
+      text-align: center;
+      white-space: nowrap;
     }
   </style>
 </head>
+
 <body>
 
-  <div class="header">PEXHub</div>
-
-  <!-- Person Icon at Top Right -->
-  <div class="user-icon" onclick="togglePopup()">👤</div>
-
-  <!-- User Details Pop-up -->
-  <div class="popup" id="user-popup">
-    <div class="close-btn" onclick="togglePopup()">✖</div>
-    <div><b>Name:</b> <span id="user-name">Loading...</span></div>
-    <div><b>ID:</b> <span id="user-id">Loading...</span></div>
-    <div><b>Department:</b> <span id="user-role">Loading...</span></div>
-    <div>
-      <button class="logout-btn" onclick="logout()">Logout</button>
+  <!-- Header -->
+  <div class="topbar">
+    <div class="nav-left">
+      <div class="text">
+        <span>Everest</span>
+        <span>Fleet</span>
+      </div>
+      <img src="Everest.jpg" alt="Everest Logo" />
+    </div>
+    <div class="center-title">Everest Fleet</div>
+    <div class="nav-right">
+      <span class="user-name" id="display-name">Loading...</span> |
+      <span class="user-role" id="display-role">Loading...</span>
+      <div class="avatar" onclick="togglePopup()">JD</div>
     </div>
   </div>
 
-  <h2>Welcome To Everest Fleet</h2>
-  <h5>Where you find Excellence in Process</h5>
+  <!-- User Popup -->
+  <div id="user-popup">
+    <div class="close-btn" onclick="togglePopup()">✖</div>
+    <div class="info-row"><strong>Name:</strong> <span id="user-name">Loading...</span></div>
+    <div class="info-row"><strong>ID:</strong>   <span id="user-id">Loading...</span></div>
+    <div class="info-row"><strong>Role:</strong> <span id="user-role">Loading...</span></div>
+    <button style="
+      width:100%; margin-top:8px; padding:6px;
+      background:#d32f2f; color:#fff; border:none; border-radius:4px;
+      cursor:pointer;
+    " onclick="logout()">Logout</button>
+  </div>
 
- <!-- <button class="button" onclick="window.location.href='Documentpage.html'">Process Document</button>-->
-  <button class="button" onclick="window.location.href='functions.html'">Process Document</button>
-  <br><br>
-  <div class="button" onclick="window.location.href='learning.html'">Learning Documents</div>
-  <br><br>
-  <button class="button" onclick="window.location.href='document-options.html'">Raise Document Request<br> (change request)</button>
-  <br><br>
-  <button class="button" onclick="window.location.href='Audit report&nc.html'">Audit Report</button>
-  <img src="Everest.jpg" class="logo" alt="EVEREST FLEET Logo">
+  <!-- Main Content -->
+  <div class="main">
+    <h2>Welcome to PEXHub</h2>
+    <p class="tagline">Where you find Excellence in Process</p>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const employeeID = localStorage.getItem("employeeID") || "Unknown";
-      const userRole = localStorage.getItem("userRole") || "Unknown Role";
-      const userName = localStorage.getItem("userName") || "Unknown";
+    <div class="grid">
+      <div class="card process" onclick="location.href='functions.html'">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="icon">📄</div>
+          <h3>Process Documents</h3>
+          <p>Access process documentation and procedures</p>
+        </div>
+      </div>
+      <div class="card learning" onclick="location.href='learning.html'">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="icon">🎓</div>
+          <h3>Learning</h3>
+          <p>Training materials and learning resources</p>
+        </div>
+      </div>
+      <div class="card change" onclick="location.href='document-options.html'">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="icon">⚙️</div>
+          <h3>Change Management</h3>
+          <p>Submit and track change requests</p>
+        </div>
+      </div>
+      <div class="card audit" onclick="openInNewTab()">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="icon">📝</div>
+          <h3>Audits & NCs</h3>
+          <p>Audit reports and non-conformance tracking</p>
+        </div>
+      </div>
+      <div class="card track" onclick="location.href='track-request.html'">
+        <div class="card-header"></div>
+        <div class="card-body">
+          <div class="icon">🔍</div>
+          <h3>Track Your Request</h3>
+          <p>View request ID, date, and approval status</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-content">
+      Developed by process excellence team || Beta Version || ✉️ Process.excellence@everestfleet.com
+    </div>
+  </div>
   
-      document.getElementById("user-id").innerText = employeeID;
-      document.getElementById("user-role").innerText = userRole;
-      document.getElementById("user-name").innerText = userName;
+
+  <!-- Scripts -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const name = localStorage.getItem("userName")   || "Unknown";
+      const id   = localStorage.getItem("employeeID") || "Unknown";
+      const role = localStorage.getItem("userRole")   || "Unknown";
+
+      document.getElementById("user-name").innerText    = name;
+      document.getElementById("display-name").innerText = name;
+      document.getElementById("user-id").innerText      = id;
+      document.getElementById("user-role").innerText    = role;
+      document.getElementById("display-role").innerText = role;
+
+      const avatar = document.querySelector(".avatar");
+      avatar.innerText = name
+        .split(" ")
+        .map(w=>w[0])
+        .join("")
+        .slice(0,2)
+        .toUpperCase();
     });
 
     function togglePopup() {
-      const popup = document.getElementById("user-popup");
-      popup.style.display = popup.style.display === "block" ? "none" : "block";
+      const pop = document.getElementById("user-popup");
+      pop.style.display = pop.style.display === "block" ? "none" : "block";
     }
 
     function logout() {
-      localStorage.clear(); // Clear all local storage data
-      window.location.href = 'index.html'; // Redirect to login/index page
+      localStorage.clear();
+      window.location.href = 'index.html';
+    }
+
+    function openInNewTab() {
+      window.location.href = 'Audit report&nc.html';
     }
   </script>
-
 </body>
 </html>
