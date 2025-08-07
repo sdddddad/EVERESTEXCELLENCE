@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Check Ticket Status - PEXHub</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #f0f2f5;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      padding: 25px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    .header h1 {
+      color: #1c1e21;
+      font-size: 26px;
+      margin-bottom: 5px;
+    }
+    .header p {
+      color: #606770;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      color: #606770;
+      margin-bottom: 8px;
+    }
+    select, button {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    select {
+      border: 1px solid #dddfe2;
+    }
+    button {
+      border: none;
+      background-color: #1877f2;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover:not(:disabled) {
+      background-color: #166fe5;
+    }
+    button:disabled {
+      background-color: #a0bdf1;
+      cursor: not-allowed;
+    }
+    .back-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: #e4e6eb;
+      color: #1c1e21;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    #results {
+      margin-top: 30px;
+      border-top: 1px solid #dddfe2;
+      padding-top: 20px;
+      display: none;
+    }
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+    .result-item {
+      background: #f7f7f7;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    .result-item strong {
+      display: block;
+      color: #606770;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .result-item span {
+      color: #1c1e21;
+      font-weight: 500;
+      word-wrap: break-word;
+    }
+    .message-area {
+      text-align: center;
+      padding: 20px;
+      font-weight: 500;
+      border-radius: 8px;
+      margin-top: 15px;
+    }
+    .error {
+      background-color: #fbebeb;
+      color: #c9302c;
+    }
+    .info {
+      background-color: #eef2ff;
+      color: #1e40af;
+    }
+    .loader {
+      text-align: center;
+      padding: 20px;
+      font-weight: 500;
+      color: #606770;
+    }
+  </style>
+</head>
+<body>
+
+  <button class="back-button" onclick="window.history.back();">← Back to Roles</button>
+
+  <div class="container">
+    <div class="header">
+      <h1>Check Your Ticket Status</h1>
+      <p>Select one of your raised tickets to see its details.</p>
+    </div>
+
+    <div id="loading-tickets" class="loader">Loading your tickets...</div>
+
+    <div id="ticket-form" style="display: none;">
+      <div class="form-group">
+        <label for="ticket-select">Your Ticket Numbers</label>
+        <select id="ticket-select"></select>
+      </div>
+      <button id="search-btn" onclick="getTicketDetails()">Check Status</button>
+    </div>
+
+    <div id="message-area"></div>
+    <div id="results"></div>
+  </div>
+
+<script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyg74Mlr63aRKh9OSP-HtP3dsjuyROq_qs7D25ccg7zxBT5LjnswPKBDI4vTENu0xA/exec";
+
+  document.addEventListener('DOMContentLoaded', fetchUserTickets);
+
+  function showMessage(type, text) {
+    const messageArea = document.getElementById('message-area');
+    messageArea.innerHTML = `<div class="message-area ${type}">${text}</div>`;
+  }
+
+  function fetchUserTickets() {
+    const employeeId = localStorage.getItem("employeeID");
+
+    if (!employeeId) {
+      document.getElementById('loading-tickets').style.display = "none";
+      showMessage('error', 'Missing employee ID. Please <a href="index.html">log in</a> again.');
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = `${SCRIPT_URL}?employeeId=${encodeURIComponent(employeeId)}&callback=loadTicketsCallback`;
+    document.body.appendChild(script);
+  }
+
+  function loadTicketsCallback(data) {
+    const loadingDiv = document.getElementById('loading-tickets');
+    const formDiv = document.getElementById('ticket-form');
+    const select = document.getElementById('ticket-select');
+
+    loadingDiv.style.display = 'none';
+
+    if (data.error) {
+      showMessage('error', data.error);
+      return;
+    }
+
+    if (data.tickets && data.tickets.length > 0) {
+      select.innerHTML = '<option value="">-- Select a Ticket --</option>';
+      data.tickets.forEach(ticket => {
+        const option = new Option(ticket, ticket);
+        select.add(option);
+      });
+      formDiv.style.display = 'block';
+    } else {
+      showMessage('info', 'No tickets found for your Employee ID.');
+    }
+  }
+
+  function getTicketDetails() {
+    const ticketNumber = document.getElementById('ticket-select').value;
+    const resultsDiv = document.getElementById('results');
+    const searchBtn = document.getElementById('search-btn');
+
+    if (!ticketNumber) {
+      showMessage('error', 'Please select a ticket number first.');
+      return;
+    }
+
+    searchBtn.disabled = true;
+    searchBtn.textContent = 'Checking...';
+    resultsDiv.style.display = 'none';
+    showMessage('', '');
+
+    const script = document.createElement("script");
+    script.src = `${SCRIPT_URL}?ticketNumber=${encodeURIComponent(ticketNumber)}&callback=displayTicketDetails`;
+    document.body.appendChild(script);
+  }
+
+  function displayTicketDetails(data) {
+    const resultsDiv = document.getElementById('results');
+    const searchBtn = document.getElementById('search-btn');
+    const gridContainer = document.createElement("div");
+    gridContainer.className = "results-grid";
+
+    resultsDiv.innerHTML = '';
+    resultsDiv.style.display = 'block';
+
+    if (data.error) {
+      showMessage('error', data.error);
+    } else {
+      const approverItem = document.createElement('div');
+      approverItem.className = 'result-item';
+      approverItem.innerHTML = `<strong>Approver Name</strong><span>${data.approver || "Not Assigned"}</span>`;
+      gridContainer.appendChild(approverItem);
+
+      const statusItem = document.createElement('div');
+      statusItem.className = 'result-item';
+      statusItem.innerHTML = `<strong>Status</strong><span>${data.status || "Pending"}</span>`;
+      gridContainer.appendChild(statusItem);
+
+      resultsDiv.appendChild(gridContainer);
+    }
+
+    searchBtn.disabled = false;
+    searchBtn.textContent = 'Check Status';
+  }
+</script>
+
+
+</body>
+</html>
