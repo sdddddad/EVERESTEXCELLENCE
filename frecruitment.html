@@ -19,28 +19,11 @@
   #back-btn{left:10px;} #home-btn{right:10px;}
   .footer-note{margin-top:20px;padding:10px;background:#f8d7da;color:#721c24;border-radius:5px;text-align:center;}
   .checkbox{
-    width:20px;
-    height:20px;
-    border:2px solid #ccc;
-    border-radius:5px;
-    display:inline-block;
-    background:transparent;
-    position:relative;
-    cursor:pointer;
+    width:20px;height:20px;border:2px solid #ccc;border-radius:5px;display:inline-block;background:transparent;position:relative;cursor:pointer;
   }
-  .approved{
-    background-color:green;
-    border-color:green;
-  }
+  .approved{background-color:green;border-color:green;}
   .approved::after{
-    content:"✓";
-    color:white;
-    font-size:16px;
-    font-weight:bold;
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-55%);
+    content:"✓";color:white;font-size:16px;font-weight:bold;position:absolute;top:50%;left:50%;transform:translate(-50%,-55%);
   }
 </style>
 </head>
@@ -96,11 +79,27 @@
 
 <script>
 (function(){
+  const STORAGE_KEY='pe_approved_status_v1';
   const searchInput=document.getElementById('searchInput');
   const approvedOnly=document.getElementById('approvedOnly');
   const tbody=document.getElementById('table-body');
 
   function normalize(t){return (t||'').toLowerCase().trim();}
+  function loadState(){
+    try{ return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch(e){ return {}; }
+  }
+  function saveState(map){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+  }
+  function getRowKey(tr){
+    // Use S.No (first cell) as a stable key
+    return (tr.cells[0]?.innerText || '').trim();
+  }
+  function setApprovedVisual(checkboxEl, isApproved){
+    if(!checkboxEl) return;
+    checkboxEl.classList.toggle('approved', !!isApproved);
+  }
   function rowIsApproved(tr){
     const approvedCell = tr.cells[3];
     return !!(approvedCell && approvedCell.querySelector && approvedCell.querySelector('.checkbox.approved'));
@@ -116,13 +115,32 @@
       tr.style.display=(matchesText && matchesApproved)?'':'none';
     });
   }
+
+  // 1) Restore approved state on load
+  const state=loadState();
+  Array.from(tbody.rows).forEach(tr=>{
+    const key=getRowKey(tr);
+    const checkbox=tr.cells[3]?.querySelector('.checkbox');
+    setApprovedVisual(checkbox, state[key]);
+  });
+
+  // 2) Interactions
   if(searchInput) searchInput.addEventListener('input',applyFilter);
   if(approvedOnly) approvedOnly.addEventListener('change',applyFilter);
 
-  // Toggle Approved on click
+  // Toggle + persist on click
   tbody.addEventListener('click',function(e){
     if(e.target.classList.contains('checkbox')){
-      e.target.classList.toggle('approved');
+      const tr=e.target.closest('tr');
+      const key=getRowKey(tr);
+      const currentlyApproved=e.target.classList.contains('approved');
+      const newVal = !currentlyApproved;
+      setApprovedVisual(e.target, newVal);
+      const currentState=loadState();
+      currentState[key]=newVal;
+      saveState(currentState);
+      // Re-apply filter if Approved-only is active
+      if(approvedOnly && approvedOnly.checked) applyFilter();
     }
   });
 })();
