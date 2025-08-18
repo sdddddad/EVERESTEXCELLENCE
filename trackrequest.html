@@ -152,7 +152,7 @@
   </div>
 
 <script>
-  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyg74Mlr63aRKh9OSP-HtP3dsjuyROq_qs7D25ccg7zxBT5LjnswPKBDI4vTENu0xA/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxGC37RBn-9twy_lfCSQN_WmdmT_9lQ54v_aEcSVwM8lUuvcAddYpYnBDVsKw4ipT8/exec";
 
   document.addEventListener('DOMContentLoaded', fetchUserTickets);
 
@@ -219,36 +219,48 @@
     document.body.appendChild(script);
   }
 
-  function displayTicketDetails(data) {
-    const resultsDiv = document.getElementById('results');
-    const searchBtn = document.getElementById('search-btn');
-    const gridContainer = document.createElement("div");
-    gridContainer.className = "results-grid";
+/**
+ * --- THIS FUNCTION IS MODIFIED ---
+ * Displays ticket details, using the new "finalTicketStatus" field from the script.
+ */
+function displayTicketDetails(data) {
+  const resultsDiv = document.getElementById('results');
+  const searchBtn = document.getElementById('search-btn');
+  const gridContainer = document.createElement("div");
+  gridContainer.className = "results-grid";
 
-    resultsDiv.innerHTML = '';
-    resultsDiv.style.display = 'block';
+  resultsDiv.innerHTML = '';
+  resultsDiv.style.display = 'block';
 
-    if (data.error) {
-      showMessage('error', data.error);
-    } else {
-      const approverItem = document.createElement('div');
-      approverItem.className = 'result-item';
-      approverItem.innerHTML = `<strong>Approver Name</strong><span>${data.approver || "Not Assigned"}</span>`;
-      gridContainer.appendChild(approverItem);
+  if (data.error) {
+    showMessage('error', data.error);
+  } else {
+    // Approver (no change)
+    const approverItem = document.createElement('div');
+    approverItem.className = 'result-item';
+    approverItem.innerHTML = `<strong>Approver Name</strong><span>${data.approver || "Not Assigned"}</span>`;
+    gridContainer.appendChild(approverItem);
 
-      const statusItem = document.createElement('div');
-      statusItem.className = 'result-item';
-      statusItem.innerHTML = `<strong>Status</strong><span>${data.status || "Pending"}</span>`;
-      gridContainer.appendChild(statusItem);
+    // --- LOGIC MODIFIED HERE ---
+    // The complex 'if' statement is replaced with a direct use of the new data field.
+    const statusItem = document.createElement('div');
+    statusItem.className = 'result-item';
+    
+    // Use the final status directly from the script. Default to "Pending" if it's missing.
+    const finalStatus = data.finalTicketStatus || "Pending";
 
-      resultsDiv.appendChild(gridContainer);
-    }
+    statusItem.innerHTML = `<strong>Status</strong><span>${finalStatus}</span>`;
+    gridContainer.appendChild(statusItem);
+    // --- END OF MODIFICATION ---
 
-    searchBtn.disabled = false;
-    searchBtn.textContent = 'Check Status';
+    resultsDiv.appendChild(gridContainer);
   }
-</script>
 
+  searchBtn.disabled = false;
+  searchBtn.textContent = 'Check Status';
+}
+
+</script>
 
 </body>
 </html>
