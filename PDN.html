@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Process Change Request - EVEREST FLEET</title>
+<title>Process Deviation Note - EVEREST FLEET</title>
 <style>
     * {
       margin: 0;
@@ -442,57 +442,62 @@
 <form class="form-card" id="processForm" novalidate="">
 <!-- Step 1: Basic Information -->
 <div class="form-step active" id="form-step-0">
-<div class="step-header">
-<h3 class="step-title-main">Basic Information</h3>
-</div>
-<div class="form-grid">
-<div class="form-group">
-<label for="employeeId">1. Employee ID <span class="required">*</span></label>
-<input id="employeeId" name="employeeId" placeholder="Enter your employee ID" required="" type="text"/>
-</div>
-<div class="form-group">
-<label for="department">2. Department <span class="required">*</span></label>
-<select id="department" name="department" required="">
-<option value="">Select department</option>
-</select>
-<input class="hidden" id="otherDepartment" placeholder="Enter specific department" style="margin-top: 0.5rem;" type="text"/>
-</div>
-<div class="form-group">
-<label for="designation">3. Designation / Role <span class="required">*</span></label>
-<select id="designation" name="designation" required="">
-<option value="">Select designation</option>
-<option value="Lead">Lead</option>
-<option value="Senior Manager">Senior Manager</option>
-<option value="Manager">Manager</option>
-<option value="Assistant Manager">Assistant Manager</option>
-<option value="Executive">Executive</option>
-<option value="Supervisor">Supervisor</option>
-<option value="Analyst">Analyst</option>
-<option value="Secretary">Secretary</option>
-<option value="Other">Other</option>
-</select>
-<input class="hidden" id="otherDesignation" placeholder="Enter specific designation" style="margin-top: 0.5rem;" type="text"/>
-</div>
-<div class="form-group">
-<label for="city">4. City <span class="required">*</span></label>
-<select id="city" name="city" required="">
-<option value="">Select city</option>
-<option value="Mumbai">Mumbai</option>
-<option value="Pune">Pune</option>
-<option value="Kolkata">Kolkata</option>
-<option value="Chennai">Chennai</option>
-<option value="Bangalore">Bangalore</option>
-<option value="Hyderabad">Hyderabad</option>
-<option value="Delhi">Delhi</option>
-</select>
-</div>
-<div class="form-group">
-<label for="subBranch">5. Sub Branch <span class="required">*</span></label>
-<select disabled="" id="subBranch" name="subBranch" required="">
-<option value="">Select sub branch</option>
-</select>
-</div>
-</div>
+    <div class="step-header">
+        <h3 class="step-title-main">Basic Information</h3>
+    </div>
+    <div class="form-grid">
+        <div class="form-group">
+            <label for="employeeId">1. Employee ID <span class="required">*</span></label>
+            <input id="employeeId" name="employeeId" placeholder="Enter your employee ID" required="" type="text" readonly/>
+        </div>
+        <!-- NEW FIELD FOR EMPLOYEE NAME -->
+        <div class="form-group">
+            <label for="employeeName">2. Employee Name <span class="required">*</span></label>
+            <input id="employeeName" name="employeeName" placeholder="Auto-filled from login" required="" type="text" readonly/>
+        </div>
+        <div class="form-group">
+            <label for="department">3. Department <span class="required">*</span></label>
+            <select id="department" name="department" required="">
+                <option value="">Select department</option>
+            </select>
+            <input class="hidden" id="otherDepartment" placeholder="Enter specific department" style="margin-top: 0.5rem;" type="text"/>
+        </div>
+        <div class="form-group">
+            <label for="designation">4. Designation / Role <span class="required">*</span></label>
+            <select id="designation" name="designation" required="">
+                <option value="">Select designation</option>
+                <option value="Lead">Lead</option>
+                <option value="Senior Manager">Senior Manager</option>
+                <option value="Manager">Manager</option>
+                <option value="Assistant Manager">Assistant Manager</option>
+                <option value="Executive">Executive</option>
+                <option value="Supervisor">Supervisor</option>
+                <option value="Analyst">Analyst</option>
+                <option value="Secretary">Secretary</option>
+                <option value="Other">Other</option>
+            </select>
+            <input class="hidden" id="otherDesignation" placeholder="Enter specific designation" style="margin-top: 0.5rem;" type="text"/>
+        </div>
+        <div class="form-group">
+            <label for="city">5. City <span class="required">*</span></label>
+            <select id="city" name="city" required="">
+                <option value="">Select city</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Pune">Pune</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Hyderabad">Hyderabad</option>
+                <option value="Delhi">Delhi</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="subBranch">6. Sub Branch <span class="required">*</span></label>
+            <select disabled="" id="subBranch" name="subBranch" required="">
+                <option value="">Select sub branch</option>
+            </select>
+        </div>
+    </div>
 </div>
 <!-- Step 2 -->
 <div class="form-step" id="form-step-1">
@@ -608,18 +613,11 @@
         "Operations": "Sunny Sapra",
         "Repair and Maintenance": "Varun",
         "Procurement": "Shivang",
-        "Process Excellence": "Ganesh Jatadharan"
+        "Process Excellence": "Ganesh Jatadharan",
+        
     };
 
-    const subBranches = {
-      'Mumbai': ['Thane', 'Vasai', 'Andheri', 'Borivali'],
-      'Pune': ['Wakad', 'Hinjewadi', 'Hadapsar', 'Kothrud'],
-      'Kolkata': ['Howrah', 'Salt Lake', 'Park Street','Taratala','Chetla','Nagarbazar'],
-      'Chennai': ['T Nagar', 'Velachery', 'Anna Nagar'],
-      'Bangalore': ['Whitefield', 'Koramangala', 'Electronic City'],
-      'Hyderabad': ['Madhapur', 'Begumpet', 'Gachibowli'],
-      'Delhi': ['Dwarka', 'Saket', 'Connaught Place']
-    };
+    const subBranches = { 'Mumbai': ['Thane','Chunnabhatti','Goregoan CNG', 'Vasai', 'Lower Parel', 'Kopar Khairane'], 'Pune': ['Hadapsar','BANER'], 'Kolkata': ['Taratala','Chetla','Nagarbazar'], 'Chennai': ['VANAGARAM'], 'Bangalore': ['Singasandra', 'Blr Electronic City', 'Bglr Whitefield','Airport - Begur'], 'Hyderabad': ['Damaigudda', 'Gachibowli'], 'Delhi': ['Delhi-Sukhrali', 'Delhi Tech Garden', 'Delhi Dwarka'] };
     
     const departmentsList = [ "Operations", "Repair and Maintenance", "Finance and Accounts", "Legal", "Marketing", "Human Resources", "Recruitment", "Training", "Quality", "Procurement", "Process Excellence", "Business Intelligence", "Administration", "Hardware & Networking", "Refrigerator Van", "Sourcing", "Technology", "Insurance", "Mitr", "Other" ];
 
@@ -649,14 +647,22 @@
         });
     });
 
+    // --- UPDATED FUNCTION ---
     function prefillUserData() {
         const loggedInEmployeeID = localStorage.getItem("employeeID");
+        const loggedInEmployeeName = localStorage.getItem("employeeName"); // Get name from storage
         const loggedInDepartment = localStorage.getItem("userRole"); 
+        
         const employeeIdInput = document.getElementById('employeeId');
+        const employeeNameInput = document.getElementById('employeeName'); // Get name input element
         const departmentSelect = document.getElementById('department');
 
         if (loggedInEmployeeID) {
             employeeIdInput.value = loggedInEmployeeID;
+        }
+
+        if (loggedInEmployeeName) {
+            employeeNameInput.value = loggedInEmployeeName; // Set the value of the name input
         }
 
         if (loggedInDepartment && departmentsList.includes(loggedInDepartment)) {
@@ -749,6 +755,7 @@
       }
     }
     
+    // --- UPDATED FUNCTION ---
     function collectFormData() {
       let documentNameValue = document.getElementById('documentNumber').value;
       if (documentNameValue === 'Other') {
@@ -757,6 +764,7 @@
 
       return {
         employeeId: document.getElementById('employeeId').value.trim(),
+        employeeName: document.getElementById('employeeName').value.trim(), // Collect the name
         department: document.getElementById('department').value === 'Other' ? 
                    document.getElementById('otherDepartment').value.trim() : 
                    document.getElementById('department').value,
@@ -778,6 +786,7 @@
       };
     }
 
+    // --- UPDATED FUNCTION ---
     function updateReviewContent() {
       const reviewContent = document.getElementById('reviewContent');
       const formData = collectFormData();
@@ -785,6 +794,7 @@
 
       reviewContent.innerHTML = `
         <div class="review-item"><div class="review-label">Employee ID</div><div class="review-value">${formData.employeeId || '-'}</div></div>
+        <div class="review-item"><div class="review-label">Employee Name</div><div class="review-value">${formData.employeeName || '-'}</div></div>
         <div class="review-item"><div class="review-label">Department</div><div class="review-value">${formData.department || '-'}</div></div>
         <div class="review-item"><div class="review-label">Designation</div><div class="review-value">${formData.designation || '-'}</div></div>
         <div class="review-item"><div class="review-label">City</div><div class="review-value">${formData.city || '-'}</div></div>
@@ -961,7 +971,7 @@
         const submissionData = { ticketNumber, ...formData };
         
         try {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzwfjZLEjUAWrREzBSMjcB-FIqCoZkTGLsLvecMNOBTT7R1F-m6FCErJegmZ5i6B5Jn/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbwXbnmdHV0ckOafSwxuO6fQzWFibtN6GyLzIYHmNfVNfD_KQMtiEGWkWfihuANPxS6b/exec';
 
             await fetch(scriptURL, {
               method: 'POST',
