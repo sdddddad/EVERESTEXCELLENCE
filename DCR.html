@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Process Change Request - EVEREST FLEET</title>
+  <title>Document Change Request - EVEREST FLEET</title>
   
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -76,7 +76,7 @@
       
       <div class="header">
         <h1>EVEREST FLEET</h1>
-        <p>Process Change Request Form</p>
+        <p>Document Change Request Form</p>
       </div>
 
       <div class="progress-container">
@@ -96,7 +96,9 @@
         <div class="form-step" id="form-step-0">
           <div class="step-header"><h3 class="step-title-main">Basic Information</h3></div>
           <div class="form-grid">
-            <div class="form-group"><label for="employeeId">Employee ID <span class="required">*</span></label><input type="text" id="employeeId" name="employeeId" placeholder="Enter your employee ID" required /></div>
+            <div class="form-group"><label for="employeeId">Employee ID <span class="required">*</span></label><input type="text" id="employeeId" name="employeeId" placeholder="Auto-filled from login" required readonly/></div>
+            <!-- NEW EMPLOYEE NAME FIELD -->
+            <div class="form-group"><label for="employeeName">Employee Name <span class="required">*</span></label><input type="text" id="employeeName" name="employeeName" placeholder="Auto-filled from login" required readonly/></div>
             <div class="form-group"><label for="department">Department <span class="required">*</span></label><select id="department" name="department" required><option value="">Select department</option></select><input type="text" id="otherDepartment" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter specific department" /></div>
             <div class="form-group"><label for="designation">Designation / Role <span class="required">*</span></label><select id="designation" name="designation" required><option value="">Select designation</option><option value="Lead">Lead</option><option value="Senior Manager">Senior Manager</option><option value="Manager">Manager</option><option value="Assistant Manager">Assistant Manager</option><option value="Executive">Executive</option><option value="Supervisor">Supervisor</option><option value="Analyst">Analyst</option><option value="Secretary">Secretary</option><option value="Other">Other</option></select><input type="text" id="otherDesignation" class="hidden" style="margin-top: 0.5rem;" placeholder="Enter specific designation" /></div>
             <div class="form-group"><label for="city">City <span class="required">*</span></label><select id="city" name="city" required><option value="">Select city</option><option value="Mumbai">Mumbai</option><option value="Pune">Pune</option><option value="Kolkata">Kolkata</option><option value="Chennai">Chennai</option><option value="Bangalore">Bangalore</option><option value="Hyderabad">Hyderabad</option><option value="Delhi">Delhi</option></select></div>
@@ -121,9 +123,7 @@
                 <input type="text" id="processName" name="processName" placeholder="Auto-filled or enter manually" required />
             </div>
 
-            <!-- FIX 1: Removed red asterisk from label -->
             <div class="form-group"><label for="existingDocType">Upload Existing Document</label>
-                <!-- FIX 2: Removed 'required' attribute from this select element -->
                 <select id="existingDocType" name="existingDocType">
                     <option value="">Select type (optional)</option>
                     <option value="link">Link</option>
@@ -192,7 +192,7 @@
     const totalSteps = 4;
     let allDocumentData = {};
 
-    const subBranches = { 'Mumbai': ['Thane', 'Vasai', 'Andheri', 'Borivali'], 'Pune': ['Wakad', 'Hinjewadi', 'Hadapsar', 'Kothrud'], 'Kolkata': ['Howrah', 'Salt Lake', 'Park Street','Taratala','Chetla','Nagarbazar'], 'Chennai': ['T Nagar', 'Velachery', 'Anna Nagar'], 'Bangalore': ['Whitefield', 'Koramangala', 'Electronic City'], 'Hyderabad': ['Madhapur', 'Begumpet', 'Gachibowli'], 'Delhi': ['Dwarka', 'Saket', 'Connaught Place'] };
+    const subBranches = { 'Mumbai': ['Thane','Chunnabhatti','Goregoan CNG', 'Vasai', 'Lower Parel', 'Kopar Khairane'], 'Pune': ['Hadapsar','BANER'], 'Kolkata': ['Taratala','Chetla','Nagarbazar'], 'Chennai': ['VANAGARAM'], 'Bangalore': ['Singasandra', 'Blr Electronic City', 'Bglr Whitefield','Airport - Begur'], 'Hyderabad': ['Damaigudda', 'Gachibowli'], 'Delhi': ['Delhi-Sukhrali', 'Delhi Tech Garden', 'Delhi Dwarka'] };
     const departmentsList = [ "Operations", "Repair and Maintenance", "Finance and Accounts", "Legal", "Marketing", "Human Resources", "Recruitment", "Training", "Quality", "Procurement", "Process Excellence", "Business Intelligence", "Administration", "Hardware & Networking", "Refrigerator Van", "Sourcing", "Technology", "Insurance", "Mitr", "Other" ];
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -222,13 +222,23 @@
         }
     }
 
+    // --- UPDATED FUNCTION ---
     function prefillUserData() {
         const loggedInEmployeeID = localStorage.getItem("employeeID");
+        const loggedInEmployeeName = localStorage.getItem("employeeName"); // Get name
         const loggedInDepartment = localStorage.getItem("userRole"); 
+        
         const employeeIdInput = document.getElementById('employeeId');
+        const employeeNameInput = document.getElementById('employeeName'); // Get name input element
         const departmentSelect = document.getElementById('department');
 
-        if (loggedInEmployeeID) employeeIdInput.value = loggedInEmployeeID;
+        if (loggedInEmployeeID) {
+            employeeIdInput.value = loggedInEmployeeID;
+        }
+        if (loggedInEmployeeName) {
+            employeeNameInput.value = loggedInEmployeeName; // Set name input value
+        }
+
         if (loggedInDepartment && departmentsList.includes(loggedInDepartment)) {
             departmentSelect.value = loggedInDepartment;
             departmentSelect.dispatchEvent(new Event('change'));
@@ -325,25 +335,17 @@
         setupConditionalField('department', 'otherDepartment');
         setupConditionalField('designation', 'otherDesignation');
 
-        // FIX 3: Updated this function to be smarter
         const setupDocTypeField = (selectId, linkId, fileId) => {
             document.getElementById(selectId).addEventListener('change', function() {
-                // Check if the main dropdown itself is required
                 const isMainSelectRequired = this.required;
-
                 const isLink = this.value === 'link';
                 const isUpload = this.value === 'upload';
                 const linkInput = document.getElementById(linkId);
                 const fileInput = document.getElementById(fileId);
-
                 linkInput.classList.toggle('hidden', !isLink);
-                // Only make the link input required if the main dropdown is required AND 'link' is chosen
                 linkInput.required = isMainSelectRequired && isLink;
-
                 fileInput.classList.toggle('hidden', !isUpload);
-                // Only make the file input required if the main dropdown is required AND 'upload' is chosen
                 fileInput.required = isMainSelectRequired && isUpload;
-                
                 if (!isLink) linkInput.value = '';
                 if (!isUpload) fileInput.value = '';
             });
@@ -419,7 +421,9 @@
             }
         }
         if (stepIndex === 2) {
-            return document.querySelectorAll('input[name="distribution"]:checked').length > 0;
+            if (!document.querySelector('input[name="distribution"]:checked')) {
+                return false;
+            }
         }
         return true; 
     }
@@ -434,6 +438,8 @@
       }
       return true;
     }
+
+    // --- UPDATED FUNCTION ---
     function collectFormData() {
       let distributionList = [];
       document.querySelectorAll('input[name="distribution"]:checked').forEach(box => {
@@ -452,6 +458,7 @@
 
       return { 
         employeeId: document.getElementById('employeeId').value.trim(), 
+        employeeName: document.getElementById('employeeName').value.trim(), // Collect name
         department: document.getElementById('department').value === 'Other' ? document.getElementById('otherDepartment').value.trim() : document.getElementById('department').value, 
         designation: document.getElementById('designation').value === 'Other' ? document.getElementById('otherDesignation').value.trim() : document.getElementById('designation').value, 
         city: document.getElementById('city').value, 
@@ -468,12 +475,14 @@
       };
     }
 
+    // --- UPDATED FUNCTION ---
     function updateReviewContent() {
         const formData = collectFormData();
         const hodName = hodMapping[formData.department] || 'Not Specified';
 
         document.getElementById('reviewContent').innerHTML = `
             <div class="review-item"><div class="review-label">Employee ID</div><div class="review-value">${formData.employeeId}</div></div>
+            <div class="review-item"><div class="review-label">Employee Name</div><div class="review-value">${formData.employeeName}</div></div>
             <div class="review-item"><div class="review-label">Department</div><div class="review-value">${formData.department}</div></div>
             <div class="review-item"><div class="review-label">Designation</div><div class="review-value">${formData.designation}</div></div>
             <div class="review-item"><div class="review-label">City</div><div class="review-value">${formData.city}</div></div>
@@ -505,7 +514,7 @@
         const ticketNumber = generateTicketNumber(formData.department);
         const submissionData = { ticketNumber, ...formData };
         
-        await fetch('https://script.google.com/macros/s/AKfycbwCqfS0yjDP5OJa-52-X4DEiNCV1mp-8J8vsAJAqc7jR9nLzx8dBcZzEKFsFhF3r8Pf7A/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbzIpu84h8A98wYlPpLzj-Z2HEDvh-TmiO_U9BozVIznJqix5ffpWsSeuLoagqqMtP6ljw/exec', {
             method: 'POST',
             mode: 'no-cors',
             headers: { 'Content-Type': 'application/json' },
