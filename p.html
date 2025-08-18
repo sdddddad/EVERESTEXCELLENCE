@@ -67,7 +67,6 @@
 </style>
 </head>
 <body>
-<!-- ALL HTML IS UNCHANGED -->
 <div class="container">
 <div class="form-container">
 <button class="back-button" onclick="window.history.back();">← Back</button>
@@ -90,11 +89,21 @@
 <div class="form-step active" id="form-step-0">
 <div class="step-header"> <h3 class="step-title-main">Basic Information</h3> </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-<div class="form-group"> <label for="employeeId">Employee ID<span class="required">*</span></label> <input id="employeeId" name="employeeId" placeholder="Enter your employee ID" required type="text"/> </div>
-<div class="form-group"> <label for="department">Department<span class="required">*</span></label> <select id="department" name="department" required> <option value="">Select department</option> </select> <input class="hidden" id="otherDepartment" placeholder="Enter specific department" style="margin-top: 0.5rem;" type="text"/> </div>
-<div class="form-group"> <label for="designation">Designation / Role<span class="required">*</span></label> <select id="designation" name="designation" required> <option value="">Select designation</option> <option value="Lead">Lead</option> <option value="Senior Manager">Senior Manager</option> <option value="Manager">Manager</option> <option value="Assistant Manager">Assistant Manager</option> <option value="Executive">Executive</option> <option value="Supervisor">Supervisor</option> <option value="Analyst">Analyst</option> <option value="Secretary">Secretary</option> <option value="Other">Other</option> </select> <input class="hidden" id="otherDesignation" placeholder="Enter specific designation" style="margin-top: 0.5rem;" type="text"/> </div>
-<div class="form-group"> <label for="city">City<span class="required">*</span></label> <select id="city" name="city" required> <option value="">Select city</option> <option value="Mumbai">Mumbai</option> <option value="Pune">Pune</option> <option value="Kolkata">Kolkata</option> <option value="Chennai">Chennai</option> <option value="Bangalore">Bangalore</option> <option value="Hyderabad">Hyderabad</option> <option value="Delhi">Delhi</option> </select> </div>
-<div class="form-group"> <label for="subBranch">Sub Branch<span class="required">*</span></label> <select disabled id="subBranch" name="subBranch" required> <option value="">Select sub branch</option> </select> </div>
+    <!-- EMPLOYEE ID FIELD -->
+    <div class="form-group"> 
+        <label for="employeeId">Employee ID<span class="required">*</span></label> 
+        <input id="employeeId" name="employeeId" placeholder="Auto-filled from login" required type="text" readonly/> 
+    </div>
+    <!-- NEW EMPLOYEE NAME FIELD -->
+    <div class="form-group"> 
+        <label for="employeeName">Employee Name<span class="required">*</span></label> 
+        <input id="employeeName" name="employeeName" placeholder="Auto-filled from login" required type="text" readonly/> 
+    </div>
+    <!-- OTHER FIELDS -->
+    <div class="form-group"> <label for="department">Department<span class="required">*</span></label> <select id="department" name="department" required> <option value="">Select department</option> </select> <input class="hidden" id="otherDepartment" placeholder="Enter specific department" style="margin-top: 0.5rem;" type="text"/> </div>
+    <div class="form-group"> <label for="designation">Designation / Role<span class="required">*</span></label> <select id="designation" name="designation" required> <option value="">Select designation</option> <option value="Lead">Lead</option> <option value="Senior Manager">Senior Manager</option> <option value="Manager">Manager</option> <option value="Assistant Manager">Assistant Manager</option> <option value="Executive">Executive</option> <option value="Supervisor">Supervisor</option> <option value="Analyst">Analyst</option> <option value="Secretary">Secretary</option> <option value="Other">Other</option> </select> <input class="hidden" id="otherDesignation" placeholder="Enter specific designation" style="margin-top: 0.5rem;" type="text"/> </div>
+    <div class="form-group"> <label for="city">City<span class="required">*</span></label> <select id="city" name="city" required> <option value="">Select city</option> <option value="Mumbai">Mumbai</option> <option value="Pune">Pune</option> <option value="Kolkata">Kolkata</option> <option value="Chennai">Chennai</option> <option value="Bangalore">Bangalore</option> <option value="Hyderabad">Hyderabad</option> <option value="Delhi">Delhi</option> </select> </div>
+    <div class="form-group"> <label for="subBranch">Sub Branch<span class="required">*</span></label> <select disabled id="subBranch" name="subBranch" required> <option value="">Select sub branch</option> </select> </div>
 </div>
 </div>
 <div class="form-step" id="form-step-1">
@@ -102,7 +111,7 @@
 <div class="form-grid">
 <div class="form-group"> <label for="newProcessName">Process Name (Proposed Process Name) <span class="required">*</span> <div class="tooltip-container"> <span class="tooltip-icon">i</span> <span class="tooltip-text">This is a draft document only.</span> </div> </label> <input type="text" id="newProcessName" name="newProcessName" placeholder="e.g., Automated Vendor Payout" required /> </div>
 <div class="form-group"> <label for="processNeed">Brief why do you need this process? <span class="required">*</span> </label> <textarea id="processNeed" name="processNeed" placeholder="Explain the purpose and benefits of this new process" required></textarea> </div>
-<div class="form-group"> <label for="draftDocType"> Upload any draft of document  <div class="tooltip-container"> <span class="tooltip-icon">i</span> <span class="tooltip-text">Please write the process steps or process in a Google Document and share the link here.</span> </div> </label> <select id="draftDocType" name="draftDocType" > <option value="">Select type</option> <option value="link">Link</option> <option value="upload">Upload</option> </select> <input class="hidden" id="draftDocLink" name="draftDocLink" placeholder="Paste draft document link here" style="margin-top: 0.5rem;" type="url"/> <input class="hidden" id="draftDocFile" name="draftDocFile" style="margin-top: 0.5rem;" type="file"/> </div>
+<div class="form-group"> <label for="draftDocType"> Upload any draft of document  <div class="tooltip-container"> <span class="tooltip-icon">i</span> <span class="tooltip-text">Please write the process steps or process in a Google Document and share the link here.</span> </div> </label> <select id="draftDocType" name="draftDocType" > <option value="">Select type</option> <option value="link">Link</option> <option value="upload" disabled>Upload</option> </select> <input class="hidden" id="draftDocLink" name="draftDocLink" placeholder="Paste draft document link here" style="margin-top: 0.5rem;" type="url"/> <input class="hidden" id="draftDocFile" name="draftDocFile" style="margin-top: 0.5rem;" type="file"/> </div>
 </div>
 </div>
 <div class="form-step" id="form-step-2">
@@ -121,14 +130,12 @@
 </div>
 </div>
 <script>
-    // All of your existing JavaScript variables and functions are unchanged, except for handleFormSubmit
     let currentStep = 0;
     const totalSteps = 4;
     const hodMapping = { "Marketing": "Anand", "Administration": "Siddharth ladsariya", "Human Resources": "Anand", "Technology": "Himani ladsariya", "Business Intelligence": "Suraj Lath", "Finance and Accounts": "Monil", "Recruitment": "Amar Kerkar", "Training": "Amar Kerkar", "Quality": "Amar Kerkar", "Operations": "Sunny Spra", "Repair and Maintenance": "Varun", "Procurement": "Shivang", "Process Excellence": "Ganesh Jatadharan" };
-    const subBranches = { 'Mumbai': ['Thane', 'Vasai', 'Andheri', 'Borivali'], 'Pune': ['Wakad', 'Hinjewadi', 'Hadapsar', 'Kothrud'], 'Kolkata': ['Howrah', 'Salt Lake', 'Park Street','Taratala','Chetla','Nagarbazar'], 'Chennai': ['T Nagar', 'Velachery', 'Anna Nagar'], 'Bangalore': ['Whitefield', 'Koramangala', 'Electronic City'], 'Hyderabad': ['Madhapur', 'Begumpet', 'Gachibowli'], 'Delhi': ['Dwarka', 'Saket', 'Connaught Place'] };
+    const subBranches = { 'Mumbai': ['Thane','Chunnabhatti','Goregoan CNG', 'Vasai', 'Lower Parel', 'Kopar Khairane'], 'Pune': ['Hadapsar','BANER'], 'Kolkata': ['Taratala','Chetla','Nagarbazar'], 'Chennai': ['VANAGARAM'], 'Bangalore': ['Singasandra', 'Blr Electronic City', 'Bglr Whitefield','Airport - Begur'], 'Hyderabad': ['Damaigudda', 'Gachibowli'], 'Delhi': ['Delhi-Sukhrali', 'Delhi Tech Garden', 'Delhi Dwarka'] };
     const departmentsList = [ "Operations", "Repair and Maintenance", "Finance and Accounts", "Legal", "Marketing", "Human Resources", "Recruitment", "Training", "Quality", "Procurement", "Process Excellence", "Business Intelligence", "Administration", "Hardware & Networking", "Refrigerator Van", "Sourcing", "Technology", "Insurance", "Mitr", "Other" ];
 
-    // This function runs when the page loads to check for a success message in the URL
     function checkForSuccessMessage() {
         const params = new URLSearchParams(window.location.search);
         const status = params.get('status');
@@ -155,24 +162,77 @@
         addEventListeners();
         updateStepDisplay();
         prefillUserData();
-        checkForSuccessMessage(); // Check for success message on page load
+        checkForSuccessMessage();
     });
 
-    // All your helper functions (prefill, populate, goToStep, validate, etc.) are correct and do not need to be changed.
-    function prefillUserData() { const employeeIdInput = document.getElementById('employeeId'); const departmentSelect = document.getElementById('department'); const loggedInEmployeeID = localStorage.getItem("employeeID"); const loggedInDepartment = localStorage.getItem("userRole"); if (loggedInEmployeeID) employeeIdInput.value = loggedInEmployeeID; if (loggedInDepartment && departmentsList.includes(loggedInDepartment)) { departmentSelect.value = loggedInDepartment; departmentSelect.dispatchEvent(new Event('change')); } }
+    // --- UPDATED FUNCTION ---
+    function prefillUserData() {
+        const employeeIdInput = document.getElementById('employeeId');
+        const employeeNameInput = document.getElementById('employeeName'); // Get name input
+        const departmentSelect = document.getElementById('department');
+
+        const loggedInEmployeeID = localStorage.getItem("employeeID");
+        const loggedInEmployeeName = localStorage.getItem("employeeName"); // Get name from storage
+        const loggedInDepartment = localStorage.getItem("userRole");
+        
+        if (loggedInEmployeeID) {
+            employeeIdInput.value = loggedInEmployeeID;
+        }
+        if (loggedInEmployeeName) {
+            employeeNameInput.value = loggedInEmployeeName; // Set the value of the name field
+        }
+
+        if (loggedInDepartment && departmentsList.includes(loggedInDepartment)) {
+            departmentSelect.value = loggedInDepartment;
+            departmentSelect.dispatchEvent(new Event('change'));
+        }
+    }
+
     function populateDropdowns() { const deptSelect = document.getElementById('department'); departmentsList.forEach(dept => deptSelect.add(new Option(dept, dept))); }
     function goToStep(stepIndex) { if (stepIndex < currentStep || validateStepsUpTo(stepIndex - 1)) { currentStep = stepIndex; updateStepDisplay(); } }
     function validateStepsUpTo(stepIndex) { for (let i = 0; i <= stepIndex; i++) { if (!validateStep(i)) { alert('Please fill all required fields in the current step.'); currentStep = i; updateStepDisplay(); return false; } } return true; }
     function validateStep(stepIndex) { const stepDiv = document.getElementById(`form-step-${stepIndex}`); if (!stepDiv) return true; for (const input of stepDiv.querySelectorAll('[required]')) { if (!input.closest('.hidden') && !input.value.trim()) { return false; } } return true; }
     function updateStepDisplay() { document.querySelectorAll('.form-step').forEach((step, index) => step.classList.toggle('active', index === currentStep)); document.querySelectorAll('.step-number').forEach((btn, index) => { btn.classList.toggle('active', index === currentStep); btn.classList.toggle('completed', index < currentStep && validateStep(index)); btn.classList.toggle('pending', index > currentStep); }); document.querySelectorAll('.step-connector').forEach((conn, index) => { conn.classList.toggle('completed', index < currentStep); conn.classList.toggle('pending', index >= currentStep); }); document.getElementById('prevBtn').classList.toggle('invisible', currentStep === 0); document.getElementById('nextBtn').classList.toggle('hidden', currentStep === totalSteps - 1); document.getElementById('submitBtn').classList.toggle('hidden', currentStep !== totalSteps - 1); if (currentStep === totalSteps - 1) updateReviewContent(); updateButtonStates(); }
     function updateButtonStates() { document.getElementById('nextBtn').disabled = !validateStep(currentStep); if (currentStep === totalSteps - 1) { document.getElementById('submitBtn').disabled = !validateStepsUpTo(totalSteps - 1); } }
-    function collectFormData() { return { employeeId: document.getElementById('employeeId').value.trim(), department: document.getElementById('department').value === 'Other' ? document.getElementById('otherDepartment').value.trim() : document.getElementById('department').value, designation: document.getElementById('designation').value === 'Other' ? document.getElementById('otherDesignation').value.trim() : document.getElementById('designation').value, city: document.getElementById('city').value, subBranch: document.getElementById('subBranch').value, newProcessName: document.getElementById('newProcessName').value.trim(), processNeed: document.getElementById('processNeed').value.trim(), draftDocType: document.getElementById('draftDocType').value, draftDocLink: document.getElementById('draftDocLink').value.trim(), goLiveDate: document.getElementById('goLiveDate').value }; }
-    function updateReviewContent() { const reviewContent = document.getElementById('reviewContent'); const formData = collectFormData(); const hodName = hodMapping[formData.department] || 'Not Specified'; reviewContent.innerHTML = ` <div class="review-item"><div class="review-label">Employee ID</div><div class="review-value">${formData.employeeId || '-'}</div></div> <div class="review-item"><div class="review-label">Department</div><div class="review-value">${formData.department || '-'}</div></div> <div class="review-item"><div class="review-label">Designation</div><div class="review-value">${formData.designation || '-'}</div></div> <div class="review-item"><div class="review-label">City</div><div class="review-value">${formData.city || '-'}</div></div> <div class="review-item"><div class="review-label">Sub Branch</div><div class="review-value">${formData.subBranch || '-'}</div></div> <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Proposed Process Name</div><div class="review-value">${formData.newProcessName || '-'}</div></div> <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Reason for New Process</div><div class="review-value">${formData.processNeed || '-'}</div></div> <div class="review-item"><div class="review-label">Expected Go-Live Date</div><div class="review-value">${formData.goLiveDate || '-'}</div></div> <div class="review-item" style="grid-column: 1 / -1; background-color: #eef2ff; padding: 0.75rem; border-radius: 0.375rem;"><div class="review-label">Request will be sent for approval to HOD</div><div class="review-value" style="color: #1e40af;">${hodName}</div></div> `; }
+    
+    // --- UPDATED FUNCTION ---
+    function collectFormData() { 
+        return { 
+            employeeId: document.getElementById('employeeId').value.trim(), 
+            employeeName: document.getElementById('employeeName').value.trim(), // Collect the name
+            department: document.getElementById('department').value === 'Other' ? document.getElementById('otherDepartment').value.trim() : document.getElementById('department').value, 
+            designation: document.getElementById('designation').value === 'Other' ? document.getElementById('otherDesignation').value.trim() : document.getElementById('designation').value, 
+            city: document.getElementById('city').value, 
+            subBranch: document.getElementById('subBranch').value, 
+            newProcessName: document.getElementById('newProcessName').value.trim(), 
+            processNeed: document.getElementById('processNeed').value.trim(), 
+            draftDocLink: document.getElementById('draftDocLink').value.trim(), 
+            goLiveDate: document.getElementById('goLiveDate').value 
+        }; 
+    }
+    
+    // --- UPDATED FUNCTION ---
+    function updateReviewContent() { 
+        const reviewContent = document.getElementById('reviewContent'); 
+        const formData = collectFormData(); 
+        const hodName = hodMapping[formData.department] || 'Not Specified'; 
+        reviewContent.innerHTML = ` 
+            <div class="review-item"><div class="review-label">Employee ID</div><div class="review-value">${formData.employeeId || '-'}</div></div> 
+            <div class="review-item"><div class="review-label">Employee Name</div><div class="review-value">${formData.employeeName || '-'}</div></div> 
+            <div class="review-item"><div class="review-label">Department</div><div class="review-value">${formData.department || '-'}</div></div> 
+            <div class="review-item"><div class="review-label">Designation</div><div class="review-value">${formData.designation || '-'}</div></div> 
+            <div class="review-item"><div class="review-label">City</div><div class="review-value">${formData.city || '-'}</div></div> 
+            <div class="review-item"><div class="review-label">Sub Branch</div><div class="review-value">${formData.subBranch || '-'}</div></div> 
+            <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Proposed Process Name</div><div class="review-value">${formData.newProcessName || '-'}</div></div> 
+            <div class="review-item" style="grid-column: 1 / -1;"><div class="review-label">Reason for New Process</div><div class="review-value">${formData.processNeed || '-'}</div></div> 
+            <div class="review-item"><div class="review-label">Expected Go-Live Date</div><div class="review-value">${formData.goLiveDate || '-'}</div></div> 
+            <div class="review-item" style="grid-column: 1 / -1; background-color: #eef2ff; padding: 0.75rem; border-radius: 0.375rem;"><div class="review-label">Request will be sent for approval to HOD</div><div class="review-value" style="color: #1e40af;">${hodName}</div></div> 
+        `; 
+    }
+
     function generateTicketNumber(department) { const prefix = 'EF-PRN'; const uniqueId = String(Date.now()).slice(-4); const now = new Date(); const day = String(now.getDate()).padStart(2, '0'); const month = String(now.getMonth() + 1).padStart(2, '0'); const year = now.getFullYear(); const datePart = `${day}${month}${year}`; const departmentPart = department.replace(/[\s&]+/g, ''); return `${prefix}${uniqueId}-${datePart}-${departmentPart}`; }
     function addEventListeners() { document.getElementById('prevBtn').addEventListener('click', () => { if (currentStep > 0) { currentStep--; updateStepDisplay(); } }); document.getElementById('nextBtn').addEventListener('click', () => { if (currentStep < totalSteps - 1 && validateStep(currentStep)) { currentStep++; updateStepDisplay(); } }); document.getElementById('processForm').addEventListener('submit', handleFormSubmit); document.getElementById('city').addEventListener('change', function() { const subBranch = document.getElementById('subBranch'); subBranch.innerHTML = '<option value="">Select sub branch</option>'; const branches = subBranches[this.value] || []; subBranch.disabled = branches.length === 0; branches.forEach(branch => subBranch.add(new Option(branch, branch))); }); const setupConditionalField = (selectId, inputId) => { document.getElementById(selectId).addEventListener('change', function() { const isOther = this.value === 'Other'; const input = document.getElementById(inputId); input.classList.toggle('hidden', !isOther); input.required = isOther; if (!isOther) input.value = ''; }); }; setupConditionalField('department', 'otherDepartment'); setupConditionalField('designation', 'otherDesignation'); const setupDocTypeField = (selectId, linkId, fileId) => { document.getElementById(selectId).addEventListener('change', function () { const isMainSelectRequired = this.hasAttribute('required'); const link = document.getElementById(linkId); const file = document.getElementById(fileId); const isLink = this.value === 'link'; const isUpload = this.value === 'upload'; link.classList.toggle('hidden', !isLink); link.required = isMainSelectRequired && isLink; file.classList.toggle('hidden', !isUpload); file.required = isMainSelectRequired && isUpload; if (!isLink) link.value = ''; if (!isUpload) file.value = ''; }); }; setupDocTypeField('draftDocType', 'draftDocLink', 'draftDocFile'); document.querySelectorAll('input, select, textarea').forEach(el => { el.addEventListener('input', updateButtonStates); el.addEventListener('change', updateButtonStates); }); }
 
-
-    // THIS IS THE ONLY FUNCTION THAT HAS BEEN CHANGED TO FIX THE CORS ERROR
     function handleFormSubmit(e) {
         e.preventDefault();
         if (!validateStepsUpTo(totalSteps - 1)) { return; }
@@ -184,10 +244,8 @@
         const formData = collectFormData();
         const ticketNumber = generateTicketNumber(formData.department);
         
-        // IMPORTANT: You will need to deploy the App Script and paste the new URL here.
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzjLBkX7ZMKA5cnix0aHi_8WwBmBY9Fw-LtKwgPhFixUPIcF81wdz2L9s3FNhHiHu0/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxpYF7jlAhOEO6dPn6TzO4BUXq-5fsdr8RH6lImnUZHGc6t7XEIiwsM0f9DsK59pzA/exec';
         
-        // Build the full URL with all form data as query parameters for the JSONP request
         let fullUrl = scriptURL + "?callback=handleResponse";
         fullUrl += "&ticketNumber=" + encodeURIComponent(ticketNumber);
         
@@ -195,36 +253,28 @@
             fullUrl += `&${encodeURIComponent(key)}=${encodeURIComponent(formData[key])}`;
         }
         
-        // Add the redirect URL for THIS page.
-        // We remove any existing query string to have a clean URL.
         const redirectUrl = window.location.href.split('?')[0];
         fullUrl += "&redirectUrl=" + encodeURIComponent(redirectUrl);
 
-        // Create a script tag to make the JSONP request, which bypasses CORS
         const script = document.createElement('script');
         script.src = fullUrl;
         document.body.appendChild(script);
 
-        // Handle cases where the script fails to load (e.g., wrong URL)
         script.onerror = function() {
             alert("Submission failed. The script could not be loaded. Please check the URL and your connection.");
             submitBtn.disabled = false;
             submitBtn.textContent = 'Submit Request';
-            document.body.removeChild(script); // Clean up the failed script tag
+            document.body.removeChild(script);
         };
     }
 
-    // This global function is called by the App Script's response
     function handleResponse(response) {
-        // Remove the temporary script tag from the document
         const scripts = document.querySelectorAll('script[src*="script.google.com"]');
         scripts.forEach(s => document.body.removeChild(s));
         
         if (response && response.result === "success" && response.redirect) {
-            // Redirect to the success URL
             window.location.href = response.redirect;
         } else {
-            // Handle any errors returned by the script
             alert("An error occurred on the server: " + (response.message || "Unknown error. Check the App Script logs."));
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = false;
