@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Everest Fleet – PexHub</title>
+  <title>PEXHub – Everest Fleet</title>
 
   <!-- Professional font -->
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet"/>
@@ -33,7 +33,6 @@
       justify-content: space-between;
       padding: 0 20px;
       z-index: 10;
-      position: fixed; /* Keeps it fixed at the top */
     }
     .nav-left {
       display: flex;
@@ -111,6 +110,11 @@
       margin: 6px 0;
       font-weight: 400;
     }
+    .logout-btn {
+      width:100%; margin-top:8px; padding:6px;
+      background:#d32f2f; color:#fff; border:none; border-radius:4px;
+      cursor:pointer;
+    }
 
     /* main content */
     .main {
@@ -151,15 +155,14 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.15);
     }
     .card-header { height: 6px; }
-    .process    .card-header { background: #2962ff; }
-    .learning   .card-header { background: #2e7d32; }
-    .change     .card-header { background: #8e24aa; }
-    .audit      .card-header { background: #ef6c00; }
-    .track      .card-header { background: #d32f2f; }
+    .process .card-header { background: #2962ff; }
+    .learning .card-header { background: #2e7d32; }
+    .change .card-header { background: #8e24aa; }
+    .audit .card-header { background: #ef6c00; }
+    .track .card-header { background: #d32f2f; }
     .card-body {
       padding: 20px;
       text-align: left;
-      font-family: 'Lato', Arial, sans-serif;
     }
     .icon {
       font-size: 28px;
@@ -175,7 +178,7 @@
     .card p {
       font-size: 14px;
       color: #666;
-      font-weight: 400;
+      line-height: 1.5;
     }
 
     /* footer */
@@ -188,16 +191,11 @@
       box-shadow: 0 -1px 4px rgba(0,0,0,0.1);
       display: flex;
       align-items: center;
-      justify-content: center;    /* changed from flex-end */
+      justify-content: center;
       padding: 0 20px;
       font-size: 14px;
       color: #888;
       z-index: 10;
-      font-family: 'Lato', Arial, sans-serif;
-    }
-    .footer-content {
-      text-align: center;
-      white-space: nowrap;
     }
   </style>
 </head>
@@ -213,11 +211,11 @@
       </div>
       <img src="Everest.jpg" alt="Everest Logo" />
     </div>
-    <div class="center-title">Everest Fleet</div>
+    <div class="center-title">PEXHub</div>
     <div class="nav-right">
       <span class="user-name" id="display-name">Loading...</span> |
       <span class="user-role" id="display-role">Loading...</span>
-      <div class="avatar" onclick="togglePopup()">JD</div>
+      <div class="avatar" onclick="togglePopup()">--</div>
     </div>
   </div>
 
@@ -227,11 +225,7 @@
     <div class="info-row"><strong>Name:</strong> <span id="user-name">Loading...</span></div>
     <div class="info-row"><strong>ID:</strong>   <span id="user-id">Loading...</span></div>
     <div class="info-row"><strong>Role:</strong> <span id="user-role">Loading...</span></div>
-    <button style="
-      width:100%; margin-top:8px; padding:6px;
-      background:#d32f2f; color:#fff; border:none; border-radius:4px;
-      cursor:pointer;
-    " onclick="logout()">Logout</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
   </div>
 
   <!-- Main Content -->
@@ -261,10 +255,10 @@
         <div class="card-body">
           <div class="icon">⚙️</div>
           <h3>Change Management</h3>
-          <p>- To request for new Process<br>- If there is any deviation in your processs<br>- Document Change Request</p>
+          <p>Raise a new document or change request</p>
         </div>
       </div>
-      <div class="card audit" onclick="openInNewTab()">
+      <div class="card audit" onclick="location.href='Audit report&nc.html'">
         <div class="card-header"></div>
         <div class="card-body">
           <div class="icon">📝</div>
@@ -272,7 +266,7 @@
           <p>Audit reports and non-conformance tracking</p>
         </div>
       </div>
-<div class="card track" onclick="location.href='trackrequest.html'">
+      <div class="card track" onclick="location.href='ticket_status.html'">
         <div class="card-header"></div>
         <div class="card-body">
           <div class="icon">🔍</div>
@@ -285,52 +279,73 @@
 
   <!-- Footer -->
   <div class="footer">
-    <div class="footer-content">
       Developed by process excellence team || Beta Version || ✉️ Process.excellence@everestfleet.com
-    </div>
   </div>
   
-
-  <!-- Scripts -->
   <script>
+    // --- Core Page Functions ---
+
+    // Function to display user info from localStorage
     document.addEventListener("DOMContentLoaded", () => {
-      const name = localStorage.getItem("userName")   || "Unknown";
-      const id   = localStorage.getItem("employeeID") || "Unknown";
-      const role = localStorage.getItem("userRole")   || "Unknown";
+      const employeeID = localStorage.getItem("employeeID");
+      const userRole = localStorage.getItem("userRole");
+      const employeeName = localStorage.getItem("employeeName");
 
-      document.getElementById("user-name").innerText    = name;
-      document.getElementById("display-name").innerText = name;
-      document.getElementById("user-id").innerText      = id;
-      document.getElementById("user-role").innerText    = role;
-      document.getElementById("display-role").innerText = role;
+      // Security check: If any user detail is missing, force re-login.
+      if (!employeeID || !userRole || !employeeName) {
+        alert("Session expired or invalid. Please log in again.");
+        logout(); // a function that clears storage and redirects
+        return;
+      }
 
+      // Populate user details in the popup
+      document.getElementById("user-id").innerText = employeeID;
+      document.getElementById("user-role").innerText = userRole;
+      document.getElementById("user-name").innerText = employeeName;
+
+      // Populate user details in the top navigation bar
+      document.getElementById("display-role").innerText = userRole;
+      document.getElementById("display-name").innerText = employeeName;
+
+      // Create user avatar initials
       const avatar = document.querySelector(".avatar");
-      avatar.innerText = name
-        .split(" ")
-        .map(w=>w[0])
-        .join("")
-        .slice(0,2)
-        .toUpperCase();
+      if (employeeName) {
+        avatar.innerText = employeeName.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase();
+      }
     });
 
+    // Toggle user info popup visibility
     function togglePopup() {
-      const pop = document.getElementById("user-popup");
-      pop.style.display = pop.style.display === "block" ? "none" : "block";
+      const popup = document.getElementById("user-popup");
+      popup.style.display = (popup.style.display === "block") ? "none" : "block";
     }
 
+    // --- Session Management ---
+
+    // Logout function: clear storage and redirect to login
     function logout() {
       localStorage.clear();
       window.location.href = 'index.html';
     }
 
-    function openInNewTab() {
-      window.location.href = 'Audit report&nc.html';
+    // Auto-logout after 30 minutes of inactivity
+    let logoutTimer;
+    const sessionTimeout = 30 * 60 * 1000; // 30 minutes in milliseconds
+
+    function resetSessionTimer() {
+      clearTimeout(logoutTimer);
+      logoutTimer = setTimeout(() => {
+        alert("Session expired due to inactivity. Please log in again.");
+        logout();
+      }, sessionTimeout);
     }
+
+    // Reset the timer on user activity
+    window.onload = resetSessionTimer;
+    document.onmousemove = resetSessionTimer;
+    document.onkeypress = resetSessionTimer;
+    document.onclick = resetSessionTimer;
   </script>
+
 </body>
 </html>
-
-
-
-
-
