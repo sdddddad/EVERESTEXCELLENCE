@@ -1,4 +1,4 @@
-.<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -171,7 +171,7 @@
 <body>
   <div class="container">
     <div class="pdms-header">
-      <h1>PexHub</h1>
+      <h1>PEXHub</h1>
     <!--  <p>Process Document Management System</p> -->
     </div>
 
@@ -242,7 +242,9 @@ function requestOTP() {
     });
 }
 
+// --- THIS IS THE CORRECTED FUNCTION ---
 function verifyOTP() {
+  // This 'employeeID' variable holds the correct ID from the user's input.
   const employeeID = document.getElementById('employee-id').value.trim();
   const otp = document.getElementById('otp-input').value.trim();
   const loginButton = document.getElementById("login-button");
@@ -259,11 +261,20 @@ function verifyOTP() {
   fetch(`${scriptURL}?employeeID=${encodeURIComponent(employeeID)}&otp=${encodeURIComponent(otp)}`)
     .then(response => response.json())
     .then(data => {
-      if (data.employeeID) {
-        localStorage.setItem("employeeID", data.employeeID);
+      // The server response `data` is used to confirm success and get other details like role and name.
+      if (data.employeeID) { // You can keep this check to confirm a successful login.
+        
+        // ** THE FIX IS HERE **
+        // We now save the 'employeeID' from the input field, not from the server's response.
+        localStorage.setItem("employeeID", employeeID); 
+
+        // The rest of the data (role, name, etc.) is fine to take from the server.
         localStorage.setItem("userRole", data.role);
-        localStorage.setItem("userName", data.name);
+        // Note: The previous code saved "userName" but your other form used "employeeName".
+        // Using "employeeName" here for consistency with your other form. Change if needed.
+        localStorage.setItem("employeeName", data.name); 
         localStorage.setItem("allowedPages", JSON.stringify(data.allowedPages));
+        
         showMessage("Login Successful! Redirecting...", "success");
         setTimeout(() => { window.location.href = "rolespage.html"; }, 1000);
       } else {
@@ -292,8 +303,22 @@ function resetFields() {
   otpButton.classList.remove("hidden");
   otpButton.disabled = false;
 }
+let sessionTimeout = 30 * 60 * 1000; // 30 minutes
+let logoutTimer;
+
+function resetSessionTimer() {
+  clearTimeout(logoutTimer);
+  logoutTimer = setTimeout(() => {
+    alert("Session expired. Please log in again.");
+    logout();
+  }, sessionTimeout);
+}
+
+window.onload = resetSessionTimer;
+document.onmousemove = resetSessionTimer;
+document.onkeypress = resetSessionTimer;
+
 </script>
 
 </body>
-</html>
-
+</html>```
