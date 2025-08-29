@@ -601,26 +601,43 @@
     const DOCUMENT_API_URL = "https://script.google.com/macros/s/AKfycbyefq61LMkePmDDhkECzT_PF5QJAqXV1Imc0PpTs5Oy-eVidQvBPN20EZ_gKicwLGGC/exec"; 
 
     const hodMapping = {
-        "Marketing": "Anand Chheda",
-        "Administration": "Siddharth Ladsariya",
-        "Human Resources": "Anand Chheda",
-        "Technology": "Himani Ladsariya",
-        "Business Intelligence": "Suraj Lath",
-        "Finance and Accounts": "Monil Sheth",
-        "Recruitment": "Amar Kerkar",
-        "Training": "Amar Kerkar",
-        "Quality": "Amar Kerkar",
-        "Operations": "Sunny Sapra",
-        "Repair and Maintenance": "Varun",
-        "Procurement": "Shivang",
-        "Process Excellence": "Ganesh Jatadharan",
-        
-    };
+    "Marketing": "Apar Kulshrestha",
+    "Administration": "Dwiti Thanawala",
+    "Human Resources": "PRADNYA SHINDE",
+    "Technology": "Himani Ladsariya",
+    "Business Intelligence": "Suraj Lath",
+    "Finance and Accounts": "Monil Sheth",
+    "Recruitment": "Amar Kerkar",
+    "Training & Quality": "Amar Kerkar",
+    "Operations": "Abhinav Gupta",
+    "Repair and Maintenance": "Varun",
+    "Procurement": "Shivang",
+    "Process Excellence": "Ganesh Jatadharan",
+    "Information Technology": "Dwiti Thanawala",
+    "Logistics": "Dwiti Thanawala",
+    "Learning & Development": "PRADNYA SHINDE",
+    "Business Development & Sales": "Amar Kerkar"}; 
 
     const subBranches = { 'Mumbai': ['Thane','Chunnabhatti','Goregoan CNG', 'Vasai', 'Lower Parel', 'Kopar Khairane'], 'Pune': ['Hadapsar','BANER'], 'Kolkata': ['Taratala','Chetla','Nagarbazar'], 'Chennai': ['VANAGARAM'], 'Bangalore': ['Singasandra', 'Blr Electronic City', 'Bglr Whitefield','Airport - Begur'], 'Hyderabad': ['Damaigudda', 'Gachibowli'], 'Delhi': ['Delhi-Sukhrali', 'Delhi Tech Garden', 'Delhi Dwarka'] };
     
-    const departmentsList = [ "Operations", "Repair and Maintenance", "Finance and Accounts", "Legal", "Marketing", "Human Resources", "Recruitment", "Training", "Quality", "Procurement", "Process Excellence", "Business Intelligence", "Administration", "Hardware & Networking", "Refrigerator Van", "Sourcing", "Technology", "Insurance", "Mitr", "Other" ];
-
+    const departmentsList = [
+    "Marketing",
+    "Administration",
+    "Human Resources",
+    "Technology",
+    "Business Intelligence",
+    "Finance and Accounts",
+    "Recruitment",
+    "Training & Quality",
+    "Operations",
+    "Repair and Maintenance",
+    "Procurement",
+    "Process Excellence",
+    "Information Technology",
+    "Logistics",
+    "Learning & Development",
+    "Business Development & Sales"
+];
     async function fetchDocumentData() {
         try {
             if (!DOCUMENT_API_URL || DOCUMENT_API_URL.includes("YOUR_APPS_SCRIPT")) {
@@ -1003,3 +1020,4 @@
 </script>
 </body>
 </html>
+
