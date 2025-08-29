@@ -1,91 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Change Request Options - EVEREST FLEET</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      height: 100vh;
-      margin: 0;
-      padding-top: 20px;
-      text-align: center;
+    :root{
+      --bg:#f5f6fa;
+      --nav:#13324b;
+      --tile:#0b71ff;
+      --tile-hover:#005be8;
+      --text:#0f172a;
+      --white:#fff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
 
-    .container {
-      width: 60%;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
-      position: relative;
+    /* Top bar */
+    .topbar{
+      position:sticky; top:0; z-index:20;
+      background:var(--nav); color:#fff;
+      padding:12px 20px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+    .topbar .title{
+      font-weight:700; font-size:18px; text-align:center; flex:1;
+    }
+    .topbar button, .topbar a{
+      color:#fff; text-decoration:none; border:none; background:transparent;
+      cursor:pointer; font-weight:600; font-size:15px;
     }
 
-    h1, h2 {
-      text-align: center;
+    /* Centered wrapper */
+    .wrap{
+      flex:1;
+      display:flex;
+      justify-content:center;
+      align-items:center;
     }
 
-    .button-container {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 20px;
+    /* Grid: 2x2 layout */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(2, 200px);
+      gap:24px;
     }
 
-    .option-button {
-      padding: 15px 25px;
-      font-size: 18px;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(45deg, #ff9800, #ff5722);
-      color: white;
-      cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-      transition: all 0.3s ease-in-out;
+    /* Tile buttons */
+    .tile{
+      background:var(--tile);
+      color:var(--white);
+      border-radius:8px;
+      padding:14px 10px;
+      text-align:center;
+      font-size:14px; font-weight:600;
+      box-shadow:0 4px 10px rgba(0,0,0,.08);
+      transition:all .2s ease;
+      text-decoration:none;
+    }
+    .tile:hover{ transform:translateY(-2px); background:var(--tile-hover); box-shadow:0 6px 14px rgba(0,0,0,.15); }
+
+    /* Footer */
+    .footer{
+      text-align:center; padding:10px 10px; background:var(--nav); color:#cfe2ff;
+      font-size:12px;
     }
 
-    .option-button:hover {
-      transform: scale(1.1);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-    }
-
-    .back-button {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: linear-gradient(45deg, #d32f2f, #b71c1c);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 5px;
-      cursor: pointer;
+    @media(max-width:600px){
+      .grid{ grid-template-columns:1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <button class="back-button" onclick="window.history.back();">← Back</button>
-    
-    <h1>EVEREST FLEET</h1>
-    <h2>Select Your Change Request Type</h2>
+  <!-- Top Navigation Bar -->
+  <nav class="topbar">
+    <button onclick="history.back()">⟵ Back</button>
+    <div class="title">Change Request Options</div>
+    <a href="rolespage.html">Home</a>
+  </nav>
 
-    <div class="button-container">
-      <button class="option-button" onclick="window.location.href='DCR.html'">Document Change Request (DCR)</button>
-      <button class="option-button" onclick="window.location.href='PDN.html'">Process Deviation Note (PDN)</button>
-     <button class="option-button" onclick="window.location.href='p.html'">Process Request Notes (PRN)</button>
+  <!-- Centered Content -->
+  <main class="wrap">
+    <div class="grid">
+      <a class="tile" href="DCR.html">Document Change Request (DCR)</a>
+      <a class="tile" href="PDN.html">Process Deviation Note (PDN)</a>
+      <a class="tile" href="p.html">Process Request Notes (PRN)</a>
+      <a class="tile" href="P0Deviation.html">P0 Deviations</a>
     </div>
-  </div>
+  </main>
+
+  <footer class="footer">
+    Beta version • Developed by Process Excellence Team • For queries: process.excellence@everestfleet.com
+  </footer>
 
 </body>
 </html>
