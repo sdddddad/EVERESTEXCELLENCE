@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>P0 Audit Deviations - EVEREST FLEET</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f9fafb;color:#111827;line-height:1.6}
+    .container{min-height:100vh;padding:1rem}
+    .form-container{max-width:1100px;margin:0 auto;position:relative}
+
+    /* Sticky top bar with back + title (no overlap) */
+    .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,#1e40af 0%,#3b82f6 100%);color:#fff;border-radius:12px;margin-bottom:1rem;box-shadow:0 10px 25px -5px rgba(0,0,0,.1);transition:all .2s}
+    .topbar-inner{display:flex;align-items:center;gap:.75rem;padding:10px 12px}
+    .back-button{flex:0 0 auto;background:rgba(15,23,42,.85);color:#fff;border:none;padding:8px 12px;font-size:14px;font-weight:600;border-radius:8px;cursor:pointer}
+    .header-title{flex:1 1 auto;text-align:center}
+    .header-title h1{font-size:1.35rem;font-weight:800;letter-spacing:.5px}
+    .header-title p{opacity:.95}
+    .topbar.shrink .header-title h1{font-size:1.1rem}
+
+    .progress-container{margin-bottom:1rem;padding:0 1rem}
+    .progress-steps{display:flex;justify-content:space-between;align-items:center;gap:.5rem}
+    .step{display:flex;flex-direction:column;align-items:center;min-width:70px}
+    .step-number{width:34px;height:34px;border-radius:999px;display:grid;place-items:center;font-weight:700;font-size:.85rem;margin-bottom:.3rem;transition:.2s;border:none;cursor:pointer}
+    .step-number.active{background:#3b82f6;color:#fff;transform:scale(1.05)}
+    .step-number.completed{background:#1e40af;color:#fff}
+    .step-number.pending{background:#e5e7eb;color:#6b7280}
+    .step-title{font-size:.75rem;color:#f1f5f9}
+    .step-connector{flex:1;height:4px;background:#e5e7eb;border-radius:999px}
+    .step-connector.completed{background:#1e40af}
+
+    .form-card{background:#fff;border-radius:12px;padding:1.1rem;box-shadow:0 4px 8px rgba(0,0,0,.06)}
+    .form-step{display:none}
+    .form-step.active{display:block;animation:fadeIn .25s}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .step-header{border-left:4px solid #3b82f6;padding-left:.75rem;margin-bottom:.75rem}
+    .step-title-main{font-size:1.15rem;font-weight:700;color:#1e40af}
+
+    /* Compact controls */
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.8rem}
+    .form-group{display:flex;flex-direction:column}
+    .form-group.full{grid-column:1 / -1}
+    label{font-weight:600;margin-bottom:.35rem;color:#374151}
+    .required{color:#ef4444}
+    input,select,textarea{width:100%;padding:.55rem .7rem;border:1px solid #e5e7eb;border-radius:8px;background:#fff;min-height:auto}
+    textarea{min-height:72px;resize:vertical;overflow:hidden}
+    input[readonly]{background:#f3f4f6;cursor:not-allowed}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 3px rgba(59,130,246,.1)}
+    .hidden{display:none}
+
+    /* Step 2: Function LEFT (narrow), Metrics RIGHT (wide) */
+    .metrics-layout{display:grid;grid-template-columns:280px 1fr;gap:1rem;align-items:start}
+    @media (max-width:900px){.metrics-layout{grid-template-columns:1fr}}
+    .metrics-side{display:flex;flex-direction:column;gap:.6rem}
+
+    .table-wrap{overflow:auto;border:1px solid #e5e7eb;border-radius:10px;background:#fff}
+    table{width:100%;border-collapse:collapse}
+    thead th{position:sticky;top:0;background:#f1f5f9;color:#0f172a;font-size:.85rem;text-align:left;padding:.6rem;border-bottom:1px solid #e5e7eb;white-space:nowrap}
+    tbody td{padding:.55rem .6rem;border-bottom:1px solid #f1f5f9;vertical-align:top;font-size:.9rem}
+    tbody tr{transition:background .12s,box-shadow .12s;cursor:pointer}
+    tbody tr:hover{background:#f8fafc}
+    tbody tr.selected{background:#eef2ff;box-shadow:inset 0 0 0 2px #6366f1}
+    .row-check{display:grid;place-items:center}
+
+    .hint{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;color:#475569}
+    .info{display:inline-block;width:18px;height:18px;border-radius:999px;background:#e2e8f0;color:#0f172a;font-weight:700;text-align:center;line-height:18px;cursor:help;position:relative}
+    .tooltip{position:absolute;left:50%;transform:translateX(-50%);top:28px;background:#0f172a;color:#fff;padding:.5rem .6rem;border-radius:8px;font-size:.8rem;min-width:220px;max-width:320px;display:none;z-index:50}
+    .info:hover .tooltip{display:block}
+
+    .buttons{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;gap:.75rem}
+    button{padding:.6rem .9rem;border-radius:10px;font-weight:700;cursor:pointer;border:none;display:inline-flex;align-items:center;justify-content:center;gap:.5rem}
+    .btn-primary{background:#1e40af;color:#fff}
+    .btn-primary:hover:not(:disabled){background:#3b82f6}
+    .btn-secondary{background:#f1f5f9;color:#0f172a;border:1px solid #e5e7eb}
+    .btn-secondary:hover{background:#e5e7eb}
+    .btn-primary:disabled,.btn-secondary:disabled{opacity:.6;cursor:not-allowed}
+    .invisible{visibility:hidden}
+
+    .review-section{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1rem}
+    .review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.75rem}
+    .review-item{display:flex;flex-direction:column;background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:.75rem}
+    .review-label{font-size:.8rem;color:#64748b;font-weight:600;margin-bottom:.2rem}
+    .review-value{font-weight:700;color:#0f172a;white-space:pre-wrap}
+
+    .success-message{display:none;flex-direction:column;align-items:center;text-align:center;padding:2rem;background:#f0fdf4;border:1px solid #22c55e;border-radius:12px;margin-top:1rem}
+    .success-icon{font-size:3rem;color:#22c55e;margin-bottom:.5rem}
+
+    @media (max-width:768px){
+      .container{padding:.75rem}
+      .topbar-inner{padding:.6rem .7rem}
+      .header-title h1{font-size:1.2rem}
+      .form-card{padding:.9rem}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="form-container">
+      <!-- Sticky Topbar with Back + Title -->
+      <div class="topbar" id="topbar">
+        <div class="topbar-inner">
+          <button class="back-button" onclick="window.history.back()">← Back</button>
+          <div class="header-title">
+            <h1>EVEREST FLEET</h1>
+            <p>P0 Audit Deviations Form</p>
+          </div>
+          <div style="width:76px"></div>
+        </div>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-steps">
+          <div class="step"><button class="step-number" id="step-0" onclick="goToStep(0)">1</button><div class="step-title">Basic Details</div></div>
+          <div class="step-connector" id="con-0"></div>
+          <div class="step"><button class="step-number" id="step-1" onclick="goToStep(1)">2</button><div class="step-title">Deviation Details</div></div>
+          <div class="step-connector" id="con-1"></div>
+          <div class="step"><button class="step-number" id="step-2" onclick="goToStep(2)">3</button><div class="step-title">Date & Evidence</div></div>
+          <div class="step-connector" id="con-2"></div>
+          <div class="step"><button class="step-number" id="step-3" onclick="goToStep(3)">4</button><div class="step-title">Review</div></div>
+        </div>
+      </div>
+
+      <form id="p0Form" class="form-card" novalidate>
+        <!-- STEP 1 -->
+        <div class="form-step" id="form-step-0">
+          <div class="step-header"><h3 class="step-title-main">Please provide your details</h3></div>
+          <div class="form-grid">
+            <div class="form-group"><label>EMP ID <span class="required">*</span></label><input id="empId" required placeholder="Enter EMP ID"></div>
+            <div class="form-group"><label>EMP Name <span class="required">*</span></label><input id="empName" required placeholder="Enter EMP Name"></div>
+            <div class="form-group">
+              <label>Department <span class="required">*</span></label>
+              <select id="department" required><option value="">Select department</option></select>
+              <input id="otherDepartment" class="hidden" style="margin-top:.5rem" placeholder="Enter department"/>
+            </div>
+            <div class="form-group">
+              <label>Role <span class="required">*</span></label>
+              <select id="role" required>
+                <option value="">Select role</option>
+                <option>Lead</option><option>Senior Manager</option><option>Manager</option><option>Assistant Manager</option>
+                <option>Executive</option><option>Supervisor</option><option>Analyst</option><option>Secretary</option>
+                <option value="Other">Other</option>
+              </select>
+              <input id="otherRole" class="hidden" style="margin-top:.5rem" placeholder="Enter role"/>
+            </div>
+            <div class="form-group"><label>City <span class="required">*</span></label>
+              <select id="city" required>
+                <option value="">Select city</option>
+                <option>Mumbai</option><option>Pune</option><option>Kolkata</option><option>Chennai</option>
+                <option>Bangalore</option><option>Hyderabad</option><option>Delhi</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Sub branch <span class="required">*</span></label><select id="subBranch" required disabled><option value="">Select sub branch</option></select></div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="form-step" id="form-step-1">
+          <div class="step-header"><h3 class="step-title-main">P0 Deviation Details</h3></div>
+
+          <div class="metrics-layout">
+            <!-- LEFT: P0 Function -->
+            <div class="metrics-side">
+              <label>P0 Function <span class="required">*</span></label>
+              <select id="p0Function" required>
+                <option value="">Select function</option>
+                <option value="Recruitment">Recruitment</option>
+                <option value="Operations">Operations</option>
+                <option value="Operations_FSE">Operations_FSE</option>
+                <option value="Workshop">Workshop</option>
+              </select>
+            </div>
+
+            <!-- RIGHT: Metrics Table -->
+            <div>
+              <div class="form-group full">
+                <label>P0 Metric (Select exactly one) <span class="required">*</span></label>
+                <div class="hint" style="margin-bottom:.35rem">Click anywhere on a row to select it.</div>
+                <div id="metricTableWrap" class="table-wrap">
+                  <table id="metricTable">
+                    <thead>
+                      <tr>
+                        <th>Category</th>
+                        <th>Process Area</th>
+                        <th>Process Owner</th>
+                        <th>Review Aspect</th>
+                        <th>Review Method</th>
+                        <th>Criticality</th>
+                        <th class="row-check">Select</th>
+                      </tr>
+                    </thead>
+                    <tbody id="metricTbody">
+                      <tr><td colspan="7" style="padding:1rem;color:#64748b">Select a P0 Function (left) to load metrics…</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="form-step" id="form-step-2">
+          <div class="step-header"><h3 class="step-title-main">Deviation Date & Evidence</h3></div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Deviation Date <span class="required">*</span>
+                <span class="info" tabindex="0">i
+                  <span class="tooltip">This date decides the Week Beginning (Monday) used in the Ticket ID.</span>
+                </span>
+              </label>
+              <input type="date" id="deviationDate" required>
+            </div>
+
+            <div class="form-group">
+              <label>Reason / Explanation</label>
+              <textarea id="reasonText" placeholder="Brief reason & explanation…"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Evidence (Google Drive link)
+                <span class="info" tabindex="0">i
+                  <span class="tooltip">Paste a view-only Drive link (Anyone with the link: Viewer).</span>
+                </span>
+              </label>
+              <input type="url" id="evidenceLink" placeholder="https://drive.google.com/… (optional)">
+            </div>
+
+            <div class="form-group">
+              <label>Target / Reschedule Date (if applicable)</label>
+              <input type="date" id="targetDate">
+            </div>
+
+            <div class="form-group full">
+              <label>Remarks (optional)</label>
+              <textarea id="remarks" placeholder="Any additional context…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="form-step" id="form-step-3">
+          <div class="step-header"><h3 class="step-title-main">Review and Submit</h3></div>
+          <div class="review-section">
+            <div class="review-grid" id="reviewContent"></div>
+          </div>
+        </div>
+
+        <!-- NAV -->
+        <div class="buttons">
+          <button type="button" id="prevBtn" class="btn-secondary">← Previous</button>
+          <div style="display:flex;gap:.5rem">
+            <button type="button" id="nextBtn" class="btn-primary">Next →</button>
+            <button type="submit" id="submitBtn" class="btn-primary" style="display:none">Submit</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="success-message" id="successMessage"></div>
+    </div>
+  </div>
+
+  <script>
+    // ======= CONFIG =======
+    const SUBMIT_API_URL = "https://script.google.com/a/macros/everestfleet.com/s/AKfycbyKWtDBgtS2MnmP7DnEloALHclWHXQcDRn25YZ6ZHIIZYurqDY1PrLLvhxUxnrUhQ_2/exec";
+
+    const departmentsList = [
+      "Marketing","Administration","Human Resources","Technology","Business Intelligence","Finance and Accounts","Recruitment","Training","Quality","Operations","Repair and Maintenance","Process Excellence","Information Technology","Logistics","Learning & Development","Business Development & Sales"
+    ];
+
+    const subBranches = {
+      'Mumbai': ['Thane','Chunnabhatti','Goregoan CNG','Vasai','Lower Parel','Kopar Khairane'],
+      'Pune': ['Hadapsar','BANER'],
+      'Kolkata': ['Taratala','Chetla','Nagarbazar'],
+      'Chennai': ['VANAGARAM'],
+      'Bangalore': ['Singasandra','Blr Electronic City','Bglr Whitefield','Airport - Begur'],
+      'Hyderabad': ['Damaigudda','Gachibowli'],
+      'Delhi': ['Delhi-Sukhrali','Delhi Tech Garden','Delhi Dwarka']
+    };
+
+    const METRICS = {
+      Recruitment: [
+        {c:'Quality assurance', pa:'Telecaller', po:'Recruitment', ra:'wrap.time.out', rm:'check if wrap% is <2% . refer Agent_Performance_Report_BI ([WOW-Agent Vise])', cr:'Critical to process'},
+        {c:'Quality assurance', pa:'Telecaller', po:'Recruitment', ra:'correct disposition selected or not', rm:'Check % disposition error is below 4%.refer Agent_Performance_Report_BI (PAN India _TC metrics).', cr:'Critical to customer'},
+        {c:'Process Adherance', pa:'Telecaller', po:'Recruitment', ra:'follow up count (connected)', rm:'Interested lead not followed up % must be zero and connect count more than 4  must be 45%. refer City wise_connects on Interested tab: dashboard', cr:'Critical to business'},
+        {c:'Quality assurance', pa:'CC manager', po:'Recruitment', ra:'Call audit by TL', rm:'Check TL have done call audit(2 calls per TC per week).citywise tracker needs to be checked', cr:'Critical to process'},
+        {c:'Process Control', pa:'Lead management', po:'Recruitment', ra:'Lead management', rm:'80% leads must be called within 4 hr and 100% leads called within 24 hr.refer Outbound Efficiency analysis (Dash)', cr:'Critical to process'},
+        {c:'Process Adherance', pa:'Onboarding team', po:'Recruitment', ra:'Plan pitching by OB team', rm:'Is BD pitching all plans to drivers including D20.(Shadow audit)', cr:'Critical to customer'},
+        {c:'Process Adherance', pa:'Onboarding team', po:'Recruitment', ra:'pitching referal via driver', rm:'Is BD team pitching driver to refer other driver.(Shadow audit)', cr:'Critical to customer'},
+        {c:'Performance', pa:'Onboarding team', po:'Onboarding', ra:'Onboarding team targets', rm:'Check if walkin to sd conversion is 60%.(check  data for week 15 days before) City_Recruitment_Dashboard_15 day logic', cr:'Critical to business'},
+        {c:'Process Adherance', pa:'Onboarding team', po:'Onboarding', ra:'walk in to Conversion', rm:'Is onboarding manager meeting 80% the driver if walk in driver is going without taking vehicle.Check if any tracker maintained for meeting done with onboarding manager or senior person and the driver who is going out without allocation.', cr:'Critical to process'},
+        {c:'Process Control', pa:'Lead management', po:'Recruitment', ra:'Lead management', rm:'Check if missed leads are ON for active campaigns', cr:'Critical to process'},
+        {c:'Process Adherance', pa:'Onboarding team', po:'Recruitment', ra:'Walkin form Scan V/s allocation', rm:'Check if drivers with vehicle allocation have scanned the walk in form', cr:'Critical to process'}
+      ],
+      Operations: [
+        {c:'Process Adherance', pa:'EIP', po:'Operations', ra:'EIP meeting', rm:'Is BM or ABM meeting  EIP once in a month. Is there any tracker present to track this?(Unique EIP)', cr:'Critical to customer'},
+        {c:'Documentation', pa:'D2O', po:'Operations', ra:'Conversion to D2O', rm:'Check if there is any tracker present to check calls made by DRM to convert existing drivers to D2O and what is pipeline % created by this calling', cr:'Critical to process'},
+        {c:'Process Adherance', pa:'Rejoining', po:'Operations', ra:'Rejoining through Ameyo', rm:' check the attempt is 100% for the rejoining data. 5% threshold', cr:'Critical to business'},
+        {c:'Process Adherance', pa:'Onboarding team', po:'Operations', ra:'Drop off', rm:'Is BM/ operations manager/ dedicated retention person meeting the 80% drivers who is visiting to drop off the vehicle?\n\nCheck if any tracker maintained for meeting done with BM/ops/ dedicated retention person manager to prevent drop off', cr:'Critical to business'},
+        {c:'Process Adherance', pa:'Recovery', po:'Operations', ra:'OS collection', rm:'Ensure that outstanding amount is collected 85% by Wednesday and 90% by Monday', cr:'Critical to business'},
+        {c:'Documentation', pa:'Nerve Center', po:'Operations', ra:'TAT with proper remarks', rm:'Enusre all esacalated Tickets are closed are closed with detailed remarks within TAT i.e 2 ,Note:-Tickets remarks should be relavent to escalation ticket', cr:'Critical to customer'},
+        {c:'Documentation', pa:'Attrition', po:'Operations', ra:'Detailed remarks for exit form', rm:'Ensure  detailed Driver Exit remarks should be captured during Exit Interview for the drop off driver also ensure 100% driver exit interview has been captured', cr:'Critical to business'}
+      ],
+      Operations_FSE: [
+        {c:'Discipline & motivation', pa:'Field Visit - Attendance & Work Ethics', po:'Operations', ra:'Attendance adherance', rm:'Is FSE marking their attendance by putting  morning & evening punch.', cr:'Critical to process'},
+        {c:'Process Adherance', pa:'Field Visit - Attendance & Work Ethics', po:'Operations', ra:'Startup Call', rm:'check the TL leading the call with perf parameters', cr:'Critical to process'},
+        {c:'Identification & traceability', pa:'Field Visit - Attendance & Work Ethics', po:'Operations', ra:'Defined Work Locations & Hotspots', rm:'Direct calling to fse to check current plan/scheme/script', cr:'Critical to business'},
+        {c:'Discipline & motivation', pa:'FSE Activity & Work Duplication', po:'Operations', ra:'Avoiding Redundant FSE Presence', rm:'Ensure two FSEs are not working in the same location or home location resulting in inefficiency-Field visit reports, GPS log,FSE Visit shedule  needed', cr:'Critical to process'},
+        {c:'Performance', pa:'TL Field visit', po:'Operations', ra:'TL visit on field', rm:'Ensure TL visit on field to met & guide New FSE & Low performing FSE to enhance his /her performance  Thrice in a week.Check location shared by channel lead matching with TL location (Field visit /call)', cr:'Critical to process'},
+        {c:'Discipline & motivation', pa:'Field Visit - Attendance & Work Ethics', po:'Operations', ra:'Grooming', rm:'Ensure FSE wear an Everest T-shirt or formal wear on the Field-Check Morning & Evening time stamp.[Central FSE - Pan India ]', cr:'Critical to customer'},
+        {c:'Essential Information', pa:'Vendor Management', po:'Operations', ra:'KAM visit at Vendor location', rm:'Check all Filling has been updated by Kam during form submission.[Central  Vendor - Pan India ]', cr:'Critical to business'},
+        {c:'Process Adherance', pa:'Vendor Management', po:'Operations', ra:'Follow-up visit at Vendor location', rm:'Check Kam visit at vendor location as per followup date mention & Form submited post visit.[Central  Vendor - Pan India ] tab :vendor visit responses..  next  follow up date', cr:'Critical to business'},
+        {c:'Process Adherance', pa:'FSE', po:'Operations', ra:'Leads conversion', rm:'Ensure that each FSE has completed at least one lead conversion within 15 days. Data reference: [Central FSE - Pan India ] tab name: FSE _V2_view', cr:'Critical to business'},
+        {c:'Process Adherance', pa:'Vendor', po:'Operations', ra:'KAM visits', rm:'Check if the hub conducts 1 vendor meeting per day? Data reference: [Central  Vendor - Pan India ] tab name:KAM visit Dash', cr:'Critical to business'}
+      ],
+      Workshop: [
+        {c:'Appointment Booking', pa:'Workshop - Service Calling', po:'Auditor', ra:'Service due validation', rm:'Is service performed & last service mileage checked against Company guidelines?', cr:'Critical to process'},
+        {c:'Audit & Pre-Inspection', pa:'Workshop - Operations', po:'Tele Caller', ra:'Service due validation', rm:'Check for GPS Kms for Urgent Serivce due above the threshold', cr:'Critical to business'},
+        {c:'Audit & Pre-Inspection', pa:'Workshop - Operations', po:'Auditor', ra:'Driver issue confirmation', rm:'Are vehicle issues verified with the driver at the time of job card creation, and are entered in the Hawkeye as per the driver\'s VOC (Voice of Customer)?', cr:'Critical to customer'},
+        {c:'Audit & Pre-Inspection', pa:'Workshop - Operations', po:'Technical auditor', ra:'Pre-post diagnostics check', rm:'Are trial kilometers captured and documented by TA accurately ?', cr:'Critical to process'},
+        {c:'Billing & System Closure', pa:'Workshop - Operations', po:'DATA Team / Workshop Manager', ra:'Repair verification FC/TA', rm:'Are all completed / closed job cards closed in the Hawkeye on the same day?', cr:'Critical to process'},
+        {c:'Job Card Management', pa:'Workshop - Operations', po:'Workshop Manager', ra:'Repeat job analysis', rm:'Are the repeat jobs / revisit reasons analyzed and recorded and counter measures taken?', cr:'Critical to business'},
+        {c:'Job Card Management', pa:'Workshop - Operations', po:'Data Team', ra:'Complete JC documentation', rm:'Are job cards updated with issue description, parts issued and labor codes before closing the job card?', cr:'Critical to business'},
+        {c:'KPIs & Compliance Monitoring', pa:'Workshop - Operations', po:'Workshop Manager', ra:'Daily dashboard update', rm:'Is daily dashboard updated with SDD%, TAT, Repeat %, and Closing Inventory?', cr:'Critical to business'},
+        {c:'Repairs & Execution', pa:'Workshop - Operations', po:'Floor Controller / Workshop Manager', ra:'Engine form compliance', rm:'Is engine analysis form filled for every engine overhauling?', cr:'Critical to process'},
+        {c:'Training Records & Team Knowledge', pa:'Workshop - Operations', po:'Workshop Manager', ra:'WM SOP training', rm:'Has the Workshop Manager (WM) conducted refresher training sessions on SOPs for the old workshop staff?', cr:'Critical to business'},
+        {c:'Repairs & Execution', pa:'Workshop - Operations', po:'Workshop Manager', ra:'Repeat job analysis', rm:'Are CAPAs for repeat/revisit issues consistently implemented and effective in preventing recurrence, as per the Repeat/Revisit Tracker?', cr:'Critical to business'},
+        {c:'Training Records & Team Knowledge', pa:'Workshop - Operations', po:'Workshop Manager', ra:'WM SOP training', rm:'Has the Workshop Manager (WM) conducted SOP training sessions for the newly joined workshop staff?', cr:'Critical to business'}
+      ]
+    };
+
+    // ======= STATE =======
+    let currentStep = 0; const totalSteps = 4;
+    let selectedMetricIndex = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      populateDepartments();
+      attachCommonListeners();
+      topbarShrink();
+      autoGrowTextareas();
+      updateStepDisplay();
+      prefillUserData();
+    });
+
+    function populateDepartments(){
+      const sel = document.getElementById('department');
+      departmentsList.forEach(d => sel.add(new Option(d,d)));
+    }
+
+    function prefillUserData(){
+      const id = localStorage.getItem('employeeID');
+      const name = localStorage.getItem('employeeName');
+      const role = localStorage.getItem('userRole');
+      if(id)   document.getElementById('empId').value = id;
+      if(name) document.getElementById('empName').value = name;
+      if(role && departmentsList.includes(role)) document.getElementById('department').value = role;
+    }
+
+    function attachCommonListeners(){
+      document.getElementById('prevBtn').addEventListener('click',()=>{ if(currentStep>0){ currentStep--; updateStepDisplay(); }});
+      document.getElementById('nextBtn').addEventListener('click',()=>{ if(validateStep(currentStep) && currentStep<totalSteps-1){ currentStep++; updateStepDisplay(); window.scrollTo({top:0,behavior:'smooth'});} });
+      document.getElementById('p0Form').addEventListener('submit', handleSubmit);
+
+      document.getElementById('role').addEventListener('change',(e)=>toggleOther(e.target,'otherRole'));
+      document.getElementById('department').addEventListener('change',(e)=>toggleOther(e.target,'otherDepartment'));
+
+      document.getElementById('city').addEventListener('change',function(){
+        const sb = document.getElementById('subBranch');
+        sb.innerHTML = '<option value="">Select sub branch</option>';
+        const branches = subBranches[this.value] || [];
+        sb.disabled = branches.length===0;
+        branches.forEach(b => sb.add(new Option(b,b)));
+      });
+
+      document.getElementById('p0Function').addEventListener('change', loadMetricsForFunction);
+
+      document.querySelectorAll('input,select,textarea').forEach(el=>{
+        el.addEventListener('input', updateNextState);
+        el.addEventListener('change', updateNextState);
+      });
+    }
+
+    function toggleOther(selectEl, otherId){
+      const show = selectEl.value === 'Other';
+      const other = document.getElementById(otherId);
+      other.classList.toggle('hidden', !show);
+      other.required = show;
+      if(!show) other.value='';
+    }
+
+    function loadMetricsForFunction(){
+      selectedMetricIndex = null;
+      const func = document.getElementById('p0Function').value;
+      const tbody = document.getElementById('metricTbody');
+      tbody.innerHTML='';
+      if(!func){
+        tbody.innerHTML = '<tr><td colspan="7" style="padding:1rem;color:#64748b">Select a P0 Function (left) to load metrics…</td></tr>';
+        updateNextState(); return;
+      }
+      const rows = METRICS[func] || [];
+      if(!rows.length){
+        tbody.innerHTML = '<tr><td colspan="7" style="padding:1rem;color:#64748b">No metrics configured.</td></tr>';
+        updateNextState(); return;
+      }
+      rows.forEach((r, idx)=>{
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-index', idx);
+        tr.innerHTML = `
+          <td>${escapeHtml(r.c)}</td>
+          <td>${escapeHtml(r.pa)}</td>
+          <td>${escapeHtml(r.po)}</td>
+          <td>${escapeHtml(r.ra)}</td>
+          <td>${escapeHtml(r.rm)}</td>
+          <td>${escapeHtml(r.cr)}</td>
+          <td class="row-check"><input type="radio" name="metricPick" data-index="${idx}" aria-label="Select this metric"/></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Make entire row clickable
+      tbody.querySelectorAll('tr').forEach(tr=>{
+        tr.addEventListener('click',()=>{
+          const idx = parseInt(tr.dataset.index,10);
+          const radio = tr.querySelector('input[type="radio"]');
+          if(!radio.checked){ radio.checked = true; selectedMetricIndex = idx; }
+          highlightSelectedRow();
+          updateNextState();
+          document.getElementById('nextBtn').scrollIntoView({behavior:'smooth',block:'center'});
+        });
+      });
+
+      // Also handle direct radio change
+      tbody.querySelectorAll('input[name="metricPick"]').forEach(r=>{
+        r.addEventListener('change', (e)=>{
+          selectedMetricIndex = parseInt(e.target.dataset.index,10);
+          highlightSelectedRow();
+          updateNextState();
+        });
+      });
+
+      updateNextState();
+    }
+
+    function highlightSelectedRow(){
+      const tbody = document.getElementById('metricTbody');
+      tbody.querySelectorAll('tr').forEach((tr,i)=>{
+        tr.classList.toggle('selected', i===selectedMetricIndex);
+      });
+    }
+
+    function updateStepDisplay(){
+      document.querySelectorAll('.form-step').forEach((s,i)=>s.classList.toggle('active', i===currentStep));
+      document.querySelectorAll('.step-number').forEach((b,i)=>{
+        b.classList.toggle('active', i===currentStep);
+        b.classList.toggle('completed', i<currentStep);
+        b.classList.toggle('pending', i>currentStep);
+      });
+      for(let i=0;i<3;i++){
+        const c = document.getElementById(`con-${i}`);
+        if(!c) continue; c.classList.toggle('completed', i<currentStep);
+      }
+      document.getElementById('prevBtn').classList.toggle('invisible', currentStep===0);
+      document.getElementById('nextBtn').style.display   = currentStep===totalSteps-1 ? 'none' : 'inline-flex';
+      document.getElementById('submitBtn').style.display = currentStep===totalSteps-1 ? 'inline-flex' : 'none';
+      if(currentStep===totalSteps-1){ updateReview(); }
+      updateNextState();
+    }
+
+    function updateNextState(){
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.disabled = !validateStep(currentStep);
+      if(currentStep===totalSteps-1){
+        document.getElementById('submitBtn').disabled = !validateStepsUpTo(totalSteps-1);
+      }
+    }
+
+    function validateStep(step){
+      const box = document.getElementById(`form-step-${step}`);
+      if(!box) return true;
+      const inputs = box.querySelectorAll('input,select,textarea');
+      for(const el of inputs){
+        if(el.required && !el.closest('.hidden') && !el.classList.contains('hidden')){
+          if(el.type==='checkbox' || el.type==='radio'){
+            const anyChecked = box.querySelector('input[type="checkbox"]:checked, input[type="radio"]:checked');
+            if(!anyChecked) return false;
+          }else{
+            if(!String(el.value||'').trim()) return false;
+          }
+        }
+      }
+      if(step===1 && selectedMetricIndex===null) return false;
+      return true;
+    }
+
+    function validateStepsUpTo(n){
+      for(let i=0;i<=n;i++){ if(!validateStep(i)){ currentStep=i; updateStepDisplay(); return false; } }
+      return true;
+    }
+
+    function goToStep(n){ if(n<currentStep || validateStepsUpTo(n-1)){ currentStep=n; updateStepDisplay(); } }
+
+    function collectData(){
+      const func = document.getElementById('p0Function').value;
+      const metric = selectedMetricIndex!=null ? METRICS[func][selectedMetricIndex] : null;
+      return {
+        empId: document.getElementById('empId').value.trim(),
+        empName: document.getElementById('empName').value.trim(),
+        department: document.getElementById('department').value==='Other' ? document.getElementById('otherDepartment').value.trim() : document.getElementById('department').value,
+        role: document.getElementById('role').value==='Other' ? document.getElementById('otherRole').value.trim() : document.getElementById('role').value,
+        city: document.getElementById('city').value,
+        subBranch: document.getElementById('subBranch').value,
+        p0Function: func,
+        metric: metric,
+        deviationDate: document.getElementById('deviationDate').value,
+        targetDate: document.getElementById('targetDate').value,
+        reasonText: document.getElementById('reasonText').value.trim(),
+        evidenceLink: document.getElementById('evidenceLink').value.trim(),
+        remarks: document.getElementById('remarks').value.trim()
+      };
+    }
+
+    function updateReview(){
+      const d = collectData();
+      const wbISO = d.deviationDate ? weekBeginningMonday(new Date(d.deviationDate)) : '';
+      const wbPretty = d.deviationDate ? formatDateDDMMYYYY(parseDDMMYYYY(wbISO)) : '';
+      const wbCompact = d.deviationDate ? formatDateDDMMYY(parseDDMMYYYY(wbISO)) : '';
+      const ticketPreview = (d.city && d.p0Function && wbCompact) ? buildTicketId(d.city, d.p0Function, wbCompact) : '—';
+
+      const grid = document.getElementById('reviewContent');
+      grid.innerHTML = `
+        <div class="review-item"><div class="review-label">EMP ID</div><div class="review-value">${escapeHtml(d.empId)}</div></div>
+        <div class="review-item"><div class="review-label">EMP Name</div><div class="review-value">${escapeHtml(d.empName)}</div></div>
+        <div class="review-item"><div class="review-label">Department</div><div class="review-value">${escapeHtml(d.department)}</div></div>
+        <div class="review-item"><div class="review-label">Role</div><div class="review-value">${escapeHtml(d.role)}</div></div>
+        <div class="review-item"><div class="review-label">City</div><div class="review-value">${escapeHtml(d.city)}</div></div>
+        <div class="review-item"><div class="review-label">Sub branch</div><div class="review-value">${escapeHtml(d.subBranch)}</div></div>
+        <div class="review-item"><div class="review-label">P0 Function</div><div class="review-value">${escapeHtml(d.p0Function||'')}</div></div>
+        <div class="review-item" style="grid-column:1/-1">
+          <div class="review-label">Selected Metric</div>
+          <div class="review-value">${d.metric ? `${escapeHtml(d.metric.c)} • ${escapeHtml(d.metric.pa)} • ${escapeHtml(d.metric.po)}
+Aspect: ${escapeHtml(d.metric.ra)}
+Method: ${escapeHtml(d.metric.rm)}
+Criticality: ${escapeHtml(d.metric.cr)}` : '—'}</div>
+        </div>
+        <div class="review-item"><div class="review-label">Deviation Date</div><div class="review-value">${escapeHtml(d.deviationDate||'')}</div></div>
+        <div class="review-item"><div class="review-label">WB (auto)</div><div class="review-value">${wbPretty}</div></div>
+        <div class="review-item"><div class="review-label">Target / Reschedule Date</div><div class="review-value">${escapeHtml(d.targetDate||'')}</div></div>
+        <div class="review-item" style="grid-column:1/-1"><div class="review-label">Reason / Explanation</div><div class="review-value">${escapeHtml(d.reasonText||'')}</div></div>
+        <div class="review-item" style="grid-column:1/-1"><div class="review-label">Evidence Link</div><div class="review-value">${escapeHtml(d.evidenceLink||'')}</div></div>
+        <div class="review-item" style="grid-column:1/-1"><div class="review-label">Remarks</div><div class="review-value">${escapeHtml(d.remarks||'')}</div></div>
+        <div class="review-item" style="grid-column:1/-1;background:#eef2ff">
+          <div class="review-label">Ticket ID (preview)</div>
+          <div class="review-value">${ticketPreview}</div>
+        </div>
+      `;
+    }
+
+    async function handleSubmit(e){
+      e.preventDefault();
+      if(!validateStepsUpTo(totalSteps-1)){ alert('Please complete all required fields.'); return; }
+
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true; submitBtn.textContent = 'Submitting…';
+
+      try{
+        const data = collectData();
+        const wbISO = weekBeginningMonday(new Date(data.deviationDate)); // dd-mm-yyyy
+        const wbCompact = formatDateDDMMYY(parseDDMMYYYY(wbISO));        // ddmmyy
+        const ticketId = buildTicketId(data.city, data.p0Function, wbCompact);
+        const payload = { ticketId, ...data, weekBeginning: wbISO };
+
+        if(!SUBMIT_API_URL){
+          throw new Error('Submission URL not configured.');
+        }
+
+        // CORS-safe FormData submit
+        const fd = new FormData();
+        fd.append('data', JSON.stringify(payload));
+
+        await fetch(SUBMIT_API_URL, {
+          method: 'POST',
+          body: fd
+        });
+
+        document.getElementById('p0Form').style.display='none';
+        document.querySelector('.progress-container').style.display='none';
+        const box = document.getElementById('successMessage');
+        box.style.display='flex';
+        box.innerHTML = `<div class="success-icon">✓</div>
+          <div style="font-size:1.15rem;font-weight:800;color:#16a34a">Request Submitted Successfully!</div>
+          <div style="margin-top:.35rem">Your ticket number is: <strong>${ticketId}</strong></div>`;
+      }catch(err){
+        alert('Failed to submit the form. '+ err.message);
+        submitBtn.disabled=false; submitBtn.textContent='Submit';
+      }
+    }
+
+    // ======= HELPERS =======
+    function weekBeginningMonday(d){
+      const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      const day = date.getUTCDay(); // 0=Sun..6=Sat
+      const diff = (day === 0 ? -6 : 1 - day); // back to Monday
+      const monday = new Date(date);
+      monday.setUTCDate(date.getUTCDate() + diff);
+      return formatDateDDMMYYYY(monday);
+    }
+
+    // Ticket ID: EFP0{CityInitial}{WB ddmmyy}{FuncInitial}{XXXX}
+    function buildTicketId(city, func, wb_ddmmyy){
+      const cityInitial = (city||'N')[0].toUpperCase();
+      const funcInitial = (func||'N')[0].toUpperCase();
+      const code = generateUniqueCode4(); // A–Z0–9
+      return `EFP0${cityInitial}${wb_ddmmyy}${funcInitial}${code}`;
+    }
+
+    // 4-char alphanumeric, avoid duplicates in-session
+    function generateUniqueCode4(){
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      const getCode = () => Array.from({length:4},()=>alphabet[Math.floor(Math.random()*alphabet.length)]).join('');
+      const KEY='efp0_recent_codes', MAX=500;
+      let recent=[]; try{ recent=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ recent=[]; }
+      let code=getCode(), guard=0;
+      while(recent.includes(code) && guard<1000){ code=getCode(); guard++; }
+      recent.push(code); if(recent.length>MAX) recent=recent.slice(recent.length-MAX);
+      localStorage.setItem(KEY, JSON.stringify(recent));
+      return code;
+    }
+
+    function formatDateDDMMYYYY(d){
+      const dd=String(d.getUTCDate()).padStart(2,'0');
+      const mm=String(d.getUTCMonth()+1).padStart(2,'0');
+      const yyyy=d.getUTCFullYear();
+      return `${dd}-${mm}-${yyyy}`;
+    }
+    function formatDateDDMMYY(d){
+      const dd=String(d.getUTCDate()).padStart(2,'0');
+      const mm=String(d.getUTCMonth()+1).padStart(2,'0');
+      const yy=String(d.getUTCFullYear()).slice(-2);
+      return `${dd}${mm}${yy}`;
+    }
+    function parseDDMMYYYY(str){
+      const [dd,mm,yyyy]=str.split('-').map(Number);
+      return new Date(Date.UTC(yyyy, mm-1, dd));
+    }
+    function escapeHtml(s){
+      return String(s||'').replace(/[&<>\"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[m]));
+    }
+
+    // Sticky shrink on scroll (topbar)
+    function topbarShrink(){
+      const bar=document.getElementById('topbar');
+      const onScroll=()=>{ if(window.scrollY>10){ bar.classList.add('shrink'); } else { bar.classList.remove('shrink'); } };
+      window.addEventListener('scroll', onScroll, {passive:true});
+      onScroll();
+    }
+
+    // Auto-grow textareas to fit content
+    function autoGrowTextareas(){
+      const grow=(el)=>{ el.style.height='auto'; el.style.height=(el.scrollHeight+2)+'px'; };
+      document.querySelectorAll('textarea').forEach(t=>{ grow(t); t.addEventListener('input',()=>grow(t)); });
+    }
+  </script>
+</body>
+</html>
